@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_mart/core/helper_functions/build_error_bar.dart';
 import 'package:just_mart/features/auth/data/repos/cubits/signin_cubit/signin_cubit.dart';
 import 'package:just_mart/features/auth/presentation/views/widgets/signin_view_body.dart';
+import 'package:just_mart/features/home/presentation/views/home_view.dart';
 import 'package:just_mart/features/splash/presentation/views/widgets/custom_progress_hud.dart';
 
 class SignInViewBodyBlocConsumer extends StatelessWidget {
@@ -15,7 +16,7 @@ class SignInViewBodyBlocConsumer extends StatelessWidget {
     return BlocConsumer<SigninCubit, SigninState>(
       listener: (context, state) {
         if (state is SigninSucess) {
-          Navigator.of(context).pop();
+          Navigator.pushReplacementNamed(context, HomeView.routeName);
         }
         if (state is SigninFailure) {
           BuildErrorBar(context, state.message);

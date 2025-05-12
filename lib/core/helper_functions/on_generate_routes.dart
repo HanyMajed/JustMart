@@ -5,10 +5,10 @@ import 'package:just_mart/features/best_selling_product/presentation/views/best_
 import 'package:just_mart/features/home/presentation/views/home_view.dart';
 import 'package:just_mart/features/splash/presentation/views/on_boarding/presentation/views/on_boarding.dart';
 import 'package:just_mart/features/splash/presentation/views/splash_view.dart';
-import 'package:just_mart/features/vendor_mode/widgets/add_product.dart';
-import 'package:just_mart/features/vendor_mode/widgets/my_orders.dart';
-import 'package:just_mart/features/vendor_mode/widgets/my_products.dart';
-import 'package:just_mart/features/vendor_mode/widgets/vendor_purchases.dart';
+import 'package:just_mart/features/vendor_mode/widgets/add_product_view.dart';
+import 'package:just_mart/features/vendor_mode/widgets/my_orders_view.dart';
+import 'package:just_mart/features/vendor_mode/widgets/my_products_view.dart';
+import 'package:just_mart/features/vendor_mode/widgets/vendor_purchases_view.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {

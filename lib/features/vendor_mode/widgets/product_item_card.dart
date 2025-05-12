@@ -9,7 +9,6 @@ class ProductItemCard extends StatelessWidget {
   });
 
   final ProductItemModel item;
-
   @override
   Widget build(BuildContext context) {
     return Padding(

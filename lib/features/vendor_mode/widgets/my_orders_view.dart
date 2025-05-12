@@ -9,7 +9,7 @@ class MyOrders extends StatelessWidget {
   MyOrders({super.key});
   static const String routeName = "MyOrders";
   ProductItemModel item = ProductItemModel(
-    id: "1",
+    vendorId: "1",
     description: 'اول منتج يتم بيعه على التطبيق',
     imageUrl: Assets.assetsImagesElectonics,
     name: 'المنتج الاول',

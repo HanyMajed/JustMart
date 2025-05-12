@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:just_mart/features/vendor_mode/widgets/add_product.dart';
+import 'package:just_mart/features/vendor_mode/widgets/add_product_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
-import 'package:just_mart/features/vendor_mode/widgets/my_orders.dart';
-import 'package:just_mart/features/vendor_mode/widgets/my_products.dart';
-import 'package:just_mart/features/vendor_mode/widgets/vendor_purchases.dart';
-import 'package:just_mart/features/vendor_mode/widgets/vendor_transition_choices.dart';
+import 'package:just_mart/features/vendor_mode/widgets/my_orders_view.dart';
+import 'package:just_mart/features/vendor_mode/widgets/my_products_view.dart';
+import 'package:just_mart/features/vendor_mode/widgets/vendor_purchases_view.dart';
+import 'package:just_mart/features/vendor_mode/widgets/vendor_transition_choice_card.dart';
 
 class VendorMenuview extends StatelessWidget {
   const VendorMenuview({super.key});

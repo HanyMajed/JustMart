@@ -7,6 +7,7 @@ class UserEntity {
   final String uId;
   String role;
   List<ProductItemModel> allProducts = [];
+
   UserEntity({required this.name, required this.email, required this.uId, required this.role});
 
   toMap() {

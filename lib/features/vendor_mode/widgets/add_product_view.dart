@@ -155,6 +155,10 @@ class _AddProductViewState extends State<AddProductView> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('تمت إضافة المنتج بنجاح')),
       );
+
+      Future.delayed(Duration(seconds: 1), () {
+        Navigator.of(context).pop();
+      });
     } catch (e) {
       log('Error adding product: $e');
       ScaffoldMessenger.of(context).showSnackBar(

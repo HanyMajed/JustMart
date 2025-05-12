@@ -8,7 +8,8 @@ import 'package:just_mart/features/vendor_mode/widgets/vendor_purchases_view.dar
 import 'package:just_mart/features/vendor_mode/widgets/vendor_transition_choice_card.dart';
 
 class VendorMenuview extends StatelessWidget {
-  const VendorMenuview({super.key});
+  const VendorMenuview({super.key, required this.signedUID});
+  final String signedUID;
 
   @override
   Widget build(BuildContext context) {
@@ -19,31 +20,41 @@ class VendorMenuview extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, MyOrders.routeName),
-            child: const VendorTransitionChoice(
+            child: VendorTransitionChoice(
+              signedUID: signedUID,
               choice: "الطلبات",
             ),
           ),
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, MyProducts.routeName),
-            child: const VendorTransitionChoice(
+            child: VendorTransitionChoice(
+              signedUID: signedUID,
               choice: "المنتجات",
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, AddProduct.routeName),
-            child: const VendorTransitionChoice(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddProductView(
+                          signedUID: signedUID,
+                        ))),
+            child: VendorTransitionChoice(
+              signedUID: signedUID,
               choice: "إضافة منتج",
             ),
           ),
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, VendorPurchases.routeName),
-            child: const VendorTransitionChoice(
+            child: VendorTransitionChoice(
+              signedUID: signedUID,
               choice: "المشتريات",
             ),
           ),
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const VendorTransitionChoice(
+            child: VendorTransitionChoice(
+              signedUID: signedUID,
               choice: "العودة الى وضع الشراء",
             ),
           ),

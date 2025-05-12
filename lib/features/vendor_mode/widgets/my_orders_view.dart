@@ -11,9 +11,9 @@ class MyOrders extends StatelessWidget {
   ProductItemModel item = ProductItemModel(
     vendorId: "1",
     description: 'اول منتج يتم بيعه على التطبيق',
-    imageUrl: Assets.assetsImagesElectonics,
+    imageBase64: Assets.assetsImagesElectonics,
     name: 'المنتج الاول',
-    price: 13,
+    price: '13',
   );
 
   @override

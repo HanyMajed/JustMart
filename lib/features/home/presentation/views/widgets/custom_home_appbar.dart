@@ -28,19 +28,21 @@ class CustomHomeAppbar extends StatelessWidget {
         return ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 0),
           trailing: isVendor
-              ? const Row(
+              ? Row(
                   mainAxisSize: MainAxisSize.min, // Important to prevent overflow
                   children: [
-                    VendorIconWidget(),
-                    SizedBox(
+                    VendorIconWidget(
+                      signedUID: signedUID,
+                    ),
+                    const SizedBox(
                       width: 5,
                     ),
-                    NotificationWidget(),
-                    SizedBox(
+                    const NotificationWidget(),
+                    const SizedBox(
                       width: 5,
                     ),
                     // Your existing notification
-                    SignOutWidget(),
+                    const SignOutWidget(),
                   ],
                 )
               // ignore: prefer_const_constructors

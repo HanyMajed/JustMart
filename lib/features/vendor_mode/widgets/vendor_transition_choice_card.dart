@@ -5,7 +5,9 @@ class VendorTransitionChoice extends StatelessWidget {
   const VendorTransitionChoice({
     super.key,
     required this.choice,
+    required this.signedUID,
   });
+  final String signedUID;
   final String choice;
   @override
   Widget build(BuildContext context) {

@@ -4,14 +4,17 @@ import 'package:just_mart/features/vendor_mode/presentation/views/vendor_menu_vi
 class VendorIconWidget extends StatelessWidget {
   const VendorIconWidget({
     super.key,
+    required this.signedUID,
   });
-
+  final String signedUID;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const VendorMenuview();
+          return VendorMenuview(
+            signedUID: signedUID,
+          );
         }));
       },
       child: Container(

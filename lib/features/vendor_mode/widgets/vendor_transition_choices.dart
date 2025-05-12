@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 
-class VendorTransitionChoices extends StatelessWidget {
-  const VendorTransitionChoices({
+class VendorTransitionChoice extends StatelessWidget {
+  const VendorTransitionChoice({
     super.key,
     required this.choice,
   });

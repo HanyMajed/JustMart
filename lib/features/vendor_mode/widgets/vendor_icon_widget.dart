@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just_mart/features/vendor_mode/presentation/views/vendor_transition_view.dart';
+import 'package:just_mart/features/vendor_mode/presentation/views/vendor_menu_view.dart';
 
 class VendorIconWidget extends StatelessWidget {
   const VendorIconWidget({
@@ -11,7 +11,7 @@ class VendorIconWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const VendorTransitionview();
+          return const VendorMenuview();
         }));
       },
       child: Container(

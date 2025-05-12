@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 
 class AddProduct extends StatelessWidget {
   const AddProduct({super.key});
@@ -6,10 +7,7 @@ class AddProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text(
-        "AddProduct",
-        style: TextStyle(fontSize: 50),
-      ),
+      appBar: appbarForVendorViews(title: "إضافة منتج"),
     );
   }
 }

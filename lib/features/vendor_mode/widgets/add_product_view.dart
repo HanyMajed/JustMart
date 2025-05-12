@@ -1,12 +1,24 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
+import 'package:just_mart/features/vendor_mode/widgets/pick_image.dart';
 import 'package:just_mart/widgets/custom_text_form_field.dart';
 
-class AddProduct extends StatelessWidget {
-  const AddProduct({super.key});
+class AddProduct extends StatefulWidget {
+  AddProduct({super.key});
   static const String routeName = "AddProduct";
+
+  @override
+  State<AddProduct> createState() => _AddProductState();
+}
+
+class _AddProductState extends State<AddProduct> {
+  Uint8List? img;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,25 +71,51 @@ class AddProduct extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                Container(
-                  width: double.infinity,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.primaryColor),
+                const SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () {
+                    selectImage();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.primaryColor),
+                    ),
+                    child: img != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.memory(
+                              img!,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : const Icon(
+                            Icons.image,
+                            size: 100,
+                            color: AppColors.primaryColor,
+                          ),
                   ),
-                  child: const Icon(
-                    Icons.image,
-                    size: 100,
-                    color: AppColors.primaryColor,
-                  ),
-                )
+                ),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  void selectImage() async {
+    final image = await pickImage(ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        img = image;
+      });
+      debugPrint('Image selected successfully');
+    } else {
+      debugPrint('No image selected');
+    }
   }
 }

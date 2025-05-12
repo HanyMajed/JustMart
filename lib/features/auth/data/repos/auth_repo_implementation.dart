@@ -71,9 +71,6 @@ class AuthRepoImplementation extends AuthRepo {
   @override
   Future addUserData({required UserEntity user}) async {
     try {
-      if (databaseService == null) {
-        throw Exception('DatabaseService is not initialized');
-      }
       await databaseService.addData(path: BackendEndpoints.addUserData, data: user.toMap());
     } catch (e) {
       log('Error saving user data: $e');

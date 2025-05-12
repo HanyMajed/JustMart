@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:just_mart/core/services/database_service.dart';
-import 'package:just_mart/features/auth/data/domain/entities/user_entity.dart';
-import 'package:just_mart/features/auth/data/models/user_model.dart';
 
 class FireStoreService implements DatabaseService {
   final FirebaseFirestore firestore;

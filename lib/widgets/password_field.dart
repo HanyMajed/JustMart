@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/widgets/custom_text_form_field.dart';
 
 class PasswordField extends StatefulWidget {

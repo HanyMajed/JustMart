@@ -9,12 +9,12 @@ import 'package:just_mart/features/home/presentation/views/widgets/featured_list
 import 'package:just_mart/features/home/presentation/views/widgets/search_text_field.dart';
 
 class HomeViewBody extends StatelessWidget {
-  const HomeViewBody({super.key});
-
+  const HomeViewBody({super.key, required this.signedUID});
+  final String signedUID;
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(
+    return Padding(
+      padding: const EdgeInsets.symmetric(
         horizontal: kHorizantalPadding,
       ),
       child: CustomScrollView(
@@ -22,29 +22,31 @@ class HomeViewBody extends StatelessWidget {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: kTopPadding,
                 ),
-                CustomHomeAppbar(),
-                SizedBox(
+                CustomHomeAppbar(
+                  signedUID: signedUID,
+                ),
+                const SizedBox(
                   height: kTopPadding,
                 ),
-                SearchTextfield(),
-                SizedBox(
+                const SearchTextfield(),
+                const SizedBox(
                   height: 12,
                 ),
-                FeaturedList(),
-                SizedBox(
+                const FeaturedList(),
+                const SizedBox(
                   height: 12,
                 ),
-                BestSellingHeader(),
-                SizedBox(
+                const BestSellingHeader(),
+                const SizedBox(
                   height: 8,
                 ),
               ],
             ),
           ),
-          BestSellingGridview(),
+          const BestSellingGridview(),
         ],
       ),
     );

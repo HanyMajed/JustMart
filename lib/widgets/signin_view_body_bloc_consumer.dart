@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_mart/core/helper_functions/build_error_bar.dart';
@@ -16,7 +18,15 @@ class SignInViewBodyBlocConsumer extends StatelessWidget {
     return BlocConsumer<SigninCubit, SigninState>(
       listener: (context, state) {
         if (state is SigninSucess) {
-          Navigator.pushReplacementNamed(context, HomeView.routeName);
+          // log(state.userEntity.name);
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return HomeView(
+                signedUID: state.userEntity.uId,
+              );
+            },
+          ));
+          //   Navigator.pushReplacementNamed(context, HomeView.routeName, arguments: {'signedUID': state.userEntity.uId});
         }
         if (state is SigninFailure) {
           BuildErrorBar(context, state.message);

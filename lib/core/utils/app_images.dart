@@ -102,6 +102,10 @@ class Assets {
   /// assets/images/Vector.svg
   static const String assetsImagesVector = "assets/images/Vector.svg";
 
+  /// Assets for assetsImagesVendor
+  /// assets/images/vendor.svg
+  static const String assetsImagesVendor = "assets/images/vendor.svg";
+
   /// Assets for assetsImagesVuesaxBoldProducts
   /// assets/images/vuesax/bold/products.svg
   static const String assetsImagesVuesaxBoldProducts = "assets/images/vuesax/bold/products.svg";

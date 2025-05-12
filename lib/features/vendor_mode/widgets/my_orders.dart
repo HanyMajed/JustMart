@@ -1,13 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:just_mart/core/utils/app_colors.dart';
+import 'package:just_mart/core/utils/app_images.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
+import 'package:just_mart/features/vendor_mode/widgets/product_item_card.dart';
+import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 
 class MyOrders extends StatelessWidget {
-  const MyOrders({super.key});
+  MyOrders({super.key});
   static const String routeName = "MyOrders";
+  ProductItemModel item = ProductItemModel(
+    id: "1",
+    description: 'اول منتج يتم بيعه على التطبيق',
+    imageUrl: Assets.assetsImagesElectonics,
+    name: 'المنتج الاول',
+    price: 13,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appbarForVendorViews(title: "الطلبات"),
-    );
+        backgroundColor: const Color.fromARGB(255, 242, 250, 255),
+        appBar: appbarForVendorViews(title: "الطلبات"),
+        body: ListView.builder(
+          itemCount: 15, // Number of items to build
+          itemBuilder: (context, index) {
+            return ProductItemCard(item: item);
+          },
+        ));
   }
 }

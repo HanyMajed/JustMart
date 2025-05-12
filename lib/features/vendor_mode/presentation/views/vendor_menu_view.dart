@@ -4,6 +4,7 @@ import 'package:just_mart/features/vendor_mode/widgets/add_product.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 import 'package:just_mart/features/vendor_mode/widgets/my_orders.dart';
 import 'package:just_mart/features/vendor_mode/widgets/my_products.dart';
+import 'package:just_mart/features/vendor_mode/widgets/vendor_purchases.dart';
 import 'package:just_mart/features/vendor_mode/widgets/vendor_transition_choices.dart';
 
 class VendorMenuview extends StatelessWidget {
@@ -32,6 +33,12 @@ class VendorMenuview extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, AddProduct.routeName),
             child: const VendorTransitionChoice(
               choice: "إضافة منتج",
+            ),
+          ),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, VendorPurchases.routeName),
+            child: const VendorTransitionChoice(
+              choice: "المشتريات",
             ),
           ),
           GestureDetector(

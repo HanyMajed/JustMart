@@ -8,17 +8,20 @@ import 'package:just_mart/features/splash/presentation/views/splash_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/add_product.dart';
 import 'package:just_mart/features/vendor_mode/widgets/my_orders.dart';
 import 'package:just_mart/features/vendor_mode/widgets/my_products.dart';
+import 'package:just_mart/features/vendor_mode/widgets/vendor_purchases.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case SplashView.routeName:
       return MaterialPageRoute(builder: (context) => const SplashView());
     case MyOrders.routeName:
-      return MaterialPageRoute(builder: (context) => const MyOrders());
+      return MaterialPageRoute(builder: (context) => MyOrders());
     case MyProducts.routeName:
       return MaterialPageRoute(builder: (context) => const MyProducts());
     case AddProduct.routeName:
       return MaterialPageRoute(builder: (context) => const AddProduct());
+    case VendorPurchases.routeName:
+      return MaterialPageRoute(builder: (context) => const VendorPurchases());
     case BestSellingView.routeName:
       return MaterialPageRoute(builder: (context) => const BestSellingView());
     case SignInView.routeName:

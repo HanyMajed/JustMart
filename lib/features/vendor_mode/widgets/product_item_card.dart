@@ -74,7 +74,7 @@ class ProductItemCard extends StatelessWidget {
 
                   // Vendor Name
                   Text(
-                    'اسم البائع', // Adjust this based on your model (e.g., item.vendorName if available)
+                    "ddddd", // Adjust this based on your model (e.g., item.vendorName if available)
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey.shade600,

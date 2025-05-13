@@ -26,7 +26,12 @@ class VendorMenuview extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, MyProducts.routeName),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MyProducts(
+                          signedUID: signedUID,
+                        ))),
             child: VendorTransitionChoice(
               signedUID: signedUID,
               choice: "المنتجات",

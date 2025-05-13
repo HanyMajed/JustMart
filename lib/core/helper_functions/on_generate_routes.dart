@@ -16,7 +16,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case MyOrders.routeName:
       return MaterialPageRoute(builder: (context) => MyOrders());
     case MyProducts.routeName:
-      return MaterialPageRoute(builder: (context) => const MyProducts());
+      return MaterialPageRoute(builder: (context) => MyProducts());
     case AddProductView.routeName:
       return MaterialPageRoute(builder: (context) => const AddProductView());
     case VendorPurchases.routeName:

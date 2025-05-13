@@ -9,6 +9,7 @@ class ProductItemCard extends StatelessWidget {
   });
 
   final ProductItemModel item;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -48,8 +49,9 @@ class ProductItemCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Product Name
                   Text(
-                    item.name,
+                    item.productName,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -57,6 +59,8 @@ class ProductItemCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
+
+                  // Description
                   Text(
                     item.description,
                     style: TextStyle(
@@ -67,6 +71,19 @@ class ProductItemCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 8),
+
+                  // Vendor Name
+                  Text(
+                    'اسم البائع', // Adjust this based on your model (e.g., item.vendorName if available)
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Price & Cart Icon
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -78,6 +95,7 @@ class ProductItemCard extends StatelessWidget {
                           color: AppColors.primaryColor,
                         ),
                       ),
+                      const SizedBox(height: 4),
                       const Icon(
                         Icons.add_shopping_cart_outlined,
                         color: AppColors.primaryColor,

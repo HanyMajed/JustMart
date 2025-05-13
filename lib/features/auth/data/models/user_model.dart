@@ -4,6 +4,7 @@ import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 
 class UserModel extends UserEntity {
   UserModel({required super.name, required super.email, required super.uId, required super.role});
+  @override
   List<ProductItemModel> allProducts = [];
 
   factory UserModel.fromFirebaseUser(User user) {

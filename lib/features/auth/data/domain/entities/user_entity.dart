@@ -1,4 +1,3 @@
-import 'package:just_mart/features/vendor_mode/widgets/product_item_card.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 
 class UserEntity {

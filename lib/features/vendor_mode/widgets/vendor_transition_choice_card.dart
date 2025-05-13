@@ -12,7 +12,7 @@ class VendorTransitionChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 16, left: 32, right: 32),
+      padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
       child: Center(
         child: Container(
           decoration: BoxDecoration(

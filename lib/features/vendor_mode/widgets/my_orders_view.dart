@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_images.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_card.dart';
@@ -12,8 +11,9 @@ class MyOrders extends StatelessWidget {
     vendorId: "1",
     description: 'اول منتج يتم بيعه على التطبيق',
     imageBase64: Assets.assetsImagesElectonics,
-    name: 'المنتج الاول',
+    productName: 'المنتج الاول',
     price: '13',
+    productCategory: 'الكترونيات',
   );
 
   @override

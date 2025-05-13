@@ -32,6 +32,16 @@ class _AddProductViewState extends State<AddProductView> {
   String? description;
   String? price;
   String? imageBase64;
+  List<String> categories = [
+    "لوازم الدراسة",
+    "التقنية والإلكترونيات",
+    "الملابس والموضة",
+    "الطعام والحلويات",
+    "الترفيه والهوايات",
+    "الإكسسوارات",
+    "غيرها"
+  ];
+  var drpdownValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +67,28 @@ class _AddProductViewState extends State<AddProductView> {
                   onSaved: (value) => description = value!,
                 ),
                 const SizedBox(height: 8),
+                DropdownButtonFormField<int>(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  decoration: InputDecoration(
+                      border:
+                          OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey), borderRadius: BorderRadius.circular(10))),
+                  dropdownColor: Colors.white.withAlpha(230),
+                  items: const [
+                    DropdownMenuItem(value: 0, child: Text("لوازم الدراسة", style: TextStyle(color: AppColors.primaryColor))),
+                    DropdownMenuItem(value: 1, child: Text("التقنية والإلكترونيات", style: TextStyle(color: AppColors.primaryColor))),
+                    DropdownMenuItem(value: 2, child: Text("الملابس والموضة", style: TextStyle(color: AppColors.primaryColor))),
+                    DropdownMenuItem(value: 3, child: Text("الطعام والحلويات", style: TextStyle(color: AppColors.primaryColor))),
+                    DropdownMenuItem(value: 4, child: Text("الترفيه والهوايات", style: TextStyle(color: AppColors.primaryColor))),
+                    DropdownMenuItem(value: 5, child: Text("الإكسسوارات", style: TextStyle(color: AppColors.primaryColor))),
+                    DropdownMenuItem(value: 6, child: Text("غيرها", style: TextStyle(color: AppColors.primaryColor))),
+                  ],
+                  value: drpdownValue,
+                  onChanged: (newValue) {
+                    setState(() {
+                      drpdownValue = newValue!;
+                    });
+                  },
+                ),
                 _buildLabel("السعر:"),
                 TextFormField(
                   decoration: _inputDecoration("السعر"),
@@ -88,7 +120,7 @@ class _AddProductViewState extends State<AddProductView> {
                   child: ElevatedButton(
                     onPressed: _submit,
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
+                      backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
                     ),
                     child: Text("اضافة", style: TextStyles.semiBold16.copyWith(color: Colors.white)),
                   ),
@@ -133,8 +165,9 @@ class _AddProductViewState extends State<AddProductView> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       productItemModel = ProductItemModel(
+        productCategory: categories[drpdownValue],
         vendorId: widget.signedUID!,
-        name: name ?? 'name was null',
+        productName: name ?? 'name was null',
         imageBase64: imageBase64 ?? 'image was null',
         description: description ?? 'description was null',
         price: price ?? 'price was null',
@@ -153,16 +186,16 @@ class _AddProductViewState extends State<AddProductView> {
             productItemModel!.toMap(),
           );
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('تمت إضافة المنتج بنجاح')),
+        const SnackBar(content: Text('تمت إضافة المنتج بنجاح')),
       );
 
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         Navigator.of(context).pop();
       });
     } catch (e) {
       log('Error adding product: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('حدث خطأ أثناء إضافة المنتج')),
+        const SnackBar(content: Text('حدث خطأ أثناء إضافة المنتج')),
       );
     }
   }

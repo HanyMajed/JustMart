@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
@@ -6,10 +8,11 @@ class ProductItemCard extends StatelessWidget {
   const ProductItemCard({
     super.key,
     required this.item,
+    required this.imageBytes,
   });
 
   final ProductItemModel item;
-
+  final Uint8List imageBytes;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,13 +39,14 @@ class ProductItemCard extends StatelessWidget {
             // Image
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.asset(
-                'assets/images/product.jpeg',
+              child: Image.memory(
+                imageBytes,
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
+
             // Info
             Padding(
               padding: const EdgeInsets.all(12),

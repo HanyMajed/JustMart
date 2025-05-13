@@ -24,7 +24,8 @@ class MyOrders extends StatelessWidget {
         body: ListView.builder(
           itemCount: 15, // Number of items to build
           itemBuilder: (context, index) {
-            return ProductItemCard(item: item);
+            return //ProductItemCard(item: item);
+                Container();
           },
         ));
   }

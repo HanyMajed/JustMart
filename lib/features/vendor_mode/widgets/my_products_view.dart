@@ -6,6 +6,8 @@ import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_card.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 
 class MyProducts extends StatefulWidget {
   MyProducts({super.key, this.signedUID});
@@ -20,6 +22,7 @@ class _MyProductsState extends State<MyProducts> {
   bool isLoading = true;
   List<String> productIds = [];
   List<ProductItemModel> productItems = [];
+  Uint8List? imageBytes;
   @override
   void initState() {
     super.initState();
@@ -37,7 +40,10 @@ class _MyProductsState extends State<MyProducts> {
               : ListView.builder(
                   itemCount: productItems.length,
                   itemBuilder: ((context, index) {
-                    return ProductItemCard(item: productItems[index]);
+                    return ProductItemCard(
+                      item: productItems[index],
+                      imageBytes: imageBytes!,
+                    );
                   }),
                 ),
     );
@@ -91,6 +97,7 @@ class _MyProductsState extends State<MyProducts> {
           description: description,
           price: price,
         );
+        imageBytes = base64Decode(imageBase64);
 
         setState(() {
           productItems.add(productItemModel!);

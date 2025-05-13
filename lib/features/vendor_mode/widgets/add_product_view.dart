@@ -172,6 +172,7 @@ class _AddProductViewState extends State<AddProductView> {
         description: description ?? 'description was null',
         price: price ?? 'price was null',
       );
+
       productItemModel = productItemModel;
       addProductToFirebase();
 
@@ -182,9 +183,13 @@ class _AddProductViewState extends State<AddProductView> {
   void addProductToFirebase() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     try {
-      await FirebaseFirestore.instance.collection(BackendEndpoints.addProduct).add(
+      var docRef = await FirebaseFirestore.instance.collection(BackendEndpoints.addProduct).add(
             productItemModel!.toMap(),
           );
+      log('thee document ref is ${docRef.id}');
+
+      addProductIdToUser(userId: widget.signedUID!, productId: docRef.id);
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('تمت إضافة المنتج بنجاح')),
       );
@@ -197,6 +202,21 @@ class _AddProductViewState extends State<AddProductView> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('حدث خطأ أثناء إضافة المنتج')),
       );
+    }
+  }
+
+  Future<void> addProductIdToUser({required String userId, required String productId}) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      // Add the product ID to the user's productIds list
+      await firestore.collection(BackendEndpoints.addUserData).doc(userId).update({
+        'allProducts': FieldValue.arrayUnion([productId]),
+      });
+
+      debugPrint('Product ID added to user successfully');
+    } catch (e) {
+      debugPrint('Error adding product ID to user: $e');
     }
   }
 }

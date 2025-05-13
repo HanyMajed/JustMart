@@ -5,7 +5,7 @@ class UserEntity {
   final String email;
   final String uId;
   String role;
-  List<ProductItemModel> allProducts = [];
+  List<String> allProducts = [];
 
   UserEntity({required this.name, required this.email, required this.uId, required this.role});
 
@@ -15,6 +15,7 @@ class UserEntity {
       'email': email,
       'uId': uId,
       'role': role,
+      'allProducts': [],
     };
   }
 }

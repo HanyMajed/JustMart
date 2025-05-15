@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_images.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
-import 'package:just_mart/features/vendor_mode/widgets/product_item_card.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 
 class MyOrders extends StatelessWidget {

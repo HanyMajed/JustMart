@@ -11,7 +11,6 @@ import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 import 'package:just_mart/features/vendor_mode/widgets/pick_image.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
-import 'package:just_mart/widgets/custom_text_form_field.dart';
 
 class AddProductView extends StatefulWidget {
   const AddProductView({super.key, this.signedUID});

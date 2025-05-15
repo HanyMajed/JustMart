@@ -1,5 +1,3 @@
-import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
-
 class UserEntity {
   String name;
   final String email;

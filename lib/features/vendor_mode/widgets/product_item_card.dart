@@ -1,10 +1,11 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 
-class ProductItemCard extends StatelessWidget {
+class ProductItemCard extends StatefulWidget {
   const ProductItemCard({
     super.key,
     required this.item,
@@ -13,6 +14,21 @@ class ProductItemCard extends StatelessWidget {
 
   final ProductItemModel item;
   final Uint8List imageBytes;
+
+  @override
+  State<ProductItemCard> createState() => _ProductItemCardState();
+}
+
+class _ProductItemCardState extends State<ProductItemCard> {
+  String? vendorName;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getVendorName();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,7 +56,7 @@ class ProductItemCard extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
               child: Image.memory(
-                imageBytes,
+                widget.imageBytes,
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -55,7 +71,7 @@ class ProductItemCard extends StatelessWidget {
                 children: [
                   // Product Name
                   Text(
-                    item.productName,
+                    widget.item.productName,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -66,7 +82,7 @@ class ProductItemCard extends StatelessWidget {
 
                   // Description
                   Text(
-                    item.description,
+                    widget.item.description,
                     style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey.shade700,
@@ -76,15 +92,26 @@ class ProductItemCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
 
-                  // Vendor Name
-                  Text(
-                    "ddddd", // Adjust this based on your model (e.g., item.vendorName if available)
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey.shade600,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  // Vendor Name - Show loading indicator or vendor name
+                  isLoading
+                      ? const SizedBox(
+                          height: 20,
+                          child: Center(
+                            child: SizedBox(
+                              width: 15,
+                              height: 15,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          ),
+                        )
+                      : Text(
+                          vendorName ?? 'Unknown Vendor',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey.shade600,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                   const SizedBox(height: 8),
 
                   // Price & Cart Icon
@@ -92,7 +119,7 @@ class ProductItemCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${item.price} JOD',
+                        '${widget.item.price} JOD',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -114,5 +141,30 @@ class ProductItemCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> getVendorName() async {
+    try {
+      final docRef = FirebaseFirestore.instance.collection('users').doc(widget.item.vendorId);
+      DocumentSnapshot doc = await docRef.get();
+
+      if (doc.exists) {
+        setState(() {
+          vendorName = doc.get('name');
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          vendorName = 'Unknown Vendor';
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        vendorName = 'Error loading vendor';
+        isLoading = false;
+      });
+      print('Error getting vendor name: $e');
+    }
   }
 }

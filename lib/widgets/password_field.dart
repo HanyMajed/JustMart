@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:just_mart/widgets/custom_text_form_field.dart';
 
 class PasswordField extends StatefulWidget {
-  const PasswordField({
-    super.key,
-    this.onSaved,
-  });
+  PasswordField({super.key, this.onSaved, this.controller});
   final void Function(String?)? onSaved;
+  TextEditingController? controller;
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();

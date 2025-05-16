@@ -43,3 +43,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#avoid unwanted files: This keeps local environment files and build outputs out of version control.
+build/
+.dart_tool/
+.idea/
+*.iml
+.env           

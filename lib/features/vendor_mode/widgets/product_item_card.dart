@@ -63,7 +63,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                 widget.imageBytes,
                 height: 150,
                 width: 175, // Fixed width instead of infinity
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
 

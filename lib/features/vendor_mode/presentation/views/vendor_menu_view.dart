@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_mart/features/home/presentation/views/widgets/product_details_view.dart';
 
 import 'package:just_mart/features/vendor_mode/widgets/add_product_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
@@ -56,6 +57,18 @@ class VendorMenuview extends StatelessWidget {
             child: VendorTransitionChoice(
               signedUID: signedUID,
               choice: "المشتريات",
+              icon: Icons.shopping_bag_outlined,
+            ),
+          ),
+          GestureDetector(
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ProductDetailsView(
+                signedUID: signedUID,
+              );
+            })),
+            child: VendorTransitionChoice(
+              signedUID: signedUID,
+              choice: "تجريب",
               icon: Icons.shopping_bag_outlined,
             ),
           ),

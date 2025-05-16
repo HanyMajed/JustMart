@@ -19,7 +19,7 @@ class SignupViewBody extends StatefulWidget {
 class _SignupViewBodyState extends State<SignupViewBody> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  late String email, username, password;
+  late String email, username, password, phoneNumber;
   late bool isTermsAccepted = false;
   String selectedRole = 'buyer';
   @override
@@ -62,6 +62,13 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               ),
               const SizedBox(
                 height: 16,
+              ),
+              CustomTextFormField(
+                onSaved: (value) {
+                  phoneNumber = value!;
+                },
+                textInputType: TextInputType.visiblePassword,
+                hintText: 'رقم الهاتف',
               ),
               Row(
                 children: [
@@ -107,6 +114,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                               password,
                               username,
                               selectedRole,
+                              phoneNumber,
                             );
                       } else {
                         BuildErrorBar(context, "يجب الموافقة على الشروط والاحكام");

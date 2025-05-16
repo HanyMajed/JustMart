@@ -39,7 +39,6 @@ class _SignInViewBodyState extends State<SignInViewBody> {
           passwordController.clear();
           formKey.currentState?.reset();
         }
-        ;
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kHorizantalPadding),

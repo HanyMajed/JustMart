@@ -17,16 +17,22 @@ class AuthRepoImplementation extends AuthRepo {
   AuthRepoImplementation({required this.databaseService, required this.firebaseAuthService});
 
   @override
-  Future<Either<Failure, UserEntity>> createUserWithEmailAndPassword(String email, String password, String name, String role) async {
+  Future<Either<Failure, UserEntity>> createUserWithEmailAndPassword(
+      String email, String password, String name, String role, String phoneNumber) async {
     User? user;
     try {
       user = await firebaseAuthService.createUserWithEmailAndPassword(email: email, password: password);
       UserEntity userFromFirebaseConstructor = UserModel.fromFirebaseUser(user);
       userFromFirebaseConstructor.role = role;
       userFromFirebaseConstructor.name = name;
+      userFromFirebaseConstructor.phoneNumber = phoneNumber;
 
       await addUserData(user: userFromFirebaseConstructor);
-      log("${userFromFirebaseConstructor.email} ${userFromFirebaseConstructor.name} ${userFromFirebaseConstructor.role} ${userFromFirebaseConstructor.uId}");
+      log("User created successfully: ${userFromFirebaseConstructor.email}, "
+          "Phone: ${userFromFirebaseConstructor.phoneNumber}, "
+          "Name: ${userFromFirebaseConstructor.name}, "
+          "Role: ${userFromFirebaseConstructor.role}, "
+          "UID: ${userFromFirebaseConstructor.uId}");
       return right(userFromFirebaseConstructor);
     } on CustomException catch (e) {
       if (user != null) {

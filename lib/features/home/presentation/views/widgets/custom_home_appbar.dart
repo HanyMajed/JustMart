@@ -87,7 +87,7 @@ class CustomHomeAppbar extends StatelessWidget {
         'مرحبا بك',
         style: TextStyles.regular16.copyWith(color: const Color(0xFF949D9E)),
       ),
-      subtitle: Text(
+      subtitle: const Text(
         'مستخدم جديد',
         style: TextStyles.bold16,
       ),

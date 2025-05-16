@@ -3,9 +3,11 @@ class UserEntity {
   final String email;
   final String uId;
   String role;
+  String phoneNumber;
+
   List<String> allProducts = [];
 
-  UserEntity({required this.name, required this.email, required this.uId, required this.role});
+  UserEntity({required this.name, required this.email, required this.uId, required this.role , required this.phoneNumber});
 
   toMap() {
     return {
@@ -13,6 +15,7 @@ class UserEntity {
       'email': email,
       'uId': uId,
       'role': role,
+      "phoneNumber": phoneNumber,
       'allProducts': [],
     };
   }

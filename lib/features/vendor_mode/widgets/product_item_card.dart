@@ -21,13 +21,13 @@ class ProductItemCard extends StatefulWidget {
 }
 
 class _ProductItemCardState extends State<ProductItemCard> {
-  String? vendorName;
+  String? vendorName, vendorPhoneNumber;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    getVendorName();
+    getVendorInfo();
   }
 
   @override
@@ -118,7 +118,16 @@ class _ProductItemCardState extends State<ProductItemCard> {
                             ),
                           ),
                     const SizedBox(height: 8),
-
+                    Text(
+                      vendorPhoneNumber ?? 'Unknown Phone Number',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey.shade700,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
                     // Price & Cart Icon
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,7 +158,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
     );
   }
 
-  Future<void> getVendorName() async {
+  Future<void> getVendorInfo() async {
     try {
       final docRef = FirebaseFirestore.instance.collection('users').doc(widget.item.vendorId);
       DocumentSnapshot doc = await docRef.get();
@@ -157,6 +166,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
       if (doc.exists) {
         setState(() {
           vendorName = doc.get('name');
+          vendorPhoneNumber = doc.get('phoneNumber');
           isLoading = false;
         });
       } else {

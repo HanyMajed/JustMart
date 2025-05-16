@@ -16,13 +16,13 @@ class VendorMenuview extends StatelessWidget {
     return Scaffold(
       appBar: appbarForVendorViews(title: "القائمة"),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, MyOrders.routeName),
             child: VendorTransitionChoice(
               signedUID: signedUID,
               choice: "الطلبات",
+              icon: Icons.receipt_long,
             ),
           ),
           GestureDetector(
@@ -33,6 +33,7 @@ class VendorMenuview extends StatelessWidget {
                           signedUID: signedUID,
                         ))),
             child: VendorTransitionChoice(
+              icon: Icons.style_sharp,
               signedUID: signedUID,
               choice: "المنتجات",
             ),
@@ -47,6 +48,7 @@ class VendorMenuview extends StatelessWidget {
             child: VendorTransitionChoice(
               signedUID: signedUID,
               choice: "إضافة منتج",
+              icon: Icons.add_box_outlined,
             ),
           ),
           GestureDetector(
@@ -54,13 +56,7 @@ class VendorMenuview extends StatelessWidget {
             child: VendorTransitionChoice(
               signedUID: signedUID,
               choice: "المشتريات",
-            ),
-          ),
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: VendorTransitionChoice(
-              signedUID: signedUID,
-              choice: "العودة الى وضع الشراء",
+              icon: Icons.shopping_bag_outlined,
             ),
           ),
         ],

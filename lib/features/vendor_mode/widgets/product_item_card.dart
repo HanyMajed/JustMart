@@ -8,13 +8,14 @@ import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 class ProductItemCard extends StatefulWidget {
   const ProductItemCard({
     super.key,
+    this.hasIcon = false,
     required this.item,
     required this.imageBytes,
   });
 
   final ProductItemModel item;
   final Uint8List imageBytes;
-
+  final bool hasIcon;
   @override
   State<ProductItemCard> createState() => _ProductItemCardState();
 }
@@ -49,92 +50,97 @@ class _ProductItemCardState extends State<ProductItemCard> {
             ),
           ],
         ),
-        child: Column(
+        child: Row(
+          // Changed from Column to Row
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image
+            // Image - now on the left side
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius: const BorderRadius.horizontal(
+                left: Radius.circular(16), // Adjusted border radius
+              ),
               child: Image.memory(
                 widget.imageBytes,
                 height: 150,
-                width: double.infinity,
+                width: 175, // Fixed width instead of infinity
                 fit: BoxFit.cover,
               ),
             ),
 
-            // Info
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Product Name
-                  Text(
-                    widget.item.productName,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
+            // Info section - now takes remaining space
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Product Name
+                    Text(
+                      widget.item.productName,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
+                    const SizedBox(height: 4),
 
-                  // Description
-                  Text(
-                    widget.item.description,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade700,
+                    // Description
+                    Text(
+                      widget.item.description,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey.shade700,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
+                    const SizedBox(height: 8),
 
-                  // Vendor Name - Show loading indicator or vendor name
-                  isLoading
-                      ? const SizedBox(
-                          height: 20,
-                          child: Center(
-                            child: SizedBox(
-                              width: 15,
-                              height: 15,
-                              child: CircularProgressIndicator(strokeWidth: 2),
+                    // Vendor Name
+                    isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            child: Center(
+                              child: SizedBox(
+                                width: 15,
+                                height: 15,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              ),
+                            ),
+                          )
+                        : Text(
+                            vendorName ?? 'Unknown Vendor',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                        )
-                      : Text(
-                          vendorName ?? 'Unknown Vendor',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey.shade600,
-                            fontWeight: FontWeight.w500,
+                    const SizedBox(height: 8),
+
+                    // Price & Cart Icon
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${widget.item.price} JOD',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryColor,
                           ),
                         ),
-                  const SizedBox(height: 8),
-
-                  // Price & Cart Icon
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '${widget.item.price} JOD',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryColor,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Icon(
-                        Icons.add_shopping_cart_outlined,
-                        color: AppColors.primaryColor,
-                        size: 20,
-                      ),
-                    ],
-                  ),
-                ],
+                        widget.hasIcon
+                            ? const Icon(
+                                Icons.add_shopping_cart_outlined,
+                                color: AppColors.primaryColor,
+                              )
+                            : Container(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

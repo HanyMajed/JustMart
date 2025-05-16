@@ -18,7 +18,6 @@ class MyOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 242, 250, 255),
         appBar: appbarForVendorViews(title: "الطلبات"),
         body: ListView.builder(
           itemCount: 15, // Number of items to build

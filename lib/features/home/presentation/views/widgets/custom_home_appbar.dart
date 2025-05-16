@@ -11,54 +11,50 @@ class CustomHomeAppbar extends StatelessWidget {
   CustomHomeAppbar({super.key, required this.signedUID});
   final String signedUID;
   bool isVendor = false;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
       future: fetchUserData(),
       builder: (context, snapshot) {
-        final name = snapshot.hasData
-            ? snapshot.data!['name'] ?? 'مستخدم جديد ' // Fallback name
-            : 'مستخدم جديد';
-        if (snapshot.data!['role'] == 'vendor') {
-          isVendor = true;
+        // Handle loading state
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _buildLoadingAppBar();
         }
 
-        final welcomeText = snapshot.connectionState == ConnectionState.waiting ? 'جاري التحميل...' : 'مرحبا بك';
+        // Handle error state
+        if (snapshot.hasError || !snapshot.hasData) {
+          return _buildErrorAppBar();
+        }
+
+        final data = snapshot.data!;
+        final name = data['name'] ?? 'مستخدم جديد';
+        isVendor = data['role'] == 'vendor'; // Safe access after null check
 
         return ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 0),
           trailing: isVendor
               ? Row(
-                  mainAxisSize: MainAxisSize.min, // Important to prevent overflow
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    VendorIconWidget(
-                      signedUID: signedUID,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
+                    VendorIconWidget(signedUID: signedUID),
+                    const SizedBox(width: 5),
                     const NotificationWidget(),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    // Your existing notification
+                    const SizedBox(width: 5),
                     const SignOutWidget(),
                   ],
                 )
-              // ignore: prefer_const_constructors
               : const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     NotificationWidget(),
-                    SizedBox(
-                      width: 5,
-                    ),
+                    SizedBox(width: 5),
                     SignOutWidget(),
                   ],
-                ), //
+                ),
           leading: Image.asset(Assets.assetsImagesProfilePhotoIcon),
           title: Text(
-            welcomeText,
+            'مرحبا بك',
             textAlign: TextAlign.right,
             style: TextStyles.regular16.copyWith(
               color: const Color(0xFF949D9E),
@@ -71,6 +67,30 @@ class CustomHomeAppbar extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildLoadingAppBar() {
+    return ListTile(
+      leading: Image.asset(Assets.assetsImagesProfilePhotoIcon),
+      title: Text(
+        'جاري التحميل...',
+        style: TextStyles.regular16.copyWith(color: const Color(0xFF949D9E)),
+      ),
+    );
+  }
+
+  Widget _buildErrorAppBar() {
+    return ListTile(
+      leading: Image.asset(Assets.assetsImagesProfilePhotoIcon),
+      title: Text(
+        'مرحبا بك',
+        style: TextStyles.regular16.copyWith(color: const Color(0xFF949D9E)),
+      ),
+      subtitle: Text(
+        'مستخدم جديد',
+        style: TextStyles.bold16,
+      ),
     );
   }
 

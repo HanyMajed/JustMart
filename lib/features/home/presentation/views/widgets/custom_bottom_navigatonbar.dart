@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/home/presentation/views/domain/entites/bottom_navigation_bar_entity.dart';
+import 'package:just_mart/features/home/presentation/views/widgets/cart_item.dart';
+import 'package:just_mart/features/home/presentation/views/widgets/cart_view.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/naivtion_bar_item.dart';
 
 class CustomBottomNavigatonbar extends StatefulWidget {
@@ -15,7 +18,7 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
   Widget build(BuildContext context) {
     return Container(
       width: 375,
-      height: 70,
+      height: 60,
       decoration: const ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -34,64 +37,80 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
         ],
       ),
       child: Row(
-        children: bottomNavigationBarItems.asMap().entries.map((e) {
-          var index = e.key;
-          var entity = e.value;
-
-          return Expanded(
-            flex: index == selectedIndex ? 3 : 2,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedIndex = index;
-                });
-              },
-              child: NaivationBarItem(
-                isSelected: selectedIndex == index,
-                bottomNavigationBarEntity: entity,
-              ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 110,
+            height: 40,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF1F1F1), // light grey background
+              borderRadius: BorderRadius.circular(20),
             ),
-          );
-        }).toList(),
+            child: Stack(
+              children: [
+                // Text
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'الحساب',
+                      style: TextStyles.semiBold16,
+                    ),
+                  ),
+                ),
+
+                // Icon Circle
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 6),
+                    width: 32,
+                    height: 32,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF1D4F91), // dark blue color
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.home,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const CartView();
+              }));
+            },
+            child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                width: 110,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F1F1), // light grey background
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(Icons.shopping_cart)),
+          ),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                width: 110,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F1F1), // light grey background
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(Icons.category)),
+          ),
+        ],
       ),
     );
   }
 }
-
-//class InActiveItem extends StatelessWidget {
- // const InActiveItem({super.key, required this.image});
- // final String image;
-  //@override
-  //Widget build(BuildContext context) {
-    //return Expanded(
-   //   child: SvgPicture.asset(image),
-   // );
- // }
-//}
-
-//class NaivationBarItem extends StatelessWidget {
- // const NaivationBarItem(
-   //   {super.key,
-    //  required this.isSelected,
-   //   required this.bottomNavigationBarEntity});
-
-  //final bool isSelected;
- // final BottomNavigationBarEntity bottomNavigationBarEntity;
- // @override
- // Widget build(BuildContext context) {
-  // return isSelected
-      //  ? const ActiveItem()
-        //: InActiveItem(
-        //    image: bottomNavigationBarEntity.inAactiveImage,
-       //   );
- // }
-//}
-
-//class ActiveItem extends StatelessWidget {
- // const ActiveItem({super.key});
-
-  //@override
- // Widget build(BuildContext context) {
- //   return const Placeholder();
- // }
-//}

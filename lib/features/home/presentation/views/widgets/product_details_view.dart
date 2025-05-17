@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
-import 'package:just_mart/core/utils/app_images.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/bottom_curve_clipper.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/quantity_selector.dart';

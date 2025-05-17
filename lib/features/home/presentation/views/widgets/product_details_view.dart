@@ -59,8 +59,12 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       child: Row(
                         children: [
                           Text(
-                            "3 دنانير",
-                            style: TextStyles.semiBold16.copyWith(color: AppColors.primaryColor),
+                            "JOD ",
+                            style: TextStyles.semiBold16.copyWith(color: AppColors.seconderyColor),
+                          ),
+                          Text(
+                            "3",
+                            style: TextStyles.semiBold16.copyWith(color: AppColors.seconderyColor),
                           ),
                           const Spacer(),
                           QuantitySelector(

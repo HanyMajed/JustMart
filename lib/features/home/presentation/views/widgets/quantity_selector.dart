@@ -31,41 +31,53 @@ class _QuantitySelectorState extends State<QuantitySelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      width: 120,
-      decoration: BoxDecoration(
-        color: AppColors.primaryColor,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.add, color: Colors.white, size: 16),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          height: 30,
+          width: 30,
+          decoration: BoxDecoration(
+            color: AppColors.primaryColor,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 20,
+            ),
             padding: const EdgeInsets.all(4),
             constraints: const BoxConstraints(),
             onPressed: _increment,
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Text(
-              '$_quantity',
-              style: TextStyles.bold16.copyWith(fontSize: 14, color: Colors.white),
-            ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white),
+            borderRadius: BorderRadius.circular(6),
           ),
-          IconButton(
-            icon: const Icon(Icons.remove, color: Colors.white, size: 16),
+          child: Text(
+            '$_quantity',
+            style: TextStyles.semiBold16.copyWith(fontSize: 20, color: Colors.black),
+          ),
+        ),
+        Container(
+          height: 30,
+          width: 30,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade500,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.remove, color: Colors.white, size: 20),
             padding: const EdgeInsets.all(4),
             constraints: const BoxConstraints(),
             onPressed: _decrement,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

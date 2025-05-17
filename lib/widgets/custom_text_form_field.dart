@@ -2,27 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField(
-      {super.key, required this.hintText, this.controller, this.textInputType, this.suffixIcon, this.onSaved, this.obsecureText = false});
+  const CustomTextFormField({
+    super.key,
+    required this.hintText,
+    this.controller,
+    this.textInputType,
+    this.suffixIcon,
+    this.onSaved,
+    this.obsecureText = false,
+    this.validator,
+  });
   final String hintText;
   final TextInputType? textInputType;
   final Widget? suffixIcon;
   final void Function(String?)? onSaved;
   final bool obsecureText;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: obsecureText,
       onSaved: onSaved,
       controller: controller,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'هذا الحقل مطلوب';
-        }
-
-        return null;
-      },
+      validator: validator ??
+          (value) {
+            // Modified this line
+            if (value == null || value.isEmpty) {
+              return 'هذا الحقل مطلوب';
+            }
+            return null;
+          },
       keyboardType: textInputType,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,

@@ -60,16 +60,6 @@ class VendorMenuview extends StatelessWidget {
               icon: Icons.shopping_bag_outlined,
             ),
           ),
-          GestureDetector(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ProductDetailsView();
-            })),
-            child: VendorTransitionChoice(
-              signedUID: signedUID,
-              choice: "تجريب",
-              icon: Icons.shopping_bag_outlined,
-            ),
-          ),
         ],
       ),
     );

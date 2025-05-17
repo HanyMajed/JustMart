@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/backend_endpoints.dart';
@@ -52,7 +54,9 @@ class _BestSellingGridviewState extends State<BestSellingGridview> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ProductDetailsView(),
+                  builder: (context) => ProductDetailsView(
+                    productItemModel: allProducts[index],
+                  ),
                 ),
               );
             },

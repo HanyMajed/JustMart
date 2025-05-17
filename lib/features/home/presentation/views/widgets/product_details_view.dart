@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_images.dart';
@@ -5,17 +9,25 @@ import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/bottom_curve_clipper.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/quantity_selector.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
+import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'package:just_mart/widgets/custom_button.dart';
 
 class ProductDetailsView extends StatefulWidget {
-  const ProductDetailsView({super.key});
+  ProductDetailsView({super.key, required this.productItemModel});
   static const String routeName = "ProductDetailsView";
-
+  final ProductItemModel productItemModel;
+  var decodedImage;
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
+  @override
+  void initState() {
+    widget.decodedImage = base64Decode(widget.productItemModel.imageBase64);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +48,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       color: const Color.fromARGB(255, 214, 214, 214),
                     ),
                   ),
-                  Image.asset(Assets.assetsImagesShoes),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.memory(
+                      widget.decodedImage,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ],
               ),
               Padding(
@@ -46,7 +64,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "اسم المنتج",
+                        widget.productItemModel.productName,
                         style: TextStyles.bold19.copyWith(color: Colors.grey.shade800),
                       ),
                     ),
@@ -62,7 +80,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                             style: TextStyles.semiBold16.copyWith(color: AppColors.seconderyColor),
                           ),
                           Text(
-                            "3",
+                            widget.productItemModel.price,
                             style: TextStyles.semiBold16.copyWith(color: AppColors.seconderyColor),
                           ),
                           const Spacer(),
@@ -77,7 +95,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       height: 24,
                     ),
                     Text(
-                      "هنا سيتم وضع الوصف لكل منتج سوف يتم عرضه في اللائحةوهنا سيتم وضع الوصف لكل منتج سوف يتم عرضه في اللائحةهنا سيتم وضع الوصف لكل منتج سوف يتم عرضه في اللائحة",
+                      widget.productItemModel.description,
                       style: TextStyles.regular13.copyWith(color: Colors.grey.shade600),
                     ),
                   ],

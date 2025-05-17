@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_mart/features/home/presentation/views/widgets/product_details_view.dart';
-
 import 'package:just_mart/features/vendor_mode/widgets/add_product_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 import 'package:just_mart/features/vendor_mode/widgets/my_orders_view.dart';

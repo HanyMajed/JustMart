@@ -14,14 +14,20 @@ import 'package:just_mart/features/auth/data/models/user_model.dart';
 class AuthRepoImplementation extends AuthRepo {
   final FirebaseAuthService firebaseAuthService;
   final DatabaseService databaseService;
-  AuthRepoImplementation({required this.databaseService, required this.firebaseAuthService});
+  AuthRepoImplementation(
+      {required this.databaseService, required this.firebaseAuthService});
 
   @override
   Future<Either<Failure, UserEntity>> createUserWithEmailAndPassword(
-      String email, String password, String name, String role, String phoneNumber) async {
+      String email,
+      String password,
+      String name,
+      String role,
+      String phoneNumber) async {
     User? user;
     try {
-      user = await firebaseAuthService.createUserWithEmailAndPassword(email: email, password: password);
+      user = await firebaseAuthService.createUserWithEmailAndPassword(
+          email: email, password: password);
       UserEntity userFromFirebaseConstructor = UserModel.fromFirebaseUser(user);
       userFromFirebaseConstructor.role = role;
       userFromFirebaseConstructor.name = name;
@@ -55,9 +61,11 @@ class AuthRepoImplementation extends AuthRepo {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signinWithEmailAndPassword(String email, String password) async {
+  Future<Either<Failure, UserEntity>> signinWithEmailAndPassword(
+      String email, String password) async {
     try {
-      var user = await firebaseAuthService.signInWithEmailAndPassword(email: email, password: password);
+      var user = await firebaseAuthService.signInWithEmailAndPassword(
+          email: email, password: password);
       var userEntity = await getUserData(uId: user.uid);
       return right(userEntity);
     } on CustomException catch (e) {
@@ -77,7 +85,8 @@ class AuthRepoImplementation extends AuthRepo {
   @override
   Future addUserData({required UserEntity user}) async {
     try {
-      await databaseService.addData(path: BackendEndpoints.addUserData, data: user.toMap());
+      await databaseService.addData(
+          path: BackendEndpoints.addUserData, data: user.toMap());
     } catch (e) {
       log('Error saving user data: $e');
       rethrow;
@@ -86,7 +95,8 @@ class AuthRepoImplementation extends AuthRepo {
 
   @override
   Future<UserEntity> getUserData({required String uId}) async {
-    var userData = await databaseService.getData(path: BackendEndpoints.getUserData, documentId: uId);
+    var userData = await databaseService.getData(
+        path: BackendEndpoints.getUserData, documentId: uId);
     return UserModel.fromJson(userData);
   }
 }

@@ -3,9 +3,11 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/core/utils/backend_endpoints.dart';
+import 'package:just_mart/features/cart/cart_provider.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/bottom_curve_clipper.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/quantity_selector.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
@@ -121,7 +123,22 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               ),
               SizedBox(
                 width: 175,
-                child: CustomButton(onPressed: () {}, text: 'اضافة الى السلة'),
+                child: CustomButton(
+                  onPressed: () {
+                    final product = ProductItemModel(
+                      productCategory: widget.productItemModel.productCategory,
+                      vendorId: widget.productItemModel.vendorId,
+                      productName: widget.productItemModel.productName,
+                      description: widget.productItemModel.description,
+                      price: widget.productItemModel.price,
+                      imageBase64: widget.productItemModel.imageBase64,
+                    );
+
+                    context.read<CartProvider>().addToCart(product);
+                    Navigator.pop(context);
+                  },
+                  text: 'اضافة الى السلة',
+                ),
               ),
             ],
           ),

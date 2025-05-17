@@ -8,7 +8,7 @@ import 'package:just_mart/features/cart/cart_provider.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/quantity_selector.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 
-class CartItem extends StatelessWidget {
+class CartItem extends StatefulWidget {
   final ProductItemModel product;
   final VoidCallback onRemove;
 
@@ -18,6 +18,11 @@ class CartItem extends StatelessWidget {
     required this.onRemove,
   });
 
+  @override
+  State<CartItem> createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,7 +38,7 @@ class CartItem extends StatelessWidget {
         children: [
           // Display actual product image (convert from base64)
           Image.memory(
-            base64Decode(product.imageBase64),
+            base64Decode(widget.product.imageBase64),
             height: 80,
             width: 80,
             fit: BoxFit.cover,
@@ -44,14 +49,14 @@ class CartItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                product.productName,
+                widget.product.productName,
                 style: TextStyles.semiBold16,
               ),
               QuantitySelector(
-                initialValue: product.quantity,
+                initialValue: widget.product.quantity,
                 onChanged: (value) {
                   // Update quantity in cart
-                  context.read<CartProvider>().updateQuantity(product.productId, value);
+                  context.read<CartProvider>().updateQuantity(widget.product.productId, value);
                 },
               )
             ],
@@ -62,7 +67,7 @@ class CartItem extends StatelessWidget {
             children: [
               IconButton(
                 icon: const Icon(Icons.delete, color: Colors.grey, size: 24),
-                onPressed: onRemove,
+                onPressed: widget.onRemove,
               ),
               Row(
                 children: [
@@ -71,7 +76,7 @@ class CartItem extends StatelessWidget {
                     style: TextStyles.bold16.copyWith(color: AppColors.seconderyColor),
                   ),
                   Text(
-                    product.price,
+                    widget.product.price,
                     style: TextStyles.bold16.copyWith(color: AppColors.seconderyColor),
                   ),
                 ],

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_mart/constants.dart';
 import 'package:just_mart/core/helper_functions/build_error_bar.dart';
+import 'package:just_mart/core/helper_functions/on_generate_routes.dart';
 import 'package:just_mart/features/auth/data/repos/cubits/SignUp_cubit.dart/signup_cubit.dart';
 import 'package:just_mart/widgets/custom_button.dart';
 import 'package:just_mart/widgets/custom_text_form_field.dart';
 import 'package:just_mart/widgets/have_an_account.dart';
 import 'package:just_mart/widgets/password_field.dart';
+import 'package:just_mart/widgets/terms_and_conditions_page.dart';
 import 'package:just_mart/widgets/terms_and_contitions.dart';
 
 class SignupViewBody extends StatefulWidget {
@@ -105,10 +107,16 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   ),
                 ],
               ),
-              TermsAndContitions(
-                onChanged: (value) {
-                  isTermsAccepted = value;
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, TermsAndConditionsPage.routeName);
                 },
+                child: TermsAndContitions(
+                  onChanged: (value) {
+                    isTermsAccepted = value;
+                  },
+                ),
               ),
               const SizedBox(height: 16),
               CustomButton(

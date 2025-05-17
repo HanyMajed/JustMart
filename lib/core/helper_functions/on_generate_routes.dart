@@ -8,9 +8,13 @@ import 'package:just_mart/features/vendor_mode/widgets/add_product_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/my_orders_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/my_products_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/vendor_purchases_view.dart';
+import 'package:just_mart/widgets/terms_and_conditions_page.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
+    case TermsAndConditionsPage.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const TermsAndConditionsPage());
     case SplashView.routeName:
       return MaterialPageRoute(builder: (context) => const SplashView());
     case MyOrders.routeName:

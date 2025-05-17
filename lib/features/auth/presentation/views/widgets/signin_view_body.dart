@@ -7,6 +7,7 @@ import 'package:just_mart/features/auth/data/repos/cubits/signin_cubit/signin_cu
 import 'package:just_mart/widgets/custom_button.dart';
 import 'package:just_mart/widgets/custom_text_form_field.dart';
 import 'package:just_mart/widgets/donthave_account.dart';
+import 'package:just_mart/widgets/forget_password_page.dart';
 import 'package:just_mart/widgets/password_field.dart';
 
 class SignInViewBody extends StatefulWidget {
@@ -73,9 +74,16 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'نسيت كلمة المرور؟',
-                      style: TextStyles.semiBold13.copyWith(color: AppColors.lightprimaryColor),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, ForgetPasswordPage.routeName);
+                      },
+                      child: Text(
+                        'نسيت كلمة المرور؟',
+                        style: TextStyles.semiBold13
+                            .copyWith(color: AppColors.lightprimaryColor),
+                      ),
                     ),
                   ],
                 ),

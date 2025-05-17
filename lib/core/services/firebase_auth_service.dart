@@ -61,4 +61,22 @@ class FirebaseAuthService {
   Future deleteUser() async {
     await FirebaseAuth.instance.currentUser!.delete();
   }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      log("Password Reset Error: ${e.code}");
+      switch (e.code) {
+        case 'invalid-email':
+          throw CustomException(message: 'صيغة البريد الإلكتروني غير صحيحة');
+        case 'user-not-found':
+          throw CustomException(message: 'البريد الإلكتروني غير مسجل');
+        case 'network-request-failed':
+          throw CustomException(message: 'تأكد من الاتصال بالإنترنت');
+        default:
+          throw CustomException(message: 'فشل إرسال رابط إعادة التعيين');
+      }
+    }
+  }
 }

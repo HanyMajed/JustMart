@@ -11,44 +11,37 @@ import 'package:just_mart/features/home/presentation/views/widgets/search_text_f
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key, required this.signedUID});
   final String signedUID;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: kHorizantalPadding,
-      ),
-      child: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizantalPadding),
             child: Column(
               children: [
-                const SizedBox(
-                  height: kTopPadding,
-                ),
-                CustomHomeAppbar(
-                  signedUID: signedUID,
-                ),
-                const SizedBox(
-                  height: kTopPadding,
-                ),
+                const SizedBox(height: kTopPadding),
+                CustomHomeAppbar(signedUID: signedUID),
+                const SizedBox(height: kTopPadding),
                 const SearchTextfield(),
-                const SizedBox(
-                  height: 12,
-                ),
+                const SizedBox(height: 12),
                 const FeaturedList(),
-                const SizedBox(
-                  height: 12,
-                ),
+                const SizedBox(height: 12),
                 const BestSellingHeader(),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
               ],
             ),
           ),
-          const BestSellingGridview(),
-        ],
-      ),
+        ),
+        const SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: kHorizantalPadding),
+          sliver: BestSellingGridview(),
+        ),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: 12), // Adjust the height as needed
+        ),
+      ],
     );
   }
 }

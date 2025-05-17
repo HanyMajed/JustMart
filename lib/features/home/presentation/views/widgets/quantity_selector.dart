@@ -9,24 +9,24 @@ class QuantitySelector extends StatefulWidget {
   final ValueChanged<int> onChanged;
 
   const QuantitySelector({
-    Key? key,
+    super.key,
     this.initialValue = 1,
     this.minValue = 1,
     this.maxValue = 99,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   _QuantitySelectorState createState() => _QuantitySelectorState();
 }
 
 class _QuantitySelectorState extends State<QuantitySelector> {
-  late int _quantity;
+  late int quantity;
 
   @override
   void initState() {
     super.initState();
-    _quantity = widget.initialValue;
+    quantity = widget.initialValue;
   }
 
   @override
@@ -59,7 +59,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
             borderRadius: BorderRadius.circular(6),
           ),
           child: Text(
-            '$_quantity',
+            '$quantity',
             style: TextStyles.semiBold16.copyWith(fontSize: 20, color: Colors.black),
           ),
         ),
@@ -82,19 +82,19 @@ class _QuantitySelectorState extends State<QuantitySelector> {
   }
 
   void _increment() {
-    if (_quantity < widget.maxValue) {
+    if (quantity < widget.maxValue) {
       setState(() {
-        _quantity++;
-        widget.onChanged(_quantity);
+        quantity++;
+        widget.onChanged(quantity);
       });
     }
   }
 
   void _decrement() {
-    if (_quantity > widget.minValue) {
+    if (quantity > widget.minValue) {
       setState(() {
-        _quantity--;
-        widget.onChanged(_quantity);
+        quantity--;
+        widget.onChanged(quantity);
       });
     }
   }

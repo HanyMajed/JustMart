@@ -8,9 +8,8 @@ import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.d
 import 'package:just_mart/widgets/custom_button.dart';
 
 class ProductDetailsView extends StatefulWidget {
-  const ProductDetailsView({super.key, required this.signedUID});
+  const ProductDetailsView({super.key});
   static const String routeName = "ProductDetailsView";
-  final String? signedUID;
 
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();

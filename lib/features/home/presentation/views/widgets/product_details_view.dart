@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
+import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/bottom_curve_clipper.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/quantity_selector.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
@@ -10,18 +13,24 @@ import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'package:just_mart/widgets/custom_button.dart';
 
 class ProductDetailsView extends StatefulWidget {
-  ProductDetailsView({super.key, required this.productItemModel});
+  ProductDetailsView({super.key, required this.productItemModel, required this.signedUID});
   static const String routeName = "ProductDetailsView";
   final ProductItemModel productItemModel;
   var decodedImage;
+  final String signedUID;
+
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
+  String? userName;
+  bool isLoading = true;
+
   @override
   void initState() {
     widget.decodedImage = base64Decode(widget.productItemModel.imageBase64);
+    getUserName(widget.signedUID);
     super.initState();
   }
 
@@ -68,6 +77,19 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     const SizedBox(
                       height: 8,
                     ),
+                    Text(
+                      widget.productItemModel.description,
+                      style: TextStyles.regular13.copyWith(color: Colors.grey.shade600),
+                    ),
+                    isLoading
+                        ? const CircularProgressIndicator()
+                        : Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              userName ?? 'Unknown User', // Safe null handling
+                              style: TextStyles.regular13.copyWith(color: Colors.grey.shade600),
+                            ),
+                          ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
@@ -91,10 +113,6 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     const SizedBox(
                       height: 24,
                     ),
-                    Text(
-                      widget.productItemModel.description,
-                      style: TextStyles.regular13.copyWith(color: Colors.grey.shade600),
-                    ),
                   ],
                 ),
               ),
@@ -110,5 +128,23 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         ],
       ),
     );
+  }
+
+  Future<void> getUserName(String Uid) async {
+    final docRef = FirebaseFirestore.instance.collection(BackendEndpoints.addUserData).doc(Uid);
+    try {
+      DocumentSnapshot doc = await docRef.get();
+
+      if (doc.exists) {
+        setState(() {
+          userName = doc.get('name');
+          isLoading = false;
+        });
+      } else {
+        print('Document does not exist.');
+      }
+    } catch (e) {
+      print('Error getting document: $e');
+    }
   }
 }

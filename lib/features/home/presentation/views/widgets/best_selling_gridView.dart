@@ -7,7 +7,8 @@ import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'package:just_mart/widgets/item_product.dart';
 
 class BestSellingGridview extends StatefulWidget {
-  const BestSellingGridview({super.key});
+  const BestSellingGridview({super.key, required this.signedUID});
+  final String signedUID;
 
   @override
   State<BestSellingGridview> createState() => _BestSellingGridviewState();
@@ -53,9 +54,7 @@ class _BestSellingGridviewState extends State<BestSellingGridview> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProductDetailsView(
-                    productItemModel: allProducts[index],
-                  ),
+                  builder: (context) => ProductDetailsView(productItemModel: allProducts[index], signedUID: widget.signedUID),
                 ),
               );
             },

@@ -34,9 +34,11 @@ class HomeViewBody extends StatelessWidget {
             ),
           ),
         ),
-        const SliverPadding(
-          padding: EdgeInsets.symmetric(horizontal: kHorizantalPadding),
-          sliver: BestSellingGridview(),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizantalPadding),
+          sliver: BestSellingGridview(
+            signedUID: signedUID,
+          ),
         ),
         const SliverToBoxAdapter(
           child: SizedBox(height: 12), // Adjust the height as needed

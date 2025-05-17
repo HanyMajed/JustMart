@@ -7,8 +7,10 @@ import 'package:just_mart/core/services/custom_bloc_observer.dart';
 import 'package:just_mart/core/services/get_it_service.dart';
 import 'package:just_mart/core/services/shared_prefrences_singleton.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
+import 'package:just_mart/features/cart/cart_provider.dart';
 import 'package:just_mart/features/splash/presentation/views/splash_view.dart';
 import 'package:just_mart/firebase_options.dart';
+import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
 
@@ -20,7 +22,14 @@ void main() async {
   );
   await Prefs.init();
   setupGetIt();
-  runApp(const FrtuitHub());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()), // Changed from Provider
+      ],
+      child: const FrtuitHub(),
+    ),
+  );
 }
 
 class FrtuitHub extends StatelessWidget {

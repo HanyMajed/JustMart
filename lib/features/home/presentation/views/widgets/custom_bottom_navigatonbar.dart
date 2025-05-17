@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/home/presentation/views/domain/entites/bottom_navigation_bar_entity.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/cart_item.dart';
-import 'package:just_mart/features/home/presentation/views/widgets/cart_view.dart';
+import 'package:just_mart/features/cart/cart_view.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/naivtion_bar_item.dart';
 
 class CustomBottomNavigatonbar extends StatefulWidget {

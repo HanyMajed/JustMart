@@ -185,6 +185,7 @@ class _AddProductViewState extends State<AddProductView> {
       var docRef = await FirebaseFirestore.instance.collection(BackendEndpoints.addProduct).add(
             productItemModel!.toMap(),
           );
+      await docRef.update({'productId': docRef.id});
       log('thee document ref is ${docRef.id}');
 
       addProductIdToUser(userId: widget.signedUID!, productId: docRef.id);

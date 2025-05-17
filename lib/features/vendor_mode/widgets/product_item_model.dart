@@ -5,6 +5,8 @@ class ProductItemModel {
   final String description;
   final String price;
   final String imageBase64;
+  int quantity = 0;
+  String productId = "";
 
   ProductItemModel({
     required this.productCategory,

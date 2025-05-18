@@ -83,7 +83,9 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
           GestureDetector(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const CartView();
+                return CartView(
+                  signedUID: widget.signedUID,
+                );
               }));
             },
             child: Container(

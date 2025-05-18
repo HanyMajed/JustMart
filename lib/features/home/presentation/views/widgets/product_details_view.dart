@@ -28,7 +28,7 @@ class ProductDetailsView extends StatefulWidget {
 class _ProductDetailsViewState extends State<ProductDetailsView> {
   String? userName;
   bool isLoading = true;
-
+  int selectedQuantity = 1;
   @override
   void initState() {
     widget.decodedImage = base64Decode(widget.productItemModel.imageBase64);
@@ -107,7 +107,11 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           const Spacer(),
                           QuantitySelector(
                             initialValue: 1,
-                            onChanged: (value) {},
+                            onChanged: (value) {
+                              setState(() {
+                                selectedQuantity = value;
+                              });
+                            },
                           ),
                         ],
                       ),
@@ -134,7 +138,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       imageBase64: widget.productItemModel.imageBase64,
                     );
                     product.productId = widget.productId;
-                    context.read<CartProvider>().addToCart(product);
+                    context.read<CartProvider>().addToCart(product, quantity: selectedQuantity);
                     Navigator.pop(context);
                   },
                   text: 'اضافة الى السلة',

@@ -22,9 +22,9 @@ class ProfileListItem extends StatelessWidget {
       leading: Icon(icon, color: color, size: 22),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 13,
-          color: const Color(0xFF202124),
+          color: Color(0xFF202124),
           height: 1.4,
         ),
       ),

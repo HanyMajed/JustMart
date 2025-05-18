@@ -23,12 +23,13 @@ class _SplashViewBodyState extends State<SplashViewBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(mainAxisAlignment: MainAxisAlignment.end, children: [SvgPicture.asset(Assets.assetsImagesPlant)]),
-        SvgPicture.asset(Assets.assetsImagesLogo),
-        SvgPicture.asset(Assets.assetsImagesSplashBottom, fit: BoxFit.fill),
+        SvgPicture.asset(Assets.assetsImagesJustMartIcons, fit: BoxFit.fill),
+
+        //SvgPicture.asset(Assets.assetsImagesPlant)
+        //SvgPicture.asset(Assets.assetsImagesSplashBottom, fit: BoxFit.fill),
       ],
     );
   }

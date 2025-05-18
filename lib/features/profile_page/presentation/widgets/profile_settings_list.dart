@@ -80,7 +80,7 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
           onChanged: widget.onStudentModeChanged,
         ),
       ),
-      Padding(
+      const Padding(
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 16),
         child: Text(
           'المساعده',

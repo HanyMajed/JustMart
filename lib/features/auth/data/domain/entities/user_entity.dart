@@ -1,3 +1,5 @@
+import 'package:just_mart/features/orders/order_model.dart';
+
 class UserEntity {
   String name;
   final String email;
@@ -6,8 +8,9 @@ class UserEntity {
   String phoneNumber;
 
   List<String> allProducts = [];
+  List<String> allOrders = [];
 
-  UserEntity({required this.name, required this.email, required this.uId, required this.role , required this.phoneNumber});
+  UserEntity({required this.name, required this.email, required this.uId, required this.role, required this.phoneNumber});
 
   toMap() {
     return {

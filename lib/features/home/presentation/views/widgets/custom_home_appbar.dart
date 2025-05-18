@@ -5,6 +5,7 @@ import 'package:just_mart/core/utils/app_images.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/Notification_widget.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/signout_icon.dart';
+import 'package:just_mart/features/profile_page/presentation/widgets/profile_screen.dart';
 import 'package:just_mart/features/vendor_mode/widgets/vendor_icon_widget.dart';
 
 class CustomHomeAppbar extends StatelessWidget {
@@ -52,7 +53,7 @@ class CustomHomeAppbar extends StatelessWidget {
                     SignOutWidget(),
                   ],
                 ),
-          leading: Image.asset(Assets.assetsImagesProfilePhotoIcon),
+          leading: _buildPressableProfilePhoto(context),
           title: Text(
             'مرحبا بك',
             textAlign: TextAlign.right,
@@ -67,6 +68,15 @@ class CustomHomeAppbar extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildPressableProfilePhoto(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, ProfileScreen.routeName);
+      },
+      child: Image.asset(Assets.assetsImagesProfilePhotoIcon),
     );
   }
 
@@ -96,7 +106,10 @@ class CustomHomeAppbar extends StatelessWidget {
 
   Future<Map<String, dynamic>> fetchUserData() async {
     try {
-      final doc = await FirebaseFirestore.instance.collection('users').doc(signedUID).get();
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(signedUID)
+          .get();
       return doc.data() ?? {};
     } catch (e) {
       debugPrint('Error fetching user: $e');

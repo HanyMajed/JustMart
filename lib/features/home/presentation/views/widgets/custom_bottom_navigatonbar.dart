@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
-import 'package:just_mart/features/home/presentation/views/domain/entites/bottom_navigation_bar_entity.dart';
-import 'package:just_mart/features/home/presentation/views/widgets/cart_item.dart';
+
 import 'package:just_mart/features/cart/cart_view.dart';
-import 'package:just_mart/features/home/presentation/views/widgets/naivtion_bar_item.dart';
+import 'package:just_mart/features/home/presentation/views/widgets/category_view.dart';
 
 class CustomBottomNavigatonbar extends StatefulWidget {
-  const CustomBottomNavigatonbar({super.key});
-
+  const CustomBottomNavigatonbar({super.key, required this.signedUID});
+  final String signedUID;
   @override
   State<CustomBottomNavigatonbar> createState() => _CustomBottomNavigatonbarState();
 }
@@ -72,7 +71,7 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
-                      Icons.home,
+                      Icons.account_box,
                       size: 18,
                       color: Colors.white,
                     ),
@@ -98,7 +97,13 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
                 child: const Icon(Icons.shopping_cart)),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CategoryView(
+                  signedUID: widget.signedUID,
+                );
+              }));
+            },
             child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 8),
                 width: 110,

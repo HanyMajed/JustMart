@@ -54,7 +54,11 @@ class _BestSellingGridviewState extends State<BestSellingGridview> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProductDetailsView(productItemModel: allProducts[index], signedUID: widget.signedUID),
+                  builder: (context) => ProductDetailsView(
+                    productItemModel: allProducts[index],
+                    signedUID: widget.signedUID,
+                    productId: allProducts[index].productId,
+                  ),
                 ),
               );
             },
@@ -80,7 +84,7 @@ class _BestSellingGridviewState extends State<BestSellingGridview> {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(BackendEndpoints.addProduct).get();
 
       List<ProductItemModel> tempProducts = querySnapshot.docs.map((doc) {
-        return ProductItemModel(
+        var product = ProductItemModel(
           productCategory: doc['productCategory'] ?? '',
           vendorId: doc['vendorId'] ?? '',
           productName: doc['name'] ?? '',
@@ -88,6 +92,8 @@ class _BestSellingGridviewState extends State<BestSellingGridview> {
           description: doc['description'] ?? '',
           price: doc['price'] ?? '0',
         );
+        product.productId = doc.id;
+        return product;
       }).toList();
 
       setState(() {

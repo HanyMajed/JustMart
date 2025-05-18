@@ -15,12 +15,12 @@ import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'package:just_mart/widgets/custom_button.dart';
 
 class ProductDetailsView extends StatefulWidget {
-  ProductDetailsView({super.key, required this.productItemModel, required this.signedUID});
+  ProductDetailsView({super.key, required this.productItemModel, required this.signedUID, required this.productId});
   static const String routeName = "ProductDetailsView";
   final ProductItemModel productItemModel;
   var decodedImage;
   final String signedUID;
-
+  final String productId;
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
 }
@@ -133,7 +133,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       price: widget.productItemModel.price,
                       imageBase64: widget.productItemModel.imageBase64,
                     );
-
+                    product.productId = widget.productId;
                     context.read<CartProvider>().addToCart(product);
                     Navigator.pop(context);
                   },

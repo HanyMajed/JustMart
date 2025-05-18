@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:just_mart/constants.dart';
-import 'package:just_mart/core/utils/app_images.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
-import 'package:just_mart/features/home/presentation/views/widgets/category_item.dart';
+import 'package:just_mart/features/category/category_item.dart';
+import 'package:just_mart/features/home/presentation/views/widgets/best_selling_gridView.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/custom_home_appbar.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/search_text_field.dart';
 
@@ -10,9 +12,10 @@ class CategoryView extends StatelessWidget {
   CategoryView({super.key, required this.signedUID});
   final String signedUID;
   final List<Map<String, String>> categories = [
+    {"text": "الكل", "image": "assets/images/kinds.jpg"},
     {"text": "لوازم الدراسة", "image": "assets/images/studying.jpg"},
     {"text": "التقنية والإلكترونيات", "image": "assets/images/electronics_test.png"},
-    {"text": "الملابس الموضة", "image": "assets/images/clothes.jpg"},
+    {"text": "الملابس والموضة", "image": "assets/images/clothes.jpg"},
     {"text": "الطعام والحلويات", "image": "assets/images/food.jpg"},
     {"text": "الترفيه والهوايات", "image": "assets/images/hobbies.jpg"},
     {"text": "الإكسوارات", "image": "assets/images/accessories.jpg"},
@@ -60,9 +63,16 @@ class CategoryView extends StatelessWidget {
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
                 children: categories
-                    .map((category) => CategoryItem(
-                          image: category['image']!,
-                          text: category['text']!,
+                    .map((category) => GestureDetector(
+                          onTap: () {
+                            selectedCategory = category['text']!;
+                            log(selectedCategory);
+                            Navigator.pop(context, 'refresh');
+                          },
+                          child: CategoryItem(
+                            image: category['image']!,
+                            text: category['text']!,
+                          ),
                         ))
                     .toList(),
               ),

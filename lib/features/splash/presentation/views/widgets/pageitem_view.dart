@@ -44,7 +44,8 @@ class PageVIewItem extends StatelessWidget {
                     onTap: () {
                       Prefs.setBool(kIsOnBoardingViewSeen, true);
 
-                      Navigator.of(context).pushReplacementNamed(SignInView.routeName);
+                      Navigator.of(context)
+                          .pushReplacementNamed(SignInView.routeName);
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(16.0),
@@ -63,7 +64,8 @@ class PageVIewItem extends StatelessWidget {
             child: Text(
               subTitle,
               textAlign: TextAlign.center,
-              style: TextStyles.semiBold13.copyWith(color: const Color(0xff4e5456)),
+              style: TextStyles.semiBold13
+                  .copyWith(color: const Color(0xff4e5456)),
             ),
           ),
         ],

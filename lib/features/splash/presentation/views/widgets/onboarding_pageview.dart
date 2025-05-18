@@ -16,7 +16,7 @@ class OnboardingPageview extends StatelessWidget {
           isVisible:
               (pageController.hasClients ? pageController.page!.round() : 0) ==
                   0,
-          image: Assets.assetsImagesJustMartIcons,
+          image: Assets.assetsImagesOnboarding1,
           backgroungImage: Assets.assetsImagesItemViewpage1BackgroundImage,
           subTitle:
               "اكتشف تجربة تسوق مميزة مع JUST MART - المنصة الأولى المخصصة لمجتمع جامعة العلوم والتكنولوجيا. استعرض مشاريع الطلاب الإبداعية، المنتجات اليدوية الفريدة، والعروض الحصرية بأسعار تنافسية، كل ذلك ضمن بيئة آمنة ومخصصة لأعضاء الجامعة فقط.",
@@ -44,7 +44,7 @@ class OnboardingPageview extends StatelessWidget {
           isVisible:
               (pageController.hasClients ? pageController.page!.round() : 0) ==
                   0,
-          image: Assets.assetsImagesItemViewpage2Image,
+          image: Assets.assetsImagesOnboarding2,
           backgroungImage: Assets.assetsImagesItemViewpage2BackgroundImage,
           subTitle:
               "نُقدِّم لك أفضل المنتجات الطلابية المميزة المُصمَّمة بأيدي طلاب جامعة العلوم والتكنولوجيا. اطَّلِع على التفاصيل الفريدة، الصور التوضيحية، وتقييمات المُستخدمين لتتأكَّد من دعمك للمشاريع الريادية التي تُلبي احتياجاتك وتُعزِّز روح الإبداع داخل الحرم الجامعي.",

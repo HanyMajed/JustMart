@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_mart/features/auth/signin_view.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/primary_button.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/profile_header.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/profile_settings_list.dart';
@@ -61,8 +62,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   confirmText: 'نعم',
                   cancelText: 'إلغاء',
                   onConfirm: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    // Navigator.pop(context);
+                    Navigator.of(context)
+                        .pushReplacementNamed(SignInView.routeName);
                   },
                   onCancel: () {},
                 );

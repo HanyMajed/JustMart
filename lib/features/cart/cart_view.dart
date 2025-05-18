@@ -6,23 +6,72 @@ import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/cart/cart_provider.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/cart_item.dart';
+import 'package:just_mart/features/orders/my_orders.dart';
+import 'package:just_mart/features/orders/order_model.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'package:just_mart/widgets/custom_button.dart';
 
 class CartView extends StatefulWidget {
-  const CartView({super.key});
-
+  const CartView({super.key, required this.signedUID});
+  final String signedUID;
   @override
   State<CartView> createState() => _CartViewState();
 }
 
 class _CartViewState extends State<CartView> {
   double? totalPrice;
+  bool _isPlacingOrder = false; // Track order placement state
+
   @override
   void initState() {
     totalPrice = context.read<CartProvider>().total;
     super.initState();
+  }
+
+  Future<void> _placeOrder() async {
+    if (_isPlacingOrder) return; // Prevent multiple taps
+
+    setState(() => _isPlacingOrder = true);
+
+    try {
+      final cartProvider = context.read<CartProvider>();
+
+      final order = OrderModel(
+        buyerId: widget.signedUID,
+        orderItems: cartProvider.items,
+        totalPrice: cartProvider.total,
+      );
+
+      await order.placeOrder(widget.signedUID);
+
+      // Success handling
+      //cartProvider.clearCart(); // Clear the cart after successful order
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('تم تأكيد الطلب بنجاح! رقم الطلب: ${order.orderId}'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+
+      // Optionally navigate back or to orders screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MyOrders(order: order)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('فشل تأكيد الطلب: ${e.toString()}'),
+          backgroundColor: const Color.fromARGB(255, 134, 9, 0),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isPlacingOrder = false);
+      }
+    }
   }
 
   @override
@@ -53,45 +102,51 @@ class _CartViewState extends State<CartView> {
                   ),
                 ),
                 SizedBox(
-                    width: 280,
-                    child: Container(
-                      height: 50,
-                      decoration: const BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(14),
-                        ),
+                  width: 280,
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: _isPlacingOrder
+                          ? Colors.grey // Disabled color
+                          : AppColors.primaryColor,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(14),
                       ),
-                      child: Center(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'تأكيد الطلب بقيمة  ',
-                                style: TextStyles.semiBold16.copyWith(
-                                  color: Colors.white,
+                    ),
+                    child: _isPlacingOrder
+                        ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                        : GestureDetector(
+                            onTap: _placeOrder,
+                            child: Center(
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'تأكيد الطلب بقيمة  ',
+                                      style: TextStyles.semiBold16.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: cartProvider.total.toStringAsFixed(2),
+                                      style: TextStyles.semiBold16.copyWith(
+                                        color: AppColors.seconderyColor,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: ' دينار',
+                                      style: TextStyles.semiBold16.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              TextSpan(
-                                text: cartProvider.total.toStringAsFixed(2),
-                                style: TextStyles.semiBold16.copyWith(
-                                  color: AppColors.seconderyColor,
-                                ),
-                              ),
-                              TextSpan(
-                                text: ' دينار',
-                                style: TextStyles.semiBold16.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    )),
-                const SizedBox(
-                  height: 16,
-                )
+                  ),
+                ),
+                const SizedBox(height: 16),
               ],
             ),
     );

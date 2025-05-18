@@ -12,7 +12,7 @@ class CategoryView extends StatelessWidget {
   CategoryView({super.key, required this.signedUID});
   final String signedUID;
   final List<Map<String, String>> categories = [
-    {"text": "الكل", "image": "assets/images/kinds.jpg"},
+    {"text": "الكل", "image": "assets/images/all.png"},
     {"text": "لوازم الدراسة", "image": "assets/images/studying.jpg"},
     {"text": "التقنية والإلكترونيات", "image": "assets/images/electronics_test.png"},
     {"text": "الملابس والموضة", "image": "assets/images/clothes.jpg"},

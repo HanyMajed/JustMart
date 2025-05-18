@@ -30,36 +30,38 @@ class _CartViewState extends State<CartView> {
 
     return Scaffold(
       appBar: appbarForVendorViews(title: "السلة"),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: cartItems.length,
-              itemBuilder: (context, index) {
-                return CartItem(
-                  onRemove: () {
-                    cartProvider.removeFromCart(cartItems[index].productId);
-                    setState(() {
-                      totalPrice = cartProvider.total;
-                    });
-                  },
-                  product: cartItems[index],
-                );
-              },
+      body: cartItems.isEmpty
+          ? const Center(child: Text('لم يتم العثور على المنتجات'))
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: cartItems.length,
+                    itemBuilder: (context, index) {
+                      return CartItem(
+                        onRemove: () {
+                          cartProvider.removeFromCart(cartItems[index].productId);
+                          setState(() {
+                            totalPrice = cartProvider.total;
+                          });
+                        },
+                        product: cartItems[index],
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 200,
+                  child: CustomButton(
+                    onPressed: () {},
+                    text: "تأكيد الطلب بقيمة ${cartProvider.total.toStringAsFixed(2)},",
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                )
+              ],
             ),
-          ),
-          SizedBox(
-            width: 200,
-            child: CustomButton(
-              onPressed: () {},
-              text: "تأكيد الطلب بقيمة ${cartProvider.total.toStringAsFixed(2)},",
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          )
-        ],
-      ),
     );
   }
 }

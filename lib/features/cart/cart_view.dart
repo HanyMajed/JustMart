@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_mart/core/utils/app_colors.dart';
+import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/cart/cart_provider.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/cart_item.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
@@ -51,12 +53,42 @@ class _CartViewState extends State<CartView> {
                   ),
                 ),
                 SizedBox(
-                  width: 200,
-                  child: CustomButton(
-                    onPressed: () {},
-                    text: "تأكيد الطلب بقيمة ${cartProvider.total.toStringAsFixed(2)},",
-                  ),
-                ),
+                    width: 280,
+                    child: Container(
+                      height: 50,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(14),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'تأكيد الطلب بقيمة  ',
+                                style: TextStyles.semiBold16.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              TextSpan(
+                                text: cartProvider.total.toStringAsFixed(2),
+                                style: TextStyles.semiBold16.copyWith(
+                                  color: AppColors.seconderyColor,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ' دينار',
+                                style: TextStyles.semiBold16.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )),
                 const SizedBox(
                   height: 16,
                 )

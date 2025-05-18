@@ -13,11 +13,13 @@ class CartProvider with ChangeNotifier {
       );
 
   void addToCart(ProductItemModel product, {int quantity = 1}) {
-    final existingIndex = _items.indexWhere((item) => item.productId == product.productId);
+    final existingIndex = _items.indexWhere((item) => item.productId == product.productId && item.productId.isNotEmpty);
 
     if (existingIndex >= 0) {
+      // If product exists, add the new quantity to existing quantity
       _items[existingIndex].quantity += quantity;
     } else {
+      // If new product, add with the specified quantity
       _items.add(product..quantity = quantity);
     }
     notifyListeners();

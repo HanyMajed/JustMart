@@ -25,6 +25,8 @@ class CartItem extends StatefulWidget {
 class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
+    final cartProvider = context.read<CartProvider>();
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       height: 100,
@@ -54,11 +56,10 @@ class _CartItemState extends State<CartItem> {
               ),
               QuantitySelector(
                 initialValue: widget.product.quantity,
-                onChanged: (value) {
-                  // Update quantity in cart
-                  context.read<CartProvider>().updateQuantity(widget.product.productId, value);
+                onChanged: (newQuantity) {
+                  cartProvider.updateQuantity(widget.product.productId, newQuantity);
                 },
-              )
+              ),
             ],
           ),
           const Spacer(),

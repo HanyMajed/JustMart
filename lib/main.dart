@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:just_mart/core/helper_functions/on_generate_routes.dart';
+import 'package:just_mart/core/helper_functions/theam_provider.dart';
 import 'package:just_mart/core/services/custom_bloc_observer.dart';
 import 'package:just_mart/core/services/get_it_service.dart';
 import 'package:just_mart/core/services/shared_prefrences_singleton.dart';
@@ -29,6 +30,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: const FrtuitHub(),
     ),
@@ -40,28 +42,41 @@ class FrtuitHub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'Cairo',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primaryColor,
-        ),
-      ),
-      localizationsDelegates: const [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      locale: const Locale('ar'),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: onGenerateRoute,
-      initialRoute: SplashView.routeName,
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            fontFamily: 'Cairo',
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: AppColors.primaryColor,
+            ),
+          ),
+          darkTheme: ThemeData(
+            scaffoldBackgroundColor: Colors.grey[900],
+            fontFamily: 'Cairo',
+            colorScheme: ColorScheme.dark(
+              primary: AppColors.primaryColor,
+            ),
+          ),
+          themeMode:
+              themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          locale: const Locale('ar'),
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: onGenerateRoute,
+          initialRoute: SplashView.routeName,
 
-      // Add the routeObserver here
-      navigatorObservers: [routeObserver],
+          // Add the routeObserver here
+          navigatorObservers: [routeObserver],
+        );
+      },
     );
   }
 }

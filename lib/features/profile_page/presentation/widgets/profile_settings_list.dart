@@ -75,9 +75,9 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
         title: 'الوضع',
         color: AppColors.lightprimaryColor,
         trailing: Switch(
-          value: widget.isStudentMode,
+          value: widget.isDarkMode, // Now using dark mode state
           activeColor: AppColors.lightprimaryColor,
-          onChanged: widget.onStudentModeChanged,
+          onChanged: widget.onDarkModeChanged, // Now using dark mode callback
         ),
       ),
       const Padding(

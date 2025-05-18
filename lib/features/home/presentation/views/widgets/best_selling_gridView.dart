@@ -16,7 +16,8 @@ class BestSellingGridview extends StatefulWidget {
   State<BestSellingGridview> createState() => _BestSellingGridviewState();
 }
 
-class _BestSellingGridviewState extends State<BestSellingGridview> with RouteAware {
+class _BestSellingGridviewState extends State<BestSellingGridview>
+    with RouteAware {
   List<ProductItemModel> productsWithCategory = [];
   List<ProductItemModel> allproducts = [];
 
@@ -53,10 +54,13 @@ class _BestSellingGridviewState extends State<BestSellingGridview> with RouteAwa
 
   // 👇 Called when this screen is visible again (after popping from CategoryView)
   @override
+  @override
   void didPopNext() {
-    setState(() {
-      fetchProductsBasedOnCategory();
-    });
+    if (mounted) {
+      setState(() {
+        fetchProductsBasedOnCategory();
+      });
+    }
   }
 
   @override
@@ -73,7 +77,8 @@ class _BestSellingGridviewState extends State<BestSellingGridview> with RouteAwa
       );
     }
 
-    List<ProductItemModel> displayedProducts = selectedCategory == 'الكل' ? allproducts : productsWithCategory;
+    List<ProductItemModel> displayedProducts =
+        selectedCategory == 'الكل' ? allproducts : productsWithCategory;
 
     return SliverGrid(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -117,31 +122,34 @@ class _BestSellingGridviewState extends State<BestSellingGridview> with RouteAwa
 
   Future<void> getAllProducts() async {
     try {
+      if (!mounted) return;
       setState(() {
         isLoading = true;
         error = null;
       });
 
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(BackendEndpoints.addProduct).get();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection(BackendEndpoints.addProduct)
+          .get();
 
-      List<ProductItemModel> tempProducts = querySnapshot.docs.map((doc) {
-        var product = ProductItemModel(
-          productCategory: doc['productCategory'] ?? '',
-          vendorId: doc['vendorId'] ?? '',
-          productName: doc['name'] ?? '',
-          imageBase64: doc['imageBase64'] ?? '',
-          description: doc['description'] ?? '',
-          price: doc['price'] ?? '0',
-        );
-        product.productId = doc.id;
-        return product;
-      }).toList();
-
+      if (!mounted) return;
       setState(() {
-        allproducts = tempProducts;
+        allproducts = querySnapshot.docs.map((doc) {
+          var product = ProductItemModel(
+            productCategory: doc['productCategory'] ?? '',
+            vendorId: doc['vendorId'] ?? '',
+            productName: doc['name'] ?? '',
+            imageBase64: doc['imageBase64'] ?? '',
+            description: doc['description'] ?? '',
+            price: doc['price'] ?? '0',
+          );
+          product.productId = doc.id;
+          return product;
+        }).toList();
         isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         error = e.toString();
         isLoading = false;
@@ -156,8 +164,10 @@ class _BestSellingGridviewState extends State<BestSellingGridview> with RouteAwa
         error = null;
       });
 
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection(BackendEndpoints.addProduct).where('productCategory', isEqualTo: categoryName).get();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection(BackendEndpoints.addProduct)
+          .where('productCategory', isEqualTo: categoryName)
+          .get();
 
       List<ProductItemModel> tempProducts = querySnapshot.docs.map((doc) {
         var product = ProductItemModel(

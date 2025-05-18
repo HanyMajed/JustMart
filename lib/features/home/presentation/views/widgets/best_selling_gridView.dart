@@ -1,10 +1,12 @@
-import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/backend_endpoints.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/product_details_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'package:just_mart/widgets/item_product.dart';
+import 'package:just_mart/main.dart'; // 👈 Import where routeObserver is defined
+
+String selectedCategory = 'الكل';
 
 class BestSellingGridview extends StatefulWidget {
   const BestSellingGridview({super.key, required this.signedUID});
@@ -14,15 +16,47 @@ class BestSellingGridview extends StatefulWidget {
   State<BestSellingGridview> createState() => _BestSellingGridviewState();
 }
 
-class _BestSellingGridviewState extends State<BestSellingGridview> {
-  List<ProductItemModel> allProducts = [];
+class _BestSellingGridviewState extends State<BestSellingGridview> with RouteAware {
+  List<ProductItemModel> productsWithCategory = [];
+  List<ProductItemModel> allproducts = [];
+
   bool isLoading = true;
   String? error;
 
   @override
   void initState() {
-    getAllProducts();
     super.initState();
+    fetchProductsBasedOnCategory();
+  }
+
+  void fetchProductsBasedOnCategory() {
+    if (selectedCategory == 'الكل') {
+      getAllProducts();
+    } else {
+      getProductsByCategory(selectedCategory);
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 👇 Subscribe to route changes
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    // 👇 Unsubscribe when done
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  // 👇 Called when this screen is visible again (after popping from CategoryView)
+  @override
+  void didPopNext() {
+    setState(() {
+      fetchProductsBasedOnCategory();
+    });
   }
 
   @override
@@ -39,6 +73,8 @@ class _BestSellingGridviewState extends State<BestSellingGridview> {
       );
     }
 
+    List<ProductItemModel> displayedProducts = selectedCategory == 'الكل' ? allproducts : productsWithCategory;
+
     return SliverGrid(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         mainAxisExtent: 200,
@@ -50,26 +86,31 @@ class _BestSellingGridviewState extends State<BestSellingGridview> {
       delegate: SliverChildBuilderDelegate(
         (context, index) {
           return GestureDetector(
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProductDetailsView(
-                    productItemModel: allProducts[index],
+                    productItemModel: displayedProducts[index],
                     signedUID: widget.signedUID,
-                    productId: allProducts[index].productId,
+                    productId: displayedProducts[index].productId,
                   ),
                 ),
               );
+              if (result == 'refresh') {
+                setState(() {
+                  fetchProductsBasedOnCategory();
+                });
+              }
             },
             child: ItemProduct(
-              productImage: allProducts[index].imageBase64,
-              productName: allProducts[index].productName,
-              productPrice: allProducts[index].price,
+              productImage: displayedProducts[index].imageBase64,
+              productName: displayedProducts[index].productName,
+              productPrice: displayedProducts[index].price,
             ),
           );
         },
-        childCount: allProducts.length,
+        childCount: displayedProducts.length,
       ),
     );
   }
@@ -97,7 +138,7 @@ class _BestSellingGridviewState extends State<BestSellingGridview> {
       }).toList();
 
       setState(() {
-        allProducts = tempProducts;
+        allproducts = tempProducts;
         isLoading = false;
       });
     } catch (e) {
@@ -105,7 +146,41 @@ class _BestSellingGridviewState extends State<BestSellingGridview> {
         error = e.toString();
         isLoading = false;
       });
-      print('Error fetching products: $e');
+    }
+  }
+
+  Future<void> getProductsByCategory(String categoryName) async {
+    try {
+      setState(() {
+        isLoading = true;
+        error = null;
+      });
+
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection(BackendEndpoints.addProduct).where('productCategory', isEqualTo: categoryName).get();
+
+      List<ProductItemModel> tempProducts = querySnapshot.docs.map((doc) {
+        var product = ProductItemModel(
+          productCategory: doc['productCategory'] ?? '',
+          vendorId: doc['vendorId'] ?? '',
+          productName: doc['name'] ?? '',
+          imageBase64: doc['imageBase64'] ?? '',
+          description: doc['description'] ?? '',
+          price: doc['price'] ?? '0',
+        );
+        product.productId = doc.id;
+        return product;
+      }).toList();
+
+      setState(() {
+        productsWithCategory = tempProducts;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        error = e.toString();
+        isLoading = false;
+      });
     }
   }
 }

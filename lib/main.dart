@@ -14,6 +14,8 @@ import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
 
+final RouteObserver<ModalRoute<void>> routeObserver = RouteObserver<ModalRoute<void>>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = CustomBlocObserver();
@@ -25,7 +27,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CartProvider()), // Changed from Provider
+        ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: const FrtuitHub(),
     ),
@@ -56,6 +58,9 @@ class FrtuitHub extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: onGenerateRoute,
       initialRoute: SplashView.routeName,
+
+      // Add the routeObserver here
+      navigatorObservers: [routeObserver],
     );
   }
 }

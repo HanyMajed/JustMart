@@ -12,7 +12,9 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     log(signedUID);
     return Scaffold(
-      bottomNavigationBar: const CustomBottomNavigatonbar(),
+      bottomNavigationBar: CustomBottomNavigatonbar(
+        signedUID: signedUID,
+      ),
       body: SafeArea(
           child: HomeViewBody(
         signedUID: signedUID,

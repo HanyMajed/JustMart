@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/primary_button.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/profile_header.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/profile_settings_list.dart';
+import 'package:just_mart/widgets/confirmation_dialog.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -51,8 +52,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             PrimaryButton(
+              icon: Icons.logout,
               text: 'تسجيل الخروج',
-              onPressed: () {},
+              onPressed: () {
+                ConfirmationDialog.show(
+                  context: context,
+                  title: 'هل ترغب في تسجيل الخروج؟',
+                  confirmText: 'نعم',
+                  cancelText: 'إلغاء',
+                  onConfirm: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  onCancel: () {},
+                );
+              },
             ),
           ],
         ),

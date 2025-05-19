@@ -2,9 +2,17 @@
 class Assets {
   Assets._();
   
+  /// Assets for assetsImagesAccessories
+  /// assets/images/accessories.jpg
+  static const String assetsImagesAccessories = "assets/images/accessories.jpg";
+
   /// Assets for assetsImagesApple
   /// assets/images/apple.svg
   static const String assetsImagesApple = "assets/images/apple.svg";
+
+  /// Assets for assetsImagesClothes
+  /// assets/images/clothes.jpg
+  static const String assetsImagesClothes = "assets/images/clothes.jpg";
 
   /// Assets for assetsImagesElectonics
   /// assets/images/electonics.svg
@@ -26,9 +34,17 @@ class Assets {
   /// assets/images/filtter.svg
   static const String assetsImagesFiltter = "assets/images/filtter.svg";
 
+  /// Assets for assetsImagesFood
+  /// assets/images/food.jpg
+  static const String assetsImagesFood = "assets/images/food.jpg";
+
   /// Assets for assetsImagesGoogle
   /// assets/images/google.svg
   static const String assetsImagesGoogle = "assets/images/google.svg";
+
+  /// Assets for assetsImagesHobbies
+  /// assets/images/hobbies.jpg
+  static const String assetsImagesHobbies = "assets/images/hobbies.jpg";
 
   /// Assets for assetsImagesIcon
   /// assets/images/icon.png
@@ -62,6 +78,10 @@ class Assets {
   /// assets/images/just_mart_icons.svg
   static const String assetsImagesJustMartIcons = "assets/images/just_mart_icons.svg";
 
+  /// Assets for assetsImagesKinds
+  /// assets/images/kinds.jpg
+  static const String assetsImagesKinds = "assets/images/kinds.jpg";
+
   /// Assets for assetsImagesLauncherIcon
   /// assets/images/launcher_icon.png
   static const String assetsImagesLauncherIcon = "assets/images/launcher_icon.png";
@@ -74,9 +94,25 @@ class Assets {
   /// assets/images/notifiacation_icon.svg
   static const String assetsImagesNotifiacationIcon = "assets/images/notifiacation_icon.svg";
 
+  /// Assets for assetsImagesOnboarding1
+  /// assets/images/onboarding1.svg
+  static const String assetsImagesOnboarding1 = "assets/images/onboarding1.svg";
+
+  /// Assets for assetsImagesOnboarding2
+  /// assets/images/onboarding2.svg
+  static const String assetsImagesOnboarding2 = "assets/images/onboarding2.svg";
+
+  /// Assets for assetsImagesOther
+  /// assets/images/other.jpg
+  static const String assetsImagesOther = "assets/images/other.jpg";
+
   /// Assets for assetsImagesPlant
   /// assets/images/plant.svg
   static const String assetsImagesPlant = "assets/images/plant.svg";
+
+  /// Assets for assetsImagesProduct
+  /// assets/images/product.jpeg
+  static const String assetsImagesProduct = "assets/images/product.jpeg";
 
   /// Assets for assetsImagesProfilePhoto
   /// assets/images/profile_photo.svg
@@ -97,6 +133,10 @@ class Assets {
   /// Assets for assetsImagesSplashBottom
   /// assets/images/splash_bottom.svg
   static const String assetsImagesSplashBottom = "assets/images/splash_bottom.svg";
+
+  /// Assets for assetsImagesStudying
+  /// assets/images/studying.jpg
+  static const String assetsImagesStudying = "assets/images/studying.jpg";
 
   /// Assets for assetsImagesVector
   /// assets/images/Vector.svg

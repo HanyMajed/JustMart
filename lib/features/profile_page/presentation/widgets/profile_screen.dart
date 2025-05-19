@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:just_mart/core/helper_functions/theam_provider.dart';
+import 'package:just_mart/features/auth/signin_view.dart';
+import 'package:provider/provider.dart'; // Required import
 import 'package:just_mart/features/profile_page/presentation/widgets/primary_button.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/profile_header.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/profile_settings_list.dart';
+import 'package:just_mart/widgets/confirmation_dialog.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -12,7 +16,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _isDarkMode = false;
   bool _isStudentMode = false;
 
   @override
@@ -41,18 +44,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const Divider(height: 1, color: Color(0xFFEEEEEE)),
             Expanded(
-              child: ProfileSettingsList(
-                isDarkMode: _isDarkMode,
-                isStudentMode: _isStudentMode,
-                onDarkModeChanged: (value) =>
-                    setState(() => _isDarkMode = value),
-                onStudentModeChanged: (value) =>
-                    setState(() => _isStudentMode = value),
+              child: Consumer<ThemeProvider>(
+                // Now properly recognized
+                builder: (context, themeProvider, child) {
+                  return ProfileSettingsList(
+                    isDarkMode: themeProvider.isDarkMode,
+                    isStudentMode: _isStudentMode,
+                    onDarkModeChanged: (value) =>
+                        themeProvider.toggleTheme(value),
+                    onStudentModeChanged: (value) =>
+                        setState(() => _isStudentMode = value),
+                  );
+                },
               ),
             ),
             PrimaryButton(
+              icon: Icons.logout,
               text: 'تسجيل الخروج',
-              onPressed: () {},
+              onPressed: () {
+                ConfirmationDialog.show(
+                  context: context,
+                  title: 'هل ترغب في تسجيل الخروج؟',
+                  confirmText: 'نعم',
+                  cancelText: 'إلغاء',
+                  onConfirm: () {
+                    // Navigator.pop(context);
+                    // Navigator.pop(context);
+                    Navigator.of(context)
+                        .pushReplacementNamed(SignInView.routeName);
+                  },
+                  onCancel: () {},
+                );
+              },
             ),
           ],
         ),

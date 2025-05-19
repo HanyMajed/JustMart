@@ -8,7 +8,8 @@ class CustomBottomNavigatonbar extends StatefulWidget {
   const CustomBottomNavigatonbar({super.key, required this.signedUID});
   final String signedUID;
   @override
-  State<CustomBottomNavigatonbar> createState() => _CustomBottomNavigatonbarState();
+  State<CustomBottomNavigatonbar> createState() =>
+      _CustomBottomNavigatonbarState();
 }
 
 class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
@@ -89,14 +90,15 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
               }));
             },
             child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                width: 110,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF1F1F1), // light grey background
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Icon(Icons.shopping_cart)),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              width: 110,
+              height: 40,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F1F1), // light grey background
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(Icons.shopping_cart),
+            ),
           ),
           GestureDetector(
             onTap: () {
@@ -107,14 +109,15 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
               }));
             },
             child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                width: 110,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF1F1F1), // light grey background
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Icon(Icons.category)),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              width: 110,
+              height: 40,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F1F1), // light grey background
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(Icons.category),
+            ),
           ),
         ],
       ),

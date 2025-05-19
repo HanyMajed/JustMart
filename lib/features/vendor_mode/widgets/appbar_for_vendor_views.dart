@@ -5,14 +5,14 @@ import 'package:just_mart/core/utils/app_text_styles.dart';
 AppBar appbarForVendorViews({required String title}) {
   return AppBar(
     iconTheme: const IconThemeData(
-      color: Colors.white, // Change this to your desired color
+      color: Colors.black, // Change this to your desired color
     ),
-    backgroundColor: AppColors.primaryColor,
+    backgroundColor: Colors.white,
     elevation: 0,
     title: Text(
       title,
       textAlign: TextAlign.center,
-      style: TextStyles.bold19.copyWith(color: Colors.white),
+      style: TextStyles.bold19.copyWith(color: Colors.black),
     ),
   );
 }

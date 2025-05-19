@@ -9,9 +9,9 @@ import 'package:just_mart/features/home/presentation/views/widgets/featured_list
 import 'package:just_mart/features/home/presentation/views/widgets/search_text_field.dart';
 
 class HomeViewBody extends StatelessWidget {
-  const HomeViewBody({super.key, required this.signedUID});
+  HomeViewBody({super.key, required this.signedUID, this.title = "كل المنتجات"});
   final String signedUID;
-
+  String title;
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -28,7 +28,7 @@ class HomeViewBody extends StatelessWidget {
                 const SizedBox(height: 12),
                 const FeaturedList(),
                 const SizedBox(height: 12),
-                const BestSellingHeader(),
+                BestSellingHeader(text: title),
                 const SizedBox(height: 8),
               ],
             ),

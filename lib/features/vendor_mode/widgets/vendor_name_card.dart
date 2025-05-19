@@ -1,0 +1,154 @@
+import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:just_mart/core/utils/app_colors.dart';
+import 'package:just_mart/core/utils/app_text_styles.dart';
+import 'package:just_mart/features/auth/data/domain/entities/user_entity.dart';
+import 'package:just_mart/features/vendor_mode/widgets/vendor_items_grid_display.dart';
+
+class VendorNameCard extends StatefulWidget {
+  const VendorNameCard({
+    super.key,
+    required this.vendor,
+    required this.signedUID,
+  });
+
+  final UserEntity vendor;
+  final String signedUID;
+
+  @override
+  State<VendorNameCard> createState() => _VendorNameCardState();
+}
+
+class _VendorNameCardState extends State<VendorNameCard> {
+  String base64ImageEncoded = '';
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVendorImage();
+  }
+
+  Future<void> _loadVendorImage() async {
+    await getFirstProductImageForVendor(widget.vendor);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VendorItemsGridDisplay(
+              signedUID: widget.signedUID,
+              vendor: widget.vendor,
+            ),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Container(
+          height: 100,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _buildImageBox(),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.vendor.name,
+                    style: TextStyles.bold19.copyWith(color: AppColors.primaryColor),
+                  ),
+                  Text(
+                    widget.vendor.phoneNumber,
+                    style: TextStyles.semiBold16.copyWith(color: Colors.grey.shade700),
+                  ),
+                  Text(
+                    '${widget.vendor.allProducts.length} منتج',
+                    style: TextStyles.bold13.copyWith(color: Colors.grey.shade800),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              const Icon(Icons.arrow_forward_ios),
+              const SizedBox(width: 16),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageBox() {
+    return Container(
+      width: 80,
+      height: 80,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: isLoading
+            ? _buildPlaceholderIcon()
+            : (base64ImageEncoded.isNotEmpty
+                ? Image.memory(
+                    base64Decode(base64ImageEncoded),
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return _buildDefaultAssetImage();
+                    },
+                  )
+                : _buildDefaultAssetImage()),
+      ),
+    );
+  }
+
+  Widget _buildDefaultAssetImage() {
+    return Image.asset(
+      'assets/images/vendor.png',
+      fit: BoxFit.cover,
+    );
+  }
+
+  Widget _buildPlaceholderIcon() {
+    return Container(
+      color: Colors.grey.shade300,
+      child: const Icon(Icons.store, size: 40, color: Colors.grey),
+    );
+  }
+
+  Future<void> getFirstProductImageForVendor(UserEntity vendor) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance.collection('products').where('vendorId', isEqualTo: vendor.uId).limit(1).get();
+
+      if (querySnapshot.docs.isEmpty) {
+        print('No products found for vendor ${vendor.uId}');
+        return;
+      }
+
+      final productData = querySnapshot.docs.first.data();
+      final base64Image = productData['imageBase64'] as String?;
+
+      if (base64Image != null && base64Image.isNotEmpty) {
+        base64ImageEncoded = base64Image;
+      }
+    } catch (e) {
+      print('Error fetching product image: $e');
+    }
+  }
+}

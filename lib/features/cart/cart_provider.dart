@@ -36,4 +36,9 @@ class CartProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void clearCart() {
+    _items.clear();
+    notifyListeners();
+  }
 }

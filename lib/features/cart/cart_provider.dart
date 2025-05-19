@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_mart/features/cart/cart_service.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 
 class CartProvider with ChangeNotifier {

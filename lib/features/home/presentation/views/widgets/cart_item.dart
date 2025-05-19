@@ -44,7 +44,7 @@ class _CartItemState extends State<CartItem> {
             height: 80,
             width: 80,
             fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Icon(Icons.image_not_supported),
+            errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported),
           ),
           const SizedBox(width: 8),
           Column(

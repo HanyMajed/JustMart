@@ -34,19 +34,19 @@ class ProfileHeader extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             email,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: const Color(0xFF202124),
+              color: Color(0xFF202124),
               height: 1.2,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             userStatus,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
-              color: const Color(0xFF5F6368),
+              color: Color(0xFF5F6368),
               letterSpacing: 0.2,
             ),
           ),

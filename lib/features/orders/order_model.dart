@@ -1,11 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:just_mart/features/auth/data/domain/entities/user_entity.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
-
-import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderModel {
   final String orderId; // Changed to String to match Firestore IDs

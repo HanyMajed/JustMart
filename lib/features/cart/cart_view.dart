@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
@@ -9,8 +7,6 @@ import 'package:just_mart/features/home/presentation/views/widgets/cart_item.dar
 import 'package:just_mart/features/orders/my_orders.dart';
 import 'package:just_mart/features/orders/order_model.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
-import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
-import 'package:just_mart/widgets/custom_button.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key, required this.signedUID});

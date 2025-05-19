@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_mart/constants.dart';
 import 'package:just_mart/core/helper_functions/build_error_bar.dart';
-import 'package:just_mart/core/helper_functions/on_generate_routes.dart';
 import 'package:just_mart/features/auth/data/repos/cubits/SignUp_cubit.dart/signup_cubit.dart';
 import 'package:just_mart/widgets/custom_button.dart';
 import 'package:just_mart/widgets/custom_text_form_field.dart';
@@ -55,14 +54,12 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   if (value == null || value.isEmpty) {
                     return 'الرجاء إدخال البريد الإلكتروني';
                   }
-                  if (!RegExp(r'^[\w\.-]+@[\w-]+\.just\.edu\.jo$')
-                      .hasMatch(value)) {
+                  if (!RegExp(r'^[\w\.-]+@[\w-]+\.just\.edu\.jo$').hasMatch(value)) {
                     return 'البريد الإلكتروني يجب أن ينتهي بـ YourCollege.just.edu.jo@';
                   }
                   return null;
                 },
-                textInputType:
-                    TextInputType.emailAddress, // Changed to email address type
+                textInputType: TextInputType.emailAddress, // Changed to email address type
                 hintText: 'البريد الإلكتروني',
               ),
               const SizedBox(height: 16),
@@ -109,8 +106,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(
-                      context, TermsAndConditionsPage.routeName);
+                  Navigator.pushNamed(context, TermsAndConditionsPage.routeName);
                 },
                 child: TermsAndContitions(
                   onChanged: (value) {
@@ -124,9 +120,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       if (isTermsAccepted) {
-                        context
-                            .read<SignupCubit>()
-                            .createUserWithEmailAndPassword(
+                        context.read<SignupCubit>().createUserWithEmailAndPassword(
                               email,
                               password,
                               username,
@@ -134,8 +128,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                               phoneNumber,
                             );
                       } else {
-                        BuildErrorBar(
-                            context, "يجب الموافقة على الشروط والاحكام");
+                        BuildErrorBar(context, "يجب الموافقة على الشروط والاحكام");
                       }
                     } else {
                       setState(() {

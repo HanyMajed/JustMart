@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:just_mart/constants.dart';
-import 'package:just_mart/features/category/category_view.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/best_selling_gridView.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/best_selling_header.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/custom_home_appbar.dart';

@@ -24,7 +24,9 @@ class ProfileListItem extends StatelessWidget {
         title,
         style: const TextStyle(
           fontSize: 13,
+ 
           color: Color.fromARGB(255, 91, 92, 95),
+ 
           height: 1.4,
           fontWeight: FontWeight.bold,
         ),

@@ -11,6 +11,10 @@ class CustomTextFormField extends StatelessWidget {
     this.onSaved,
     this.obsecureText = false,
     this.validator,
+    this.readOnly = false,
+    this.showCursor = true,
+    this.readOnlyBackgroundColor = const Color(0xFFEEEEEE), // New
+    this.readOnlyTextColor = const Color(0xFF666666), // New
   });
   final String hintText;
   final TextInputType? textInputType;
@@ -19,9 +23,15 @@ class CustomTextFormField extends StatelessWidget {
   final bool obsecureText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final bool readOnly;
+  final bool showCursor;
+  final Color readOnlyBackgroundColor;
+  final Color readOnlyTextColor;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
+      showCursor: showCursor,
       obscureText: obsecureText,
       onSaved: onSaved,
       controller: controller,
@@ -33,6 +43,9 @@ class CustomTextFormField extends StatelessWidget {
             }
             return null;
           },
+      style: TextStyle(
+        color: readOnly ? readOnlyTextColor : null,
+      ),
       keyboardType: textInputType,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,

@@ -8,6 +8,7 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.textInputType,
     this.suffixIcon,
+    this.prefixIcon,
     this.onSaved,
     this.obsecureText = false,
     this.validator,
@@ -19,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final TextInputType? textInputType;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
   final void Function(String?)? onSaved;
   final bool obsecureText;
   final TextEditingController? controller;
@@ -49,6 +51,7 @@ class CustomTextFormField extends StatelessWidget {
       keyboardType: textInputType,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
         hintText: hintText,
         hintStyle: TextStyles.bold13.copyWith(color: const Color(0xFF949D9E)),
         filled: true,

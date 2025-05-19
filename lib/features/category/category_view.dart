@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:just_mart/constants.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/category/category_item.dart';
-import 'package:just_mart/features/home/presentation/views/widgets/best_selling_gridView.dart';
+import 'package:just_mart/features/home/presentation/views/widgets/vendor_gridView.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/custom_home_appbar.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/search_text_field.dart';
 

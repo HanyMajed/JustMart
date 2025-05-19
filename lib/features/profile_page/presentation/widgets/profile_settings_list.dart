@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/favourite_screen.dart';
+import 'package:just_mart/features/profile_page/presentation/widgets/my_payment_cards.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/my_profile_info_page.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/who_are_we_page.dart';
 import 'profile_list_item.dart';
@@ -48,7 +49,9 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
       ProfileListItem(
         icon: Icons.wallet,
         title: 'المدفوعات',
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, MyPaymentCards.routeName);
+        },
         color: AppColors.lightprimaryColor,
       ),
       ProfileListItem(

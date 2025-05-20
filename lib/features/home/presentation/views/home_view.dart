@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:just_mart/features/home/presentation/views/widgets/custom_bottom_navigatonbar.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/home_view_body.dart';
 
 class HomeView extends StatelessWidget {

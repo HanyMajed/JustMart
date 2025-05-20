@@ -51,6 +51,14 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 const SizedBox(height: kTopPadding),
                 const SearchTextfield(),
                 const SizedBox(height: 12),
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "قائمة البائعين",
+                    style: TextStyles.bold16,
+                  ),
+                ),
+                const SizedBox(height: 12),
                 Column(
                   children: List.generate(
                     users.length,

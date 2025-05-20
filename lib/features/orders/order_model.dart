@@ -1,26 +1,32 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 
 class OrderModel {
-  final String orderId; // Changed to String to match Firestore IDs
+  final String orderId;
+  final String vendorId;
   final String buyerId;
   final double totalPrice;
   final String orderStatus;
   final DateTime orderDate;
   final List<ProductItemModel> orderItems;
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  String? vendorName; // Made nullable since it's loaded asynchronously
+  final FirebaseFirestore _firestore;
 
   OrderModel({
+    required this.vendorId,
     required this.buyerId,
     required this.totalPrice,
     required this.orderItems,
     String? orderId,
     DateTime? orderDate,
     this.orderStatus = "Order Placed",
+    FirebaseFirestore? firestore,
   })  : orderId = orderId ?? FirebaseFirestore.instance.collection('orders').doc().id,
-        orderDate = orderDate ?? DateTime.now();
+        orderDate = orderDate ?? DateTime.now(),
+        _firestore = firestore ?? FirebaseFirestore.instance;
 
   List<Map<String, dynamic>> orderItemsToFirestore() {
     return orderItems.map((item) {
@@ -40,23 +46,41 @@ class OrderModel {
     }).toList();
   }
 
+  Future<void> loadVendorName() async {
+    try {
+      final vendorSnapshot = await _firestore.collection(BackendEndpoints.getUserData).doc(vendorId).get();
+
+      if (vendorSnapshot.exists) {
+        vendorName = vendorSnapshot.data()?['name'] as String? ?? '';
+      } else {
+        log('Vendor not found for ID: $vendorId');
+      }
+    } catch (e, stackTrace) {
+      log('Error fetching vendor name', error: e, stackTrace: stackTrace);
+    }
+  }
+
   Future<void> placeOrder(String uid) async {
     try {
-      // Use the already generated orderId as the document ID
-      await firestore.collection('orders').doc(orderId).set({
+      // Ensure vendor name is loaded first
+      await loadVendorName();
+
+      await _firestore.collection('orders').doc(orderId).set({
+        'vendorName': vendorName,
         'orderId': orderId,
         'buyerId': buyerId,
+        'vendorId': vendorId, // Use class-level vendorId
         'totalPrice': totalPrice,
         'orderStatus': orderStatus,
         'orderDate': Timestamp.fromDate(orderDate),
         'orderItems': orderItemsToFirestore(),
       });
 
-      await firestore.collection('users').doc(uid).update({
+      await _firestore.collection('users').doc(uid).update({
         'allOrders': FieldValue.arrayUnion([orderId])
       });
-    } catch (e) {
-      log('Order failed', error: e, stackTrace: StackTrace.current);
+    } catch (e, stackTrace) {
+      log('Order failed', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }

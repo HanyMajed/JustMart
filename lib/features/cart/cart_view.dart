@@ -25,52 +25,6 @@ class _CartViewState extends State<CartView> {
     super.initState();
   }
 
-  Future<void> _placeOrder() async {
-    if (_isPlacingOrder) return; // Prevent multiple taps
-
-    setState(() => _isPlacingOrder = true);
-
-    try {
-      final cartProvider = context.read<CartProvider>();
-
-      final order = OrderModel(
-        vendorId: cartProvider.items.first.vendorId,
-        buyerId: widget.signedUID,
-        orderItems: cartProvider.items,
-        totalPrice: cartProvider.total,
-      );
-
-      await order.placeOrder(widget.signedUID);
-
-      // Success handling
-      //cartProvider.clearCart(); // Clear the cart after successful order
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('تم تأكيد الطلب بنجاح! رقم الطلب: ${order.orderId}'),
-          duration: const Duration(seconds: 3),
-        ),
-      );
-
-      // Optionally navigate back or to orders screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MyOrders(order: order)),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('فشل تأكيد الطلب: ${e.toString()}'),
-          backgroundColor: const Color.fromARGB(255, 134, 9, 0),
-        ),
-      );
-    } finally {
-      if (mounted) {
-        setState(() => _isPlacingOrder = false);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final cartProvider = context.watch<CartProvider>();
@@ -147,5 +101,51 @@ class _CartViewState extends State<CartView> {
               ],
             ),
     );
+  }
+
+  Future<void> _placeOrder() async {
+    if (_isPlacingOrder) return; // Prevent multiple taps
+
+    setState(() => _isPlacingOrder = true);
+
+    try {
+      final cartProvider = context.read<CartProvider>();
+
+      final order = OrderModel(
+        vendorId: cartProvider.items.first.vendorId,
+        buyerId: widget.signedUID,
+        orderItems: cartProvider.items,
+        totalPrice: cartProvider.total,
+      );
+
+      await order.placeOrder(widget.signedUID);
+
+      // Success handling
+      //cartProvider.clearCart(); // Clear the cart after successful order
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('تم تأكيد الطلب بنجاح! رقم الطلب: ${order.orderId}'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+
+      // Optionally navigate back or to orders screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MyOrders(order: order)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('فشل تأكيد الطلب: ${e.toString()}'),
+          backgroundColor: const Color.fromARGB(255, 134, 9, 0),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isPlacingOrder = false);
+      }
+    }
   }
 }

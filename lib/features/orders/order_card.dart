@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:just_mart/core/services/firestore_service.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
+import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:just_mart/features/orders/order_model.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
@@ -60,6 +63,14 @@ class OrderCard extends StatelessWidget {
                   ),
                   Text(
                     'عدد المنتجات: #${order.orderItems.length}       السعر: ${order.totalPrice.toInt()} دينار',
+                    style: TextStyles.bold16.copyWith(color: Colors.grey.shade900),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    'اسم البائع: ${order.vendorName}',
                     style: TextStyles.bold16.copyWith(color: Colors.grey.shade900),
                     overflow: TextOverflow.ellipsis,
                   ),

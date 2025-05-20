@@ -34,6 +34,7 @@ class _CartViewState extends State<CartView> {
       final cartProvider = context.read<CartProvider>();
 
       final order = OrderModel(
+        vendorId: cartProvider.items.first.vendorId,
         buyerId: widget.signedUID,
         orderItems: cartProvider.items,
         totalPrice: cartProvider.total,

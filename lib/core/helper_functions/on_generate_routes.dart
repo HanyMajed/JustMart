@@ -11,7 +11,7 @@ import 'package:just_mart/features/profile_page/presentation/widgets/who_are_we_
 import 'package:just_mart/features/splash/presentation/views/on_boarding/presentation/views/on_boarding.dart';
 import 'package:just_mart/features/splash/presentation/views/splash_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/add_product_view.dart';
-import 'package:just_mart/features/vendor_mode/widgets/my_orders_view.dart';
+import 'package:just_mart/features/vendor_mode/widgets/orders_to_be_delivered.dart';
 import 'package:just_mart/features/vendor_mode/widgets/my_products_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/vendor_purchases_view.dart';
 import 'package:just_mart/widgets/forget_password_page.dart';
@@ -32,15 +32,11 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case ProfileScreen.routeName:
       return MaterialPageRoute(builder: (context) => const ProfileScreen());
     case ForgetPasswordPage.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const ForgetPasswordPage());
+      return MaterialPageRoute(builder: (context) => const ForgetPasswordPage());
     case TermsAndConditionsPage.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const TermsAndConditionsPage());
+      return MaterialPageRoute(builder: (context) => const TermsAndConditionsPage());
     case SplashView.routeName:
       return MaterialPageRoute(builder: (context) => const SplashView());
-    case MyOrders.routeName:
-      return MaterialPageRoute(builder: (context) => MyOrders());
     case MyProducts.routeName:
       return MaterialPageRoute(builder: (context) => const MyProducts());
     case AddProductView.routeName:

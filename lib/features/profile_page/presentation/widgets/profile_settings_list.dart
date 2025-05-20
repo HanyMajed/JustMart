@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
+import 'package:just_mart/features/orders/my_orders.dart';
+import 'package:just_mart/features/orders/order_model.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/favourite_screen.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/my_payment_cards.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/my_profile_info_page.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/who_are_we_page.dart';
+import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'profile_list_item.dart';
 
 class ProfileSettingsList extends StatefulWidget {
@@ -39,11 +44,38 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
         },
         color: AppColors.lightprimaryColor,
       ),
-
       ProfileListItem(
         icon: Icons.add_box,
         title: 'طلباتي',
-        onTap: () {},
+        onTap: () async {
+          final currentUser = FirebaseAuth.instance.currentUser;
+          if (currentUser == null) return;
+
+          final orderIds = await _getUserOrderIds(currentUser.uid);
+          if (orderIds.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("لا يوجد طلبات حالياً")),
+            );
+            return;
+          }
+
+          // Get the first order (or modify to handle multiple orders)
+          final firstOrderId = orderIds.first;
+          final order = await _getOrderById(firstOrderId, currentUser.uid);
+
+          if (order != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyOrders(order: order),
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("حدث خطأ في تحميل الطلب")),
+            );
+          }
+        },
         color: AppColors.lightprimaryColor,
       ),
       ProfileListItem(
@@ -113,5 +145,50 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
       separatorBuilder: (_, __) => const Divider(height: 1, indent: 24),
       itemBuilder: (context, index) => menuItems[index],
     );
+  }
+
+  Future<List<String>> _getUserOrderIds(String userId) async {
+    try {
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+      return (userDoc.data()?['allOrders'] as List<dynamic>?)?.cast<String>() ?? [];
+    } catch (e) {
+      debugPrint('Error fetching order IDs: $e');
+      return [];
+    }
+  }
+
+  Future<OrderModel?> _getOrderById(String orderId, String userId) async {
+    try {
+      final orderDoc = await FirebaseFirestore.instance.collection('orders').doc(orderId).get();
+
+      if (!orderDoc.exists) return null;
+
+      final data = orderDoc.data() as Map<String, dynamic>;
+
+      List<ProductItemModel> items = (data['orderItems'] as List<dynamic>).map((item) {
+        return ProductItemModel(
+          productName: item['productName'] ?? '',
+          productCategory: item['productCategory'] ?? '',
+          vendorId: item['vendorId'] ?? '',
+          price: item['price'] ?? '0',
+          imageBase64: item['imageBase64'] ?? '',
+          description: item['description'] ?? '',
+        );
+      }).toList();
+
+      return OrderModel(
+        orderId: data['orderId'] ?? orderId,
+        buyerId: data['buyerId'] ?? userId,
+        vendorId: data['vendorId'] ?? '',
+        totalPrice: (data['totalPrice'] as num?)?.toDouble() ?? 0.0,
+        orderStatus: data['orderStatus'] ?? 'Order Placed',
+        orderDate: (data['orderDate'] as Timestamp?)?.toDate() ?? DateTime.now(),
+        orderItems: items,
+      )..vendorName = data['vendorName'] as String?;
+    } catch (e) {
+      debugPrint('Error fetching order: $e');
+      return null;
+    }
   }
 }

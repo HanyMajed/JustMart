@@ -23,18 +23,12 @@ class VendorNameCard extends StatefulWidget {
 class _VendorNameCardState extends State<VendorNameCard> {
   String base64ImageEncoded = '';
   bool isLoading = true;
+  List<Map<String, dynamic>> vendorProducts = [];
 
   @override
   void initState() {
     super.initState();
-    _loadVendorImage();
-  }
-
-  Future<void> _loadVendorImage() async {
-    await getFirstProductImageForVendor(widget.vendor);
-    setState(() {
-      isLoading = false;
-    });
+    _loadVendorData();
   }
 
   @override
@@ -79,7 +73,7 @@ class _VendorNameCardState extends State<VendorNameCard> {
                     style: TextStyles.semiBold16.copyWith(color: Colors.grey.shade700),
                   ),
                   Text(
-                    '${widget.vendor.allProducts.length} منتج',
+                    '${vendorProducts.length} منتجات',
                     style: TextStyles.bold13.copyWith(color: Colors.grey.shade800),
                   ),
                 ],
@@ -132,23 +126,37 @@ class _VendorNameCardState extends State<VendorNameCard> {
     );
   }
 
+  Future<void> _loadVendorData() async {
+    await getFirstProductImageForVendor(widget.vendor);
+    await fetchAllVendorProducts(widget.vendor.uId);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   Future<void> getFirstProductImageForVendor(UserEntity vendor) async {
     try {
       final querySnapshot = await FirebaseFirestore.instance.collection('products').where('vendorId', isEqualTo: vendor.uId).limit(1).get();
 
-      if (querySnapshot.docs.isEmpty) {
-        print('No products found for vendor ${vendor.uId}');
-        return;
-      }
-
-      final productData = querySnapshot.docs.first.data();
-      final base64Image = productData['imageBase64'] as String?;
-
-      if (base64Image != null && base64Image.isNotEmpty) {
-        base64ImageEncoded = base64Image;
+      if (querySnapshot.docs.isNotEmpty) {
+        final productData = querySnapshot.docs.first.data();
+        final base64Image = productData['imageBase64'] as String?;
+        if (base64Image != null && base64Image.isNotEmpty) {
+          base64ImageEncoded = base64Image;
+        }
       }
     } catch (e) {
       print('Error fetching product image: $e');
+    }
+  }
+
+  Future<void> fetchAllVendorProducts(String vendorId) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance.collection('products').where('vendorId', isEqualTo: vendorId).get();
+
+      vendorProducts = querySnapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      print('Error fetching all products: $e');
     }
   }
 }

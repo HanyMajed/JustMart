@@ -44,7 +44,9 @@ class _MyOrdersState extends State<MyOrders> {
                   : ListView.builder(
                       itemCount: userOrders.length,
                       itemBuilder: (context, index) {
-                        return OrderCard(order: userOrders[index]);
+                        return OrderCard(
+                          order: userOrders[index],
+                        );
                       },
                     ),
     );

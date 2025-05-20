@@ -10,6 +10,7 @@ import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderModel order;
+
   const OrderCard({
     super.key,
     required this.order,
@@ -68,7 +69,7 @@ class OrderCard extends StatelessWidget {
                   height: 8,
                 ),
                 Text(
-                  'اسم البائع: ${order.vendorName}',
+                  'الاسم: : ${order.vendorName}',
                   style: TextStyles.bold16.copyWith(color: Colors.grey.shade900),
                   overflow: TextOverflow.ellipsis,
                 ),

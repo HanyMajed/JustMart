@@ -46,6 +46,7 @@ class _MyOrdersState extends State<MyOrders> {
                       itemBuilder: (context, index) {
                         return OrderCard(
                           order: userOrders[index],
+                          isVendor: false,
                         );
                       },
                     ),

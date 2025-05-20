@@ -7,6 +7,7 @@ class UserEntity {
 
   List<String> allProducts = [];
   List<String> allOrders = [];
+  List<String> orderToDeliver = [];
 
   UserEntity({required this.name, required this.email, required this.uId, required this.role, required this.phoneNumber});
 

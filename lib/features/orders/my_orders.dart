@@ -20,13 +20,15 @@ class _MyOrdersState extends State<MyOrders> {
   List<OrderModel> userOrders = [];
   bool isLoading = true;
   String? error;
-
   @override
   void initState() {
-    CartProvider cartProvider = context.read<CartProvider>();
-    cartProvider.clearCart();
     super.initState();
     getVendorOrders();
+
+    // Safely clear the cart after the first frame is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CartProvider>().clearCart();
+    });
   }
 
   @override
@@ -55,8 +57,11 @@ class _MyOrdersState extends State<MyOrders> {
         error = null;
       });
 
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('orders').where('vendorId', isEqualTo: widget.order.vendorId).get();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('orders')
+          .where('vendorId', isEqualTo: widget.order.vendorId)
+          .where('buyerId', isEqualTo: widget.order.buyerId)
+          .get();
 
       List<OrderModel> tempOrders = [];
 

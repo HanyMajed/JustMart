@@ -79,6 +79,10 @@ class OrderModel {
       await _firestore.collection('users').doc(uid).update({
         'allOrders': FieldValue.arrayUnion([orderId])
       });
+
+      await _firestore.collection('users').doc(vendorId).update({
+        'orderToDeliver': FieldValue.arrayUnion([orderId])
+      });
     } catch (e, stackTrace) {
       log('Order failed', error: e, stackTrace: stackTrace);
       rethrow;

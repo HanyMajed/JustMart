@@ -37,6 +37,7 @@ class OrdersToBeDelivered extends StatelessWidget {
               final order = orders[index];
               return OrderCard(
                 order: order,
+                isVendor: false,
               ); // You'll need to create this widget
             },
           );

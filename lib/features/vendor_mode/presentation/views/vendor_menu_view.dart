@@ -61,14 +61,6 @@ class VendorMenuview extends StatelessWidget {
               icon: Icons.add_box_outlined,
             ),
           ),
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(context, VendorPurchases.routeName),
-            child: VendorTransitionChoice(
-              signedUID: signedUID,
-              choice: "المشتريات",
-              icon: Icons.shopping_bag_outlined,
-            ),
-          ),
         ],
       ),
     );

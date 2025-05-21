@@ -9,7 +9,6 @@ class HomeView extends StatelessWidget {
   final String signedUID;
   @override
   Widget build(BuildContext context) {
-    log(signedUID);
     return Scaffold(
       body: SafeArea(
           child: HomeViewBody(

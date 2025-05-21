@@ -13,7 +13,10 @@ class NotificationWidget extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: const ShapeDecoration(shape: OvalBorder(), color: Color.fromRGBO(31, 61, 120, 0.2) // 50% transparent
           ),
-      child: SvgPicture.asset(Assets.assetsImagesNotifiacationIcon),
+      child: Icon(
+        Icons.notifications_none,
+        color: Colors.grey.shade700,
+      ),
     );
   }
 }

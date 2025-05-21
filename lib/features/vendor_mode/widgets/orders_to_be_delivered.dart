@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:just_mart/features/orders/order_card.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
-import 'package:just_mart/features/orders/order_model.dart'; // Make sure to import OrderModel
+import 'package:just_mart/features/orders/order_model.dart';
+import 'package:just_mart/features/orders/vendor_track_order.dart'; // Make sure to import OrderModel
 
 class OrdersToBeDelivered extends StatelessWidget {
   const OrdersToBeDelivered({super.key, required this.signedUID});
@@ -35,9 +36,18 @@ class OrdersToBeDelivered extends StatelessWidget {
             itemCount: orders.length,
             itemBuilder: (context, index) {
               final order = orders[index];
-              return OrderCard(
-                order: order,
-                isVendor: false,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return VendorTrackOrder(
+                      order: order,
+                    );
+                  }));
+                },
+                child: OrderCard(
+                  order: order,
+                  isVendor: false,
+                ),
               ); // You'll need to create this widget
             },
           );

@@ -22,7 +22,7 @@ class OrderModel {
     required this.orderItems,
     String? orderId,
     DateTime? orderDate,
-    this.orderStatus = "Order Placed",
+    this.orderStatus = "OrderPlaced",
     FirebaseFirestore? firestore,
   })  : orderId = orderId ?? FirebaseFirestore.instance.collection('orders').doc().id,
         orderDate = orderDate ?? DateTime.now(),

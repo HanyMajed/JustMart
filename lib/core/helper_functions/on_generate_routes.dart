@@ -32,9 +32,11 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case ProfileScreen.routeName:
       return MaterialPageRoute(builder: (context) => const ProfileScreen());
     case ForgetPasswordPage.routeName:
-      return MaterialPageRoute(builder: (context) => const ForgetPasswordPage());
+      return MaterialPageRoute(
+          builder: (context) => const ForgetPasswordPage());
     case TermsAndConditionsPage.routeName:
-      return MaterialPageRoute(builder: (context) => const TermsAndConditionsPage());
+      return MaterialPageRoute(
+          builder: (context) => const TermsAndConditionsPage());
     case SplashView.routeName:
       return MaterialPageRoute(builder: (context) => const SplashView());
     case MyProducts.routeName:

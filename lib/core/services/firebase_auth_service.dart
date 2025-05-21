@@ -37,22 +37,37 @@ class FirebaseAuthService {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      return credential.user!;
+      final user = credential.user!;
+
+      // Add email verification check
+      if (!user.emailVerified) {
+        throw CustomException(message: 'البريد الإلكتروني غير مفعل');
+      }
+
+      return user;
     } on FirebaseAuthException catch (e) {
       log("Firebase Error Code: ${e.code}");
       switch (e.code) {
-        case 'invalid-credential': // <── الكود الصحيح بناءً على السجلات
+        case 'invalid-credential':
           throw CustomException(
               message: 'البريد الإلكتروني أو كلمة المرور غير صحيحة');
         case 'network-request-failed':
           throw CustomException(message: "تأكد من إتصالك بالانترنت");
         case 'invalid-email':
           throw CustomException(message: 'صيغة البريد الإلكتروني غير صحيحة');
+        // Add this new case
+
+        case 'too-many-requests':
+          throw CustomException(
+              message:
+                  'تم حظر هذا الجهاز مؤقتًا بسبب كثرة الطلبات. الرجاء المحاولة لاحقًا');
         default:
           throw CustomException(
               message: 'لقد حدث خطأ ما، الرجاء المحاولة لاحقاً');
       }
     } catch (e) {
+      // Preserve existing CustomException
+      if (e is CustomException) rethrow;
       log("General Error: $e");
       throw CustomException(message: 'لقد حدث خطأ ما، الرجاء المحاولة لاحقاً');
     }

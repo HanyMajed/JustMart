@@ -28,6 +28,7 @@ class AuthRepoImplementation extends AuthRepo {
     try {
       user = await firebaseAuthService.createUserWithEmailAndPassword(
           email: email, password: password);
+      await user.sendEmailVerification();
       UserEntity userFromFirebaseConstructor = UserModel.fromFirebaseUser(user);
       userFromFirebaseConstructor.role = role;
       userFromFirebaseConstructor.name = name;

@@ -54,12 +54,14 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   if (value == null || value.isEmpty) {
                     return 'الرجاء إدخال البريد الإلكتروني';
                   }
-                  if (!RegExp(r'^[\w\.-]+@[\w-]+\.just\.edu\.jo$').hasMatch(value)) {
+                  if (!RegExp(r'^[\w\.-]+@[\w-]+\.just\.edu\.jo$')
+                      .hasMatch(value)) {
                     return 'البريد الإلكتروني يجب أن ينتهي بـ YourCollege.just.edu.jo@';
                   }
                   return null;
                 },
-                textInputType: TextInputType.emailAddress, // Changed to email address type
+                textInputType:
+                    TextInputType.emailAddress, // Changed to email address type
                 hintText: 'البريد الإلكتروني',
               ),
               const SizedBox(height: 16),
@@ -106,7 +108,8 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, TermsAndConditionsPage.routeName);
+                  Navigator.pushNamed(
+                      context, TermsAndConditionsPage.routeName);
                 },
                 child: TermsAndContitions(
                   onChanged: (value) {
@@ -120,7 +123,9 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       if (isTermsAccepted) {
-                        context.read<SignupCubit>().createUserWithEmailAndPassword(
+                        context
+                            .read<SignupCubit>()
+                            .createUserWithEmailAndPassword(
                               email,
                               password,
                               username,
@@ -128,7 +133,8 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                               phoneNumber,
                             );
                       } else {
-                        BuildErrorBar(context, "يجب الموافقة على الشروط والاحكام");
+                        BuildErrorBar(
+                            context, "يجب الموافقة على الشروط والاحكام");
                       }
                     } else {
                       setState(() {

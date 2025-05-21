@@ -29,7 +29,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_currentUserId == null) return {};
 
     try {
-      final doc = await FirebaseFirestore.instance.collection('users').doc(_currentUserId).get();
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_currentUserId)
+          .get();
       return doc.data() ?? {};
     } catch (e) {
       debugPrint('Error fetching user: $e');
@@ -70,7 +73,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return Column(
               children: [
                 ProfileHeader(
-                  email: FirebaseAuth.instance.currentUser?.email ?? 'mail@mail.com',
+                  email: FirebaseAuth.instance.currentUser?.email ??
+                      'mail@mail.com',
                   name: userName, // Pass the fetched name
                   userStatus: 'حساب نشط',
                 ),
@@ -82,8 +86,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       return ProfileSettingsList(
                         isDarkMode: themeProvider.isDarkMode,
                         isStudentMode: _isStudentMode,
-                        onDarkModeChanged: (value) => themeProvider.toggleTheme(value),
-                        onStudentModeChanged: (value) => setState(() => _isStudentMode = value),
+                        onDarkModeChanged: (value) =>
+                            themeProvider.toggleTheme(value),
+                        onStudentModeChanged: (value) =>
+                            setState(() => _isStudentMode = value),
                       );
                     },
                   ),
@@ -98,9 +104,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       confirmText: 'نعم',
                       cancelText: 'إلغاء',
                       onConfirm: () {
-                        // Navigator.pop(context);
-                        // Navigator.pop(context);
-                        Navigator.of(context).pushReplacementNamed(SignInView.routeName);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        // Navigator.of(context).pushReplacementNamed(SignInView.routeName);
                       },
                       onCancel: () {},
                     );
@@ -117,7 +123,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<OrderModel?> getOrderById(String orderId) async {
     try {
       // Get the order document
-      final orderDoc = await FirebaseFirestore.instance.collection('orders').doc(orderId).get();
+      final orderDoc = await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(orderId)
+          .get();
 
       if (!orderDoc.exists) {
         log('Order not found: $orderId');
@@ -127,7 +136,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final data = orderDoc.data() as Map<String, dynamic>;
 
       // Convert order items to ProductItemModel list
-      List<ProductItemModel> items = (data['orderItems'] as List<dynamic>).map((item) {
+      List<ProductItemModel> items =
+          (data['orderItems'] as List<dynamic>).map((item) {
         return ProductItemModel(
           productName: item['productName'] ?? '',
           productCategory: item['productCategory'] ?? '',
@@ -145,7 +155,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         vendorId: data['vendorId'] ?? '',
         totalPrice: (data['totalPrice'] as num?)?.toDouble() ?? 0.0,
         orderStatus: data['orderStatus'] ?? 'Order Placed',
-        orderDate: (data['orderDate'] as Timestamp?)?.toDate() ?? DateTime.now(),
+        orderDate:
+            (data['orderDate'] as Timestamp?)?.toDate() ?? DateTime.now(),
         orderItems: items,
       )..vendorName = data['vendorName'] as String?;
     } catch (e, stackTrace) {

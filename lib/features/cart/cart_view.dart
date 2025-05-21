@@ -4,7 +4,7 @@ import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/cart/cart_provider.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/cart_item.dart';
-import 'package:just_mart/features/orders/my_orders.dart';
+import 'package:just_mart/features/orders/buyer_all_orders.dart';
 import 'package:just_mart/features/orders/order_model.dart';
 import 'package:just_mart/features/vendor_mode/widgets/appbar_for_vendor_views.dart';
 
@@ -133,7 +133,7 @@ class _CartViewState extends State<CartView> {
       // Optionally navigate back or to orders screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MyOrders(order: order)),
+        MaterialPageRoute(builder: (context) => BuyerAllOrders(order: order)),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

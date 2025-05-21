@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
-import 'package:just_mart/features/orders/my_orders.dart';
+import 'package:just_mart/features/orders/buyer_all_orders.dart';
 import 'package:just_mart/features/orders/order_model.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/favourite_screen.dart';
 import 'package:just_mart/features/profile_page/presentation/widgets/my_payment_cards.dart';
@@ -67,7 +67,7 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MyOrders(order: order),
+                builder: (context) => BuyerAllOrders(order: order),
               ),
             );
           } else {

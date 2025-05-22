@@ -15,8 +15,7 @@ import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
 
-final RouteObserver<ModalRoute<void>> routeObserver =
-    RouteObserver<ModalRoute<void>>();
+final RouteObserver<ModalRoute<void>> routeObserver = RouteObserver<ModalRoute<void>>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,13 +31,13 @@ void main() async {
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
-      child: const FrtuitHub(),
+      child: const JustMart(),
     ),
   );
 }
 
-class FrtuitHub extends StatelessWidget {
-  const FrtuitHub({super.key});
+class JustMart extends StatelessWidget {
+  const JustMart({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +58,7 @@ class FrtuitHub extends StatelessWidget {
               primary: AppColors.primaryColor,
             ),
           ),
-          themeMode:
-              themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
           localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,

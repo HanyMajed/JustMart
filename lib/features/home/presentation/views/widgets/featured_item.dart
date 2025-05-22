@@ -5,8 +5,15 @@ import 'package:just_mart/features/home/presentation/views/widgets/featured_butt
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 
 class FeaturedItem extends StatelessWidget {
-  const FeaturedItem({super.key});
-
+  const FeaturedItem({
+    super.key,
+    required this.imagePath,
+    required this.title,
+    required this.discount,
+  });
+  final String imagePath;
+  final String title;
+  final String discount;
   @override
   Widget build(BuildContext context) {
     var itemWidth = MediaQuery.sizeOf(context).width - 32;
@@ -24,7 +31,7 @@ class FeaturedItem extends StatelessWidget {
                 top: 0,
                 right: itemWidth * .4,
                 child: Image.asset(
-                  Assets.assetsImagesElectronicsTest,
+                  imagePath,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -45,14 +52,14 @@ class FeaturedItem extends StatelessWidget {
                         height: 25,
                       ),
                       Text(
-                        'عروض العيد',
+                        title,
                         style: TextStyles.regular13.copyWith(
                           color: Colors.white,
                         ),
                       ),
                       const Spacer(),
                       Text(
-                        'خصم 25%',
+                        discount,
                         style: TextStyles.bold19.copyWith(
                           color: Colors.white,
                         ),

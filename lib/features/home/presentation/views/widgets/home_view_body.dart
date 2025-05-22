@@ -19,7 +19,8 @@ import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'package:just_mart/features/vendor_mode/widgets/vendor_name_card.dart';
 
 class HomeViewBody extends StatefulWidget {
-  HomeViewBody({super.key, required this.signedUID, this.title = "كل المنتجات"});
+  HomeViewBody(
+      {super.key, required this.signedUID, this.title = "كل المنتجات"});
   final String signedUID;
   String title;
 
@@ -49,6 +50,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 const SizedBox(height: kTopPadding),
                 CustomHomeAppbar(signedUID: widget.signedUID),
                 const SizedBox(height: kTopPadding),
+                FeaturedList(),
+                const SizedBox(height: 12),
                 const SearchTextfield(),
                 const SizedBox(height: 12),
                 const Align(

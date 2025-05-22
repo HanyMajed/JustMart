@@ -33,9 +33,7 @@ class CartDeletingIconAlert extends StatelessWidget {
         if (shouldPop ?? true) {
           context.read<CartProvider>().clearCart();
           Navigator.pop(context);
-        } else {
-          Navigator.pop(context);
-        }
+        } else {}
       },
     );
   }

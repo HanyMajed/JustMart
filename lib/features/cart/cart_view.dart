@@ -18,7 +18,6 @@ class CartView extends StatefulWidget {
 class _CartViewState extends State<CartView> {
   double? totalPrice;
   bool _isPlacingOrder = false; // Track order placement state
-
   @override
   void initState() {
     totalPrice = context.read<CartProvider>().total;
@@ -29,7 +28,9 @@ class _CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     final cartProvider = context.watch<CartProvider>();
     final cartItems = cartProvider.items;
+    List<String> locations = ["مبنى ال C (الهندسية)", "مجمع القاعات التدريسية", "مبنى ال B (التجارية)"];
 
+    int drpdownValue = 0;
     return Scaffold(
       appBar: appbarForVendorViews(title: "السلة"),
       body: cartItems.isEmpty
@@ -49,6 +50,27 @@ class _CartViewState extends State<CartView> {
                         },
                         product: cartItems[index],
                       );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: DropdownButtonFormField<int>(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    decoration: InputDecoration(
+                        border:
+                            OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey), borderRadius: BorderRadius.circular(10))),
+                    dropdownColor: Colors.white.withAlpha(230),
+                    items: const [
+                      DropdownMenuItem(value: 0, child: Text("مبنى ال C (الهندسية)", style: TextStyle(color: AppColors.primaryColor))),
+                      DropdownMenuItem(value: 1, child: Text("مجمع القاعات التدريسية", style: TextStyle(color: AppColors.primaryColor))),
+                      DropdownMenuItem(value: 2, child: Text("مبنى ال P (الطبية)", style: TextStyle(color: AppColors.primaryColor))),
+                    ],
+                    value: drpdownValue,
+                    onChanged: (newValue) {
+                      setState(() {
+                        drpdownValue = newValue!;
+                      });
                     },
                   ),
                 ),

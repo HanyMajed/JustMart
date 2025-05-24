@@ -16,9 +16,9 @@ class VendorItemsGridDisplay extends StatelessWidget {
     log(vendor.name);
 
     return Scaffold(
-      bottomNavigationBar: CustomBottomNavigatonbar(
-        signedUID: signedUID,
-      ),
+      // bottomNavigationBar: CustomBottomNavigatonbar(
+      //   signedUID: signedUID,
+      // ),
       appBar: AppBar(
         title: Text(
           "منتجات ${vendor.name}",

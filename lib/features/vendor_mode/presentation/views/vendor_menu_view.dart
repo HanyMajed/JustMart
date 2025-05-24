@@ -31,7 +31,7 @@ class VendorMenuview extends StatelessWidget {
                 )),
             child: VendorTransitionChoice(
               signedUID: signedUID,
-              choice: "الطلبات",
+              choice: "طلبات الزبائن",
               icon: Icons.receipt_long,
             ),
           ),

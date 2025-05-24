@@ -11,9 +11,9 @@ class OrderModel {
   final String orderStatus;
   final DateTime orderDate;
   final List<ProductItemModel> orderItems;
-
   String? vendorName; // Made nullable since it's loaded asynchronously
   final FirebaseFirestore _firestore;
+  String deliveryLocation = 'مجمع القاعات التدريسية';
 
   OrderModel({
     required this.vendorId,
@@ -30,9 +30,6 @@ class OrderModel {
 
   List<Map<String, dynamic>> orderItemsToFirestore() {
     return orderItems.map((item) {
-      assert(item.productId.isNotEmpty, 'Product ID cannot be empty');
-      assert(item.vendorId.isNotEmpty, 'Vendor ID cannot be empty');
-
       return {
         'productId': item.productId,
         'productName': item.productName,
@@ -66,6 +63,7 @@ class OrderModel {
       await loadVendorName();
 
       await _firestore.collection('orders').doc(orderId).set({
+        'deliveryLocation': deliveryLocation,
         'vendorName': vendorName,
         'orderId': orderId,
         'buyerId': buyerId,

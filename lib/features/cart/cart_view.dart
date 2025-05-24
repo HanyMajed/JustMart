@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
+import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:just_mart/features/cart/cart_provider.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/cart_item.dart';
 import 'package:just_mart/features/orders/buyer_all_orders.dart';
@@ -17,7 +19,10 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   double? totalPrice;
-  bool _isPlacingOrder = false; // Track order placement state
+  bool _isPlacingOrder = false;
+  List<String> locations = ["مبنى ال C (الهندسية)", "مجمع القاعات التدريسية", "مبنى ال P (الطبية)"];
+
+  int drpdownValue = 0;
   @override
   void initState() {
     totalPrice = context.read<CartProvider>().total;
@@ -28,9 +33,6 @@ class _CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     final cartProvider = context.watch<CartProvider>();
     final cartItems = cartProvider.items;
-    List<String> locations = ["مبنى ال C (الهندسية)", "مجمع القاعات التدريسية", "مبنى ال B (التجارية)"];
-
-    int drpdownValue = 0;
     return Scaffold(
       appBar: appbarForVendorViews(title: "السلة"),
       body: cartItems.isEmpty
@@ -142,6 +144,9 @@ class _CartViewState extends State<CartView> {
 
       await order.placeOrder(widget.signedUID);
 
+      await FirebaseFirestore.instance.collection(BackendEndpoints.placeOrder).doc(order.orderId).update({
+        'deliveryLocation': locations[drpdownValue],
+      });
       // Success handling
       //cartProvider.clearCart(); // Clear the cart after successful order
 

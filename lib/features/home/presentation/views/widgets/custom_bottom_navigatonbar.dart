@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
-
 import 'package:just_mart/features/cart/cart_view.dart';
 import 'package:just_mart/features/category/category_view.dart';
 
 class CustomBottomNavigatonbar extends StatefulWidget {
-  const CustomBottomNavigatonbar({super.key, required this.signedUID});
+  const CustomBottomNavigatonbar({
+    super.key,
+    required this.signedUID,
+    required this.onCategorySelected, // New callback
+  });
+
   final String signedUID;
+  final Function(String) onCategorySelected; // Callback for category selection
+
   @override
-  State<CustomBottomNavigatonbar> createState() =>
-      _CustomBottomNavigatonbarState();
+  State<CustomBottomNavigatonbar> createState() => _CustomBottomNavigatonbarState();
 }
 
 class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,16 +45,16 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Account Button
           Container(
             width: 110,
             height: 40,
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F1F1), // light grey background
+              color: const Color(0xFFF1F1F1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Stack(
               children: [
-                // Text
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -59,8 +65,6 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
                     ),
                   ),
                 ),
-
-                // Icon Circle
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
@@ -68,7 +72,7 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
                     width: 32,
                     height: 32,
                     decoration: const BoxDecoration(
-                      color: Color(0xFF1D4F91), // dark blue color
+                      color: Color(0xFF1D4F91),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -81,12 +85,12 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
               ],
             ),
           ),
+
+          // Cart Button
           GestureDetector(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CartView(
-                  signedUID: widget.signedUID,
-                );
+                return CartView(signedUID: widget.signedUID);
               }));
             },
             child: Container(
@@ -94,26 +98,33 @@ class _CustomBottomNavigatonbarState extends State<CustomBottomNavigatonbar> {
               width: 110,
               height: 40,
               decoration: BoxDecoration(
-                color: const Color(0xFFF1F1F1), // light grey background
+                color: const Color(0xFFF1F1F1),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Icon(Icons.shopping_cart),
             ),
           ),
+
+          // Category Button
           GestureDetector(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CategoryView(
-                  signedUID: widget.signedUID,
-                );
-              }));
+            onTap: () async {
+              final selectedCategory = await Navigator.push<String>(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CategoryView(signedUID: widget.signedUID),
+                ),
+              );
+
+              if (selectedCategory != null) {
+                widget.onCategorySelected(selectedCategory);
+              }
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 8),
               width: 110,
               height: 40,
               decoration: BoxDecoration(
-                color: const Color(0xFFF1F1F1), // light grey background
+                color: const Color(0xFFF1F1F1),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Icon(Icons.category),

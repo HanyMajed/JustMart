@@ -55,7 +55,7 @@ class _BuyerTrackOrderViewState extends State<BuyerTrackOrderView> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 12),
+                              const SizedBox(height: 12),
                               Center(
                                 child: Text(
                                   "تتبع الطلب",
@@ -146,5 +146,6 @@ class _BuyerTrackOrderViewState extends State<BuyerTrackOrderView> {
       debugPrint('Error fetching order: $e');
       return null;
     }
+    return null;
   }
 }

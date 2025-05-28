@@ -5,22 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:just_mart/constants.dart';
-import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
-import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:just_mart/features/auth/data/domain/entities/user_entity.dart';
 import 'package:just_mart/features/auth/data/models/user_model.dart';
-import 'package:just_mart/features/home/presentation/views/widgets/vendor_gridView.dart';
-import 'package:just_mart/features/home/presentation/views/widgets/best_selling_header.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/custom_home_appbar.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/featured_list.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/search_text_field.dart';
-import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'package:just_mart/features/vendor_mode/widgets/vendor_name_card.dart';
 
 class HomeViewBody extends StatefulWidget {
-  HomeViewBody(
-      {super.key, required this.signedUID, this.title = "كل المنتجات"});
+  HomeViewBody({super.key, required this.signedUID, this.title = "كل المنتجات"});
   final String signedUID;
   String title;
 

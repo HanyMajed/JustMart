@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
-import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/widgets/custom_appbar.dart';
 import 'package:just_mart/widgets/custom_button.dart';
 import 'package:just_mart/widgets/custom_checkbox.dart';
@@ -42,21 +41,17 @@ class _AddNewCardPageState extends State<AddNewCard> {
                 Row(
                   children: [
                     Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildLabel('تاريخ الصلاحيه'),
-                            _buildExpiryDateField(),
-                          ]),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        _buildLabel('تاريخ الصلاحيه'),
+                        _buildExpiryDateField(),
+                      ]),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildLabel('CVC'),
-                            _buildCVVField(),
-                          ]),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        _buildLabel('CVC'),
+                        _buildCVVField(),
+                      ]),
                     ),
                   ],
                 ),

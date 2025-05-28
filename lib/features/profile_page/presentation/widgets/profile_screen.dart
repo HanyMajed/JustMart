@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/helper_functions/theam_provider.dart';
-import 'package:just_mart/features/auth/signin_view.dart';
 import 'package:just_mart/features/orders/order_model.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';
 import 'package:provider/provider.dart'; // Required import
@@ -29,10 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_currentUserId == null) return {};
 
     try {
-      final doc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(_currentUserId)
-          .get();
+      final doc = await FirebaseFirestore.instance.collection('users').doc(_currentUserId).get();
       return doc.data() ?? {};
     } catch (e) {
       debugPrint('Error fetching user: $e');
@@ -73,8 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return Column(
               children: [
                 ProfileHeader(
-                  email: FirebaseAuth.instance.currentUser?.email ??
-                      'mail@mail.com',
+                  email: FirebaseAuth.instance.currentUser?.email ?? 'mail@mail.com',
                   name: userName, // Pass the fetched name
                   userStatus: 'حساب نشط',
                 ),
@@ -86,10 +81,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       return ProfileSettingsList(
                         isDarkMode: themeProvider.isDarkMode,
                         isStudentMode: _isStudentMode,
-                        onDarkModeChanged: (value) =>
-                            themeProvider.toggleTheme(value),
-                        onStudentModeChanged: (value) =>
-                            setState(() => _isStudentMode = value),
+                        onDarkModeChanged: (value) => themeProvider.toggleTheme(value),
+                        onStudentModeChanged: (value) => setState(() => _isStudentMode = value),
                       );
                     },
                   ),
@@ -123,10 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<OrderModel?> getOrderById(String orderId) async {
     try {
       // Get the order document
-      final orderDoc = await FirebaseFirestore.instance
-          .collection('orders')
-          .doc(orderId)
-          .get();
+      final orderDoc = await FirebaseFirestore.instance.collection('orders').doc(orderId).get();
 
       if (!orderDoc.exists) {
         log('Order not found: $orderId');
@@ -136,8 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final data = orderDoc.data() as Map<String, dynamic>;
 
       // Convert order items to ProductItemModel list
-      List<ProductItemModel> items =
-          (data['orderItems'] as List<dynamic>).map((item) {
+      List<ProductItemModel> items = (data['orderItems'] as List<dynamic>).map((item) {
         return ProductItemModel(
           productName: item['productName'] ?? '',
           productCategory: item['productCategory'] ?? '',
@@ -155,8 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         vendorId: data['vendorId'] ?? '',
         totalPrice: (data['totalPrice'] as num?)?.toDouble() ?? 0.0,
         orderStatus: data['orderStatus'] ?? 'Order Placed',
-        orderDate:
-            (data['orderDate'] as Timestamp?)?.toDate() ?? DateTime.now(),
+        orderDate: (data['orderDate'] as Timestamp?)?.toDate() ?? DateTime.now(),
         orderItems: items,
       )..vendorName = data['vendorName'] as String?;
     } catch (e, stackTrace) {

@@ -26,7 +26,7 @@ class MyPaymentCards extends StatelessWidget {
               onPressed: () => _addNewPaymentMethod(context),
               text: 'أضف وسيلة دفع جديدة +',
             ),
-            SizedBox(height: 30)
+            const SizedBox(height: 30)
           ],
         ),
       ),
@@ -42,8 +42,7 @@ class MyPaymentCards extends StatelessWidget {
             child: CustomTextFormField(
               controller: TextEditingController(text: cardDetails),
               hintText: '',
-              prefixIcon:
-                  Icon(Icons.credit_card, color: AppColors.primaryColor),
+              prefixIcon: const Icon(Icons.credit_card, color: AppColors.primaryColor),
               readOnly: true,
               showCursor: false,
               readOnlyBackgroundColor: Colors.white,

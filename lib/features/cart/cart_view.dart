@@ -21,6 +21,7 @@ class _CartViewState extends State<CartView> {
   double? totalPrice;
   bool _isPlacingOrder = false;
   List<String> locations = ["مبنى ال C (الهندسية)", "مجمع القاعات التدريسية", "مبنى ال P (الطبية)"];
+  var paymentMethod = 'cash';
 
   int drpdownValue = 0;
   @override
@@ -54,6 +55,51 @@ class _CartViewState extends State<CartView> {
                       );
                     },
                   ),
+                ),
+                Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 26),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                        border: Border.all(color: AppColors.primaryColor),
+                      ),
+                      child: ListTile(
+                        title: const Text('دفع نقدي عند الإستلام', style: TextStyles.bold13),
+                        leading: Radio<String>(
+                          value: 'cash',
+                          groupValue: paymentMethod,
+                          onChanged: (value) {
+                            setState(() {
+                              paymentMethod = value!;
+                            });
+                          },
+                          toggleable: false,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 26),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: const Color.fromARGB(132, 245, 245, 245),
+                        border: Border.all(color: const Color.fromARGB(255, 136, 136, 136)),
+                      ),
+                      child: ListTile(
+                        title: const Text('''دفع عن طريق البطاقة 
+(سيتم تفعيلها لاحقاً)''', style: TextStyles.bold13),
+                        leading: Radio<String>(
+                          value: 'Visa',
+                          groupValue: paymentMethod,
+                          onChanged: (value) {},
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24),

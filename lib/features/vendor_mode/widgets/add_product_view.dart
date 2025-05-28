@@ -31,6 +31,8 @@ class _AddProductViewState extends State<AddProductView> {
   String? description;
   String? price;
   String? imageBase64;
+  bool isLoading = false;
+
   List<String> categories = [
     "لوازم الدراسة",
     "التقنية والإلكترونيات",
@@ -69,8 +71,11 @@ class _AddProductViewState extends State<AddProductView> {
                 DropdownButtonFormField<int>(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   decoration: InputDecoration(
-                      border:
-                          OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey), borderRadius: BorderRadius.circular(10))),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   dropdownColor: Colors.white.withAlpha(230),
                   items: const [
                     DropdownMenuItem(value: 0, child: Text("لوازم الدراسة", style: TextStyle(color: AppColors.primaryColor))),
@@ -119,13 +124,15 @@ class _AddProductViewState extends State<AddProductView> {
                 ),
                 const SizedBox(height: 16),
                 Center(
-                  child: ElevatedButton(
-                    onPressed: _submit,
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
-                    ),
-                    child: Text("اضافة", style: TextStyles.semiBold16.copyWith(color: Colors.white)),
-                  ),
+                  child: isLoading
+                      ? const CircularProgressIndicator(color: AppColors.primaryColor)
+                      : ElevatedButton(
+                          onPressed: _submit,
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
+                          ),
+                          child: Text("اضافة", style: TextStyles.semiBold16.copyWith(color: Colors.white)),
+                        ),
                 ),
               ],
             ),
@@ -166,6 +173,11 @@ class _AddProductViewState extends State<AddProductView> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      setState(() {
+        isLoading = true;
+      });
+
       productItemModel = ProductItemModel(
         productCategory: categories[drpdownValue],
         vendorId: widget.signedUID!,
@@ -175,32 +187,34 @@ class _AddProductViewState extends State<AddProductView> {
         price: price ?? 'price was null',
       );
 
-      productItemModel = productItemModel;
       addProductToFirebase();
-
-      //  log('${productItemModel!.name}  ${productItemModel!.description}   ${productItemModel!.price}   ${productItemModel!.imageBase64}');
     }
   }
 
   void addProductToFirebase() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     try {
-      var docRef = await FirebaseFirestore.instance.collection(BackendEndpoints.addProduct).add(
-            productItemModel!.toMap(),
-          );
+      var docRef = await firestore.collection(BackendEndpoints.addProduct).add(productItemModel!.toMap());
       await docRef.update({'productId': docRef.id});
-      log('thee document ref is ${docRef.id}');
+      log('the document ref is ${docRef.id}');
 
-      addProductIdToUser(userId: widget.signedUID!, productId: docRef.id);
+      await addProductIdToUser(userId: widget.signedUID!, productId: docRef.id);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('تمت إضافة المنتج بنجاح')),
       );
 
       Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          isLoading = false;
+        });
         Navigator.of(context).pop();
       });
     } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+
       log('Error adding product: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('حدث خطأ أثناء إضافة المنتج')),
@@ -211,8 +225,6 @@ class _AddProductViewState extends State<AddProductView> {
   Future<void> addProductIdToUser({required String userId, required String productId}) async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-      // Add the product ID to the user's productIds list
       await firestore.collection(BackendEndpoints.addUserData).doc(userId).update({
         'allProducts': FieldValue.arrayUnion([productId]),
       });

@@ -92,7 +92,10 @@ class _AddProductViewState extends State<AddProductView> {
                 TextFormField(
                   decoration: _inputDecoration("السعر"),
                   keyboardType: TextInputType.number,
-                  onSaved: (value) => price = value!,
+                  onSaved: (value) {
+                    price = value!;
+                    price = convertArabicToEnglish(price!);
+                  },
                 ),
                 const SizedBox(height: 8),
                 _buildLabel("صورة المنتج:"),
@@ -218,5 +221,16 @@ class _AddProductViewState extends State<AddProductView> {
     } catch (e) {
       debugPrint('Error adding product ID to user: $e');
     }
+  }
+
+  String convertArabicToEnglish(String input) {
+    const arabicNums = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    const englishNums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    for (int i = 0; i < arabicNums.length; i++) {
+      input = input.replaceAll(arabicNums[i], englishNums[i]);
+    }
+
+    return input;
   }
 }

@@ -15,6 +15,7 @@ class UserModel extends UserEntity {
   List<String> allProducts = [];
   @override
   List<String> allOrders = [];
+  @override
   List<String> orderToDeliver = [];
 
   factory UserModel.fromFirebaseUser(User user) {

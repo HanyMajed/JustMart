@@ -54,7 +54,7 @@ class JustMart extends StatelessWidget {
           darkTheme: ThemeData(
             scaffoldBackgroundColor: Colors.grey[900],
             fontFamily: 'Cairo',
-            colorScheme: ColorScheme.dark(
+            colorScheme: const ColorScheme.dark(
               primary: AppColors.primaryColor,
             ),
           ),

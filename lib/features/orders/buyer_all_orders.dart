@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:just_mart/features/cart/cart_provider.dart';
 import 'package:just_mart/features/orders/buyer_track_order_view.dart';
 import 'package:just_mart/features/orders/order_card.dart';

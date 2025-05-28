@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:just_mart/features/auth/data/domain/entities/user_entity.dart';
-import 'package:just_mart/features/cart/cart_view.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/custom_bottom_navigatonbar.dart';
 import 'package:just_mart/features/home/presentation/views/widgets/product_details_view.dart';
 import 'package:just_mart/features/vendor_mode/widgets/product_item_model.dart';

@@ -46,7 +46,7 @@ class _CartViewState extends State<CartView> {
                     itemBuilder: (context, index) {
                       return CartItem(
                         onRemove: () {
-                          cartProvider.removeFromCart(cartItems[index].productId);
+                          cartProvider.removeAt(index);
                           setState(() {
                             totalPrice = cartProvider.total;
                           });

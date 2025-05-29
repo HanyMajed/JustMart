@@ -24,6 +24,13 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeAt(int index) {
+    if (index >= 0 && index < _items.length) {
+      _items.removeAt(index);
+      notifyListeners();
+    }
+  }
+
   void removeFromCart(String productId) {
     _items.removeWhere((item) => item.productId == productId);
     notifyListeners();

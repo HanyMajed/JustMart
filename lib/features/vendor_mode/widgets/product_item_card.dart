@@ -52,8 +52,11 @@ class _ProductItemCardState extends State<ProductItemCard> {
         ),
         child: Row(
           // Changed from Column to Row
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(
+              width: 12,
+            ),
             // Image - now on the left side
             ClipRRect(
               borderRadius: const BorderRadius.horizontal(
@@ -133,6 +136,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
+                          textAlign: TextAlign.center,
                           '${widget.item.price} JOD',
                           style: const TextStyle(
                             fontSize: 14,

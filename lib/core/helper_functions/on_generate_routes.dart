@@ -25,11 +25,19 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case MyProfileInfoPage.routeName:
       return MaterialPageRoute(builder: (context) => const MyProfileInfoPage());
     case FavouriteScreen.routeName:
-      return MaterialPageRoute(builder: (context) => const FavouriteScreen());
+      final String signedUID = settings.arguments as String;
+      return MaterialPageRoute(
+          builder: (context) => FavouriteScreen(
+                signedUId: signedUID,
+              ));
+
     case WhoAreWePage.routeName:
       return MaterialPageRoute(builder: (context) => const WhoAreWePage());
     case ProfileScreen.routeName:
-      return MaterialPageRoute(builder: (context) => const ProfileScreen());
+      final String signedUID = settings.arguments as String;
+      return MaterialPageRoute(
+        builder: (context) => ProfileScreen(signedUID: signedUID),
+      );
     case ForgetPasswordPage.routeName:
       return MaterialPageRoute(builder: (context) => const ForgetPasswordPage());
     case TermsAndConditionsPage.routeName:

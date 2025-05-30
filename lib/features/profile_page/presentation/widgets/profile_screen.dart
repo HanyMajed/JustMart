@@ -13,8 +13,9 @@ import 'package:just_mart/widgets/confirmation_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.signedUID});
   static const String routeName = "profilescreen";
+  final String signedUID;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -79,6 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     // Now properly recognized
                     builder: (context, themeProvider, child) {
                       return ProfileSettingsList(
+                        signedUID: widget.signedUID,
                         isDarkMode: themeProvider.isDarkMode,
                         isStudentMode: _isStudentMode,
                         onDarkModeChanged: (value) => themeProvider.toggleTheme(value),

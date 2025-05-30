@@ -17,13 +17,14 @@ class ProfileSettingsList extends StatefulWidget {
   final bool isStudentMode;
   final ValueChanged<bool> onDarkModeChanged;
   final ValueChanged<bool> onStudentModeChanged;
-
+  final String signedUID;
   const ProfileSettingsList({
     super.key,
     required this.isDarkMode,
     required this.isStudentMode,
     required this.onDarkModeChanged,
     required this.onStudentModeChanged,
+    required this.signedUID,
   });
 
   @override
@@ -90,11 +91,10 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
         icon: Icons.favorite_outline_outlined,
         title: 'المفضله',
         onTap: () {
-          Navigator.pushNamed(context, FavouriteScreen.routeName);
+          Navigator.pushNamed(context, FavouriteScreen.routeName, arguments: widget.signedUID);
         },
         color: AppColors.lightprimaryColor,
       ),
-
       ProfileListItem(
         icon: Icons.notifications_none_outlined,
         title: 'الاشعارات',
@@ -136,7 +136,6 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
         },
         color: AppColors.lightprimaryColor,
       ),
-      // ... Add other menu items following the same pattern
     ];
 
     return ListView.separated(

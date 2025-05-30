@@ -74,7 +74,7 @@ class CustomHomeAppbar extends StatelessWidget {
   Widget _buildPressableProfilePhoto(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ProfileScreen.routeName);
+        Navigator.pushNamed(context, ProfileScreen.routeName, arguments: signedUID);
       },
       child: Image.asset(Assets.assetsImagesProfilePhotoIcon),
     );
@@ -106,10 +106,7 @@ class CustomHomeAppbar extends StatelessWidget {
 
   Future<Map<String, dynamic>> fetchUserData() async {
     try {
-      final doc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(signedUID)
-          .get();
+      final doc = await FirebaseFirestore.instance.collection('users').doc(signedUID).get();
       return doc.data() ?? {};
     } catch (e) {
       debugPrint('Error fetching user: $e');

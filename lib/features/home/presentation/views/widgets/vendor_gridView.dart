@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/backend_endpoints.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,14 +20,39 @@ class VendorGridView extends StatefulWidget {
 
 class _VendorGridViewState extends State<VendorGridView> {
   List<ProductItemModel> vendorProducts = [];
-  String selectedCategory = 'الكل'; // Moved from global to state variable
+  List<String> productIds = [];
+  List<String> favoriteProductIds = []; // To store user's favorite product IDs
+
+  String selectedCategory = 'الكل';
   bool isLoading = true;
   String? error;
+  String productId = '';
 
   @override
   void initState() {
-    _loadProducts();
+    _loadUserFavorites(); // Load user favorites first
     super.initState();
+  }
+
+  Future<void> _loadUserFavorites() async {
+    try {
+      final doc = await FirebaseFirestore.instance.collection('users').doc(widget.signedUID).get();
+
+      if (doc.exists) {
+        final data = doc.data();
+        if (data != null && data.containsKey('favoriteProducts')) {
+          setState(() {
+            favoriteProductIds = List<String>.from(data['favoriteProducts'] ?? []);
+          });
+        }
+      }
+      await _loadProducts(); // After loading favorites, load products
+    } catch (e) {
+      setState(() {
+        error = e.toString();
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -56,6 +82,9 @@ class _VendorGridViewState extends State<VendorGridView> {
                   itemCount: vendorProducts.length,
                   itemBuilder: (context, index) {
                     final product = vendorProducts[index];
+                    final productId = productIds[index];
+                    final isFavorite = favoriteProductIds.contains(productId); // Check if product is favorite
+
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -64,15 +93,18 @@ class _VendorGridViewState extends State<VendorGridView> {
                             builder: (context) => ProductDetailsView(
                               productItemModel: product,
                               signedUID: widget.signedUID,
-                              productId: product.productId,
+                              productId: productId,
                             ),
                           ),
                         );
                       },
                       child: ItemProduct(
+                        signedUID: widget.signedUID,
+                        productId: productId,
                         productImage: product.imageBase64,
                         productName: product.productName,
                         productPrice: product.price,
+                        isFavorite: isFavorite, // Pass the favorite status
                       ),
                     );
                   },
@@ -94,8 +126,9 @@ class _VendorGridViewState extends State<VendorGridView> {
       }
 
       final querySnapshot = await query.get();
-
+      productIds.clear();
       final tempProducts = querySnapshot.docs.map((doc) {
+        productIds.add(doc.id);
         return ProductItemModel(
           productCategory: doc['productCategory'] ?? '',
           vendorId: doc['vendorId'] ?? '',

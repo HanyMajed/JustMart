@@ -32,7 +32,7 @@ class _AddProductViewState extends State<AddProductView> {
   String? price;
   String? imageBase64;
   bool isLoading = false;
-
+  bool imageSelected = false;
   List<String> categories = [
     "لوازم الدراسة",
     "التقنية والإلكترونيات",
@@ -60,12 +60,14 @@ class _AddProductViewState extends State<AddProductView> {
                 TextFormField(
                   decoration: _inputDecoration("اسم المنتج"),
                   onSaved: (value) => name = value!,
+                  validator: (value) => value!.isEmpty ? "يرجى ادخال اسم المنتج" : null,
                 ),
                 const SizedBox(height: 8),
                 _buildLabel("وصف المنتج:"),
                 TextFormField(
                   decoration: _inputDecoration("وصف المنتج"),
                   onSaved: (value) => description = value!,
+                  validator: (value) => value!.isEmpty ? "يرجى ادخال وصف المنتج" : null,
                 ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<int>(
@@ -101,6 +103,7 @@ class _AddProductViewState extends State<AddProductView> {
                     price = value!;
                     price = convertArabicToEnglish(price!);
                   },
+                  validator: (value) => value!.isEmpty ? "يرجى ادخال السعر" : null,
                 ),
                 const SizedBox(height: 8),
                 _buildLabel("صورة المنتج:"),
@@ -146,6 +149,7 @@ class _AddProductViewState extends State<AddProductView> {
     final image = await pickImage(ImageSource.gallery);
     if (image != null) {
       setState(() {
+        imageSelected = true;
         img = image;
         imageBase64 = base64Encode(img!);
       });
@@ -171,7 +175,7 @@ class _AddProductViewState extends State<AddProductView> {
   }
 
   void _submit() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && imageSelected == true) {
       _formKey.currentState!.save();
 
       setState(() {
@@ -188,6 +192,15 @@ class _AddProductViewState extends State<AddProductView> {
       );
 
       addProductToFirebase();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            backgroundColor: Color.fromARGB(255, 156, 10, 0),
+            content: Text(
+              'يرجى إختيار صورة المنتج',
+              style: TextStyles.bold13,
+            )),
+      );
     }
   }
 

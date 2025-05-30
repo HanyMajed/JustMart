@@ -71,9 +71,7 @@ class _ItemProductState extends State<ItemProduct> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 120, // Reduced image height
-                  width: double.infinity,
+                Expanded(
                   child: decodedImage != null
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(4),

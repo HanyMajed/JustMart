@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:just_mart/features/auth/data/domain/entities/user_entity.dart';
-import 'package:just_mart/features/orders/order_model.dart';
 
 class UserModel extends UserEntity {
   UserModel({
@@ -36,7 +35,6 @@ class UserModel extends UserEntity {
       uId: json['uId'],
       role: json['role'],
       phoneNumber: json['phoneNumber'],
-      //  emailVerified: json['emailVerified'] ?? false, // Add this
     );
   }
 }

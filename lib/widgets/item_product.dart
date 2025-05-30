@@ -1,27 +1,47 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
+import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:just_mart/core/utils/app_colors.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 
-class ItemProduct extends StatelessWidget {
-  const ItemProduct({
+class ItemProduct extends StatefulWidget {
+  ItemProduct({
     super.key,
     required this.productName,
     required this.productPrice,
     required this.productImage,
+    required this.productId,
+    required this.signedUID,
+    required this.isFavorite, // Added isFavorite parameter
   });
 
-  final String productName, productPrice, productImage;
+  final String productName, productPrice, productImage, productId, signedUID;
+  final bool isFavorite; // Added to track initial favorite state
+
+  @override
+  State<ItemProduct> createState() => _ItemProductState();
+}
+
+class _ItemProductState extends State<ItemProduct> {
+  late IconData icon;
+  late bool isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = widget.isFavorite; // Initialize with the passed value
+    icon = isFavorite ? Icons.favorite : Icons.favorite_outline;
+  }
 
   @override
   Widget build(BuildContext context) {
     Uint8List? decodedImage;
 
     try {
-      if (productImage.isNotEmpty) {
-        decodedImage = base64Decode(productImage);
+      if (widget.productImage.isNotEmpty) {
+        decodedImage = base64Decode(widget.productImage);
       }
     } catch (e) {
       debugPrint('Error decoding image: $e');
@@ -74,7 +94,7 @@ class ItemProduct extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        productName,
+                        widget.productName,
                         style: TextStyles.bold13, // Reduced font size
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -86,7 +106,7 @@ class ItemProduct extends StatelessWidget {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: productPrice,
+                                  text: widget.productPrice,
                                   style: TextStyles.bold13.copyWith(
                                     color: AppColors.seconderyColor,
                                   ),
@@ -116,6 +136,24 @@ class ItemProduct extends StatelessWidget {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 8),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isFavorite = !isFavorite; // Toggle the state
+                            icon = isFavorite ? Icons.favorite : Icons.favorite_outline; // Set icon based on new state
+                            if (isFavorite) {
+                              addToFavorite(widget.signedUID, widget.productId);
+                            } else {
+                              delteFromFavorite(widget.signedUID, widget.productId);
+                            }
+                          });
+                        },
+                        child: Icon(
+                          icon,
+                          color: isFavorite ? Colors.red : Colors.grey,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -138,5 +176,29 @@ class ItemProduct extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> addToFavorite(String uid, String productId) async {
+    try {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      await firestore.collection('users').doc(uid).update({
+        'favoriteProducts': FieldValue.arrayUnion([productId])
+      });
+    } catch (e) {
+      log('failed to add product to favorite: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  Future<void> delteFromFavorite(String uid, String productId) async {
+    try {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      await firestore.collection('users').doc(uid).update({
+        'favoriteProducts': FieldValue.arrayRemove([productId])
+      });
+    } catch (e) {
+      log('failed to remove product from favorite: ${e.toString()}');
+      rethrow;
+    }
   }
 }

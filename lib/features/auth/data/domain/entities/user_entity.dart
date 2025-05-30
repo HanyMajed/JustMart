@@ -4,11 +4,13 @@ class UserEntity {
   final String uId;
   String role;
   String phoneNumber;
+
   // bool emailVerified; // New field
 
   List<String> allProducts = [];
   List<String> allOrders = [];
   List<String> orderToDeliver = [];
+  List<String> favoriteProducts = [];
 
   UserEntity({
     required this.name,
@@ -28,6 +30,7 @@ class UserEntity {
       'role': role,
       "phoneNumber": phoneNumber,
       'allProducts': [],
+      'favoriteProducts': [],
     };
   }
 }

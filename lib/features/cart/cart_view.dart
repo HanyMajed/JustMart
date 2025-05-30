@@ -193,8 +193,6 @@ class _CartViewState extends State<CartView> {
       await FirebaseFirestore.instance.collection(BackendEndpoints.placeOrder).doc(order.orderId).update({
         'deliveryLocation': locations[drpdownValue],
       });
-      // Success handling
-      //cartProvider.clearCart(); // Clear the cart after successful order
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

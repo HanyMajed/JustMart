@@ -22,8 +22,8 @@ class FeaturedItemButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: FittedBox(
             child: Text(
-              'تسوق الان',
-              style: TextStyles.bold13.copyWith(
+              'إسحب الشاشة',
+              style: TextStyles.bold19.copyWith(
                 color: AppColors.primaryColor,
               ),
             ),

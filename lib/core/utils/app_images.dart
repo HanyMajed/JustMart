@@ -6,6 +6,10 @@ class Assets {
   /// assets/images/accessories.jpg
   static const String assetsImagesAccessories = "assets/images/accessories.jpg";
 
+  /// Assets for assetsImagesAll
+  /// assets/images/all.png
+  static const String assetsImagesAll = "assets/images/all.png";
+
   /// Assets for assetsImagesApple
   /// assets/images/apple.svg
   static const String assetsImagesApple = "assets/images/apple.svg";
@@ -69,6 +73,10 @@ class Assets {
   /// Assets for assetsImagesItemViewpage2Image
   /// assets/images/item_viewpage2_image.svg
   static const String assetsImagesItemViewpage2Image = "assets/images/item_viewpage2_image.svg";
+
+  /// Assets for assetsImagesJustMartForBanner
+  /// assets/images/just_mart_for_banner.png
+  static const String assetsImagesJustMartForBanner = "assets/images/just_mart_for_banner.png";
 
   /// Assets for assetsImagesJustMartIcon
   /// assets/images/just_mart_icon.png
@@ -141,6 +149,10 @@ class Assets {
   /// Assets for assetsImagesVector
   /// assets/images/Vector.svg
   static const String assetsImagesVector = "assets/images/Vector.svg";
+
+  /// Assets for assetsImagesVendor
+  /// assets/images/vendor.png
+  static const String assetsImagesVendor = "assets/images/vendor.png";
 
   /// Assets for assetsImagesVuesaxBoldProducts
   /// assets/images/vuesax/bold/products.svg

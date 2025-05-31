@@ -57,58 +57,62 @@ class _VendorGridViewState extends State<VendorGridView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CustomBottomNavigatonbar(
-        signedUID: widget.signedUID,
-        onCategorySelected: (category) {
-          setState(() {
-            selectedCategory = category;
-          });
-          _loadProducts();
-        },
-      ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : vendorProducts.isEmpty
-              ? const Center(child: Text('لا توجد منتجات متاحة'))
-              : GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.8,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                  ),
-                  itemCount: vendorProducts.length,
-                  itemBuilder: (context, index) {
-                    final product = vendorProducts[index];
-                    final productId = productIds[index];
-                    final isFavorite = favoriteProductIds.contains(productId); // Check if product is favorite
+    return WillPopScope(
+      onWillPop: () async => false, // Disable back gesture & back button
 
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProductDetailsView(
-                              productItemModel: product,
-                              signedUID: widget.signedUID,
-                              productId: productId,
+      child: Scaffold(
+        bottomNavigationBar: CustomBottomNavigatonbar(
+          signedUID: widget.signedUID,
+          onCategorySelected: (category) {
+            setState(() {
+              selectedCategory = category;
+            });
+            _loadProducts();
+          },
+        ),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : vendorProducts.isEmpty
+                ? const Center(child: Text('لا توجد منتجات متاحة'))
+                : GridView.builder(
+                    padding: const EdgeInsets.all(16),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.8,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                    ),
+                    itemCount: vendorProducts.length,
+                    itemBuilder: (context, index) {
+                      final product = vendorProducts[index];
+                      final productId = productIds[index];
+                      final isFavorite = favoriteProductIds.contains(productId); // Check if product is favorite
+
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductDetailsView(
+                                productItemModel: product,
+                                signedUID: widget.signedUID,
+                                productId: productId,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: ItemProduct(
-                        signedUID: widget.signedUID,
-                        productId: productId,
-                        productImage: product.imageBase64,
-                        productName: product.productName,
-                        productPrice: product.price,
-                        isFavorite: isFavorite, // Pass the favorite status
-                      ),
-                    );
-                  },
-                ),
+                          );
+                        },
+                        child: ItemProduct(
+                          signedUID: widget.signedUID,
+                          productId: productId,
+                          productImage: product.imageBase64,
+                          productName: product.productName,
+                          productPrice: product.price,
+                          isFavorite: isFavorite, // Pass the favorite status
+                        ),
+                      );
+                    },
+                  ),
+      ),
     );
   }
 

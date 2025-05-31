@@ -40,6 +40,7 @@ class _VendorNameCardState extends State<VendorNameCard> {
   }
 
   void _resetAndReload() {
+    if (!mounted) return; // Add mounted check
     setState(() {
       isLoading = true;
       base64Image = null;
@@ -83,15 +84,18 @@ class _VendorNameCardState extends State<VendorNameCard> {
                 children: [
                   Text(
                     widget.vendor.name,
-                    style: TextStyles.bold19.copyWith(color: AppColors.primaryColor),
+                    style: TextStyles.bold19
+                        .copyWith(color: AppColors.primaryColor),
                   ),
                   Text(
                     widget.vendor.phoneNumber,
-                    style: TextStyles.semiBold16.copyWith(color: Colors.grey.shade700),
+                    style: TextStyles.semiBold16
+                        .copyWith(color: Colors.grey.shade700),
                   ),
                   Text(
                     '$productCount منتجات',
-                    style: TextStyles.bold13.copyWith(color: Colors.grey.shade800),
+                    style:
+                        TextStyles.bold13.copyWith(color: Colors.grey.shade800),
                   ),
                 ],
               ),
@@ -150,12 +154,18 @@ class _VendorNameCardState extends State<VendorNameCard> {
         _fetchVendorProductCount(),
       ]);
 
+      // Add mounted check before setState
+      if (!mounted) return;
+
       setState(() {
         base64Image = results[0] as String?;
         productCount = results[1] as int;
         isLoading = false;
       });
     } catch (e) {
+      // Add mounted check before setState
+      if (!mounted) return;
+
       print('Error loading vendor data: $e');
       setState(() => isLoading = false);
     }
@@ -163,8 +173,11 @@ class _VendorNameCardState extends State<VendorNameCard> {
 
   Future<String?> _getFirstProductImageForVendor() async {
     try {
-      final querySnapshot =
-          await FirebaseFirestore.instance.collection('products').where('vendorId', isEqualTo: widget.vendor.uId).limit(1).get();
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('products')
+          .where('vendorId', isEqualTo: widget.vendor.uId)
+          .limit(1)
+          .get();
 
       if (querySnapshot.docs.isNotEmpty) {
         final productData = querySnapshot.docs.first.data();
@@ -181,7 +194,10 @@ class _VendorNameCardState extends State<VendorNameCard> {
     int count = 0;
 
     try {
-      final aggregateQuery = FirebaseFirestore.instance.collection('products').where('vendorId', isEqualTo: widget.vendor.uId).count();
+      final aggregateQuery = FirebaseFirestore.instance
+          .collection('products')
+          .where('vendorId', isEqualTo: widget.vendor.uId)
+          .count();
 
       final aggregateSnapshot = await aggregateQuery.get();
       count = aggregateSnapshot.count!;

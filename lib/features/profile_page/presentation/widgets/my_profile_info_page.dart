@@ -33,10 +33,7 @@ class _MyProfileInfoPageState extends State<MyProfileInfoPage> {
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        final doc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
+        final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
 
         setState(() {
           _nameController.text = doc['name'] ?? 'مستخدم جديد';
@@ -174,20 +171,17 @@ class _MyProfileInfoPageState extends State<MyProfileInfoPage> {
                       const SizedBox(height: 8),
                       Text(
                         'لإعادة تعيين كلمة المرور، سيتم إرسال رابط إلى بريدك الإلكتروني المسجل',
-                        style: TextStyles.regular13
-                            .copyWith(color: AppColors.primaryColor),
+                        style: TextStyles.regular13.copyWith(color: AppColors.primaryColor),
                         textAlign: TextAlign.right,
                       ),
                       const SizedBox(height: 16),
                       CustomButton(
                         onPressed: _resetPassword,
-                        text: _isResettingPassword
-                            ? 'جاري الإرسال...'
-                            : 'إرسال رابط التغيير',
+                        text: _isResettingPassword ? 'جاري الإرسال...' : 'إرسال رابط التغيير',
                       ),
                       const SizedBox(height: 32),
                       CustomButton(
-                        text: 'حفظ التغييرات',
+                        text: 'الرجوع الى الخلف',
                         onPressed: () {
                           // Optional: Handle other save logic
                           Navigator.pop(context);

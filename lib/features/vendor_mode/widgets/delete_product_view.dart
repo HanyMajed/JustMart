@@ -107,7 +107,7 @@ class _DeleteProductViewState extends State<DeleteProductView> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('تمت حذف المنتج بنجاح')),
+        const SnackBar(content: Text('تم حذف المنتج بنجاح')),
       );
     } catch (e) {
       print('Error deleting product: $e');

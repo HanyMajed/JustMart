@@ -40,7 +40,7 @@ class CustomHomeAppbar extends StatelessWidget {
                   children: [
                     VendorIconWidget(signedUID: signedUID),
                     const SizedBox(width: 5),
-                    const NotificationWidget(),
+                    //   const NotificationWidget(),
                     const SizedBox(width: 5),
                     const SignOutWidget(),
                   ],
@@ -48,7 +48,7 @@ class CustomHomeAppbar extends StatelessWidget {
               : const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    NotificationWidget(),
+                    //  NotificationWidget(),
                     SizedBox(width: 5),
                     SignOutWidget(),
                   ],

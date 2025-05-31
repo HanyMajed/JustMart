@@ -5,26 +5,37 @@ import 'package:just_mart/features/home/presentation/views/widgets/featured_item
 class FeaturedList extends StatelessWidget {
   final List<Map<String, String>> banners = [
     {
-      'image': Assets.assetsImagesElectronicsTest,
-      'title': 'العروض المميزة',
-      'discount': 'خصم 30%',
+      'image': Assets.assetsImagesStudying,
+      'title': 'كل ما تحتاجه',
+      'discount': 'لوازم الدراسة',
     },
     {
       'image': Assets.assetsImagesClothes,
-      'title': 'تنزيلات الصيف',
-      'discount': 'خصم 50%',
+      'title': 'أحدث الصيحات',
+      'discount': 'الملابس والموضة',
     },
     {
-      'image': Assets.assetsImagesShoes,
-      'title': 'عروض المنزل',
-      'discount': 'خصم 25%',
+      'image': Assets.assetsImagesFood,
+      'title': 'ذوق لا يُقاوم',
+      'discount': 'الطعام والحلويات',
     },
     {
-      'image': Assets.assetsImagesStudying,
-      'title': 'عروض رياضية',
-      'discount': 'خصم 40%',
+      'image': Assets.assetsImagesHobbies,
+      'title': 'استمتع بوقتك',
+      'discount': 'الترفيه والهوايات',
+    },
+    {
+      'image': Assets.assetsImagesAccessories,
+      'title': 'أضف لمستك',
+      'discount': 'الاكسسوارات',
+    },
+    {
+      'image': Assets.assetsImagesOther,
+      'title': 'تسوق أكثر',
+      'discount': 'غيرها',
     },
   ];
+
   FeaturedList({super.key});
 
   @override

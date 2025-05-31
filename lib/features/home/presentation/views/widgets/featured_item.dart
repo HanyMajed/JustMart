@@ -46,7 +46,8 @@ class FeaturedItem extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 33),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(
                         height: 25,
@@ -57,7 +58,9 @@ class FeaturedItem extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                      const Spacer(),
+                      const SizedBox(
+                        height: 11,
+                      ),
                       Text(
                         discount,
                         style: TextStyles.bold19.copyWith(
@@ -67,8 +70,15 @@ class FeaturedItem extends StatelessWidget {
                       const SizedBox(
                         height: 11,
                       ),
-                      FeaturedItemButton(
-                        onPressed: () {},
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 32,
+                          ),
+                          Icon(Icons.arrow_forward_ios, color: Colors.white),
+                          Icon(Icons.arrow_forward_ios, color: Colors.white),
+                        ],
                       ),
                       const SizedBox(
                         height: 29,

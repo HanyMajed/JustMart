@@ -21,6 +21,9 @@ class MyPaymentCards extends StatelessWidget {
             _buildPaymentCard('MASTERCARD****1234'),
             const SizedBox(height: 16),
             _buildPaymentCard('VISA****4887 '),
+            const SizedBox(height: 16),
+            Text('ستتوفر هذه الخدمة لاحقا',
+                style: TextStyles.bold16.copyWith(backgroundColor: AppColors.primaryColor, color: Colors.white)),
             const Spacer(),
             CustomButton(
               onPressed: () => _addNewPaymentMethod(context),

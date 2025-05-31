@@ -95,22 +95,22 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
         },
         color: AppColors.lightprimaryColor,
       ),
-      ProfileListItem(
-        icon: Icons.notifications_none_outlined,
-        title: 'الاشعارات',
-        color: AppColors.lightprimaryColor,
-        trailing: Switch(
-          value: widget.isStudentMode,
-          activeColor: AppColors.lightprimaryColor,
-          onChanged: widget.onStudentModeChanged,
-        ),
-      ),
-      ProfileListItem(
-        icon: Icons.sports_basketball_outlined,
-        title: 'اللغه',
-        onTap: () {},
-        color: AppColors.lightprimaryColor,
-      ),
+      // ProfileListItem(
+      //   icon: Icons.notifications_none_outlined,
+      //   title: 'الاشعارات',
+      //   color: AppColors.lightprimaryColor,
+      //   trailing: Switch(
+      //     value: widget.isStudentMode,
+      //     activeColor: AppColors.lightprimaryColor,
+      //     onChanged: widget.onStudentModeChanged,
+      //   ),
+      // ),
+      // ProfileListItem(
+      //   icon: Icons.sports_basketball_outlined,
+      //   title: 'اللغه',
+      //   onTap: () {},
+      //   color: AppColors.lightprimaryColor,
+      // ),
       ProfileListItem(
         icon: Icons.mode_edit_outlined,
         title: 'الوضع',

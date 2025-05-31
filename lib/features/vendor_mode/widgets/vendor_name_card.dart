@@ -21,13 +21,30 @@ class VendorNameCard extends StatefulWidget {
 }
 
 class _VendorNameCardState extends State<VendorNameCard> {
-  String base64ImageEncoded = '';
+  String? base64Image;
   bool isLoading = true;
-  List<Map<String, dynamic>> vendorProducts = [];
+  int productCount = 0;
 
   @override
   void initState() {
     super.initState();
+    _loadVendorData();
+  }
+
+  @override
+  void didUpdateWidget(VendorNameCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.vendor.uId != widget.vendor.uId) {
+      _resetAndReload();
+    }
+  }
+
+  void _resetAndReload() {
+    setState(() {
+      isLoading = true;
+      base64Image = null;
+      productCount = 0;
+    });
     _loadVendorData();
   }
 
@@ -73,7 +90,7 @@ class _VendorNameCardState extends State<VendorNameCard> {
                     style: TextStyles.semiBold16.copyWith(color: Colors.grey.shade700),
                   ),
                   Text(
-                    '${vendorProducts.length} منتجات',
+                    '$productCount منتجات',
                     style: TextStyles.bold13.copyWith(color: Colors.grey.shade800),
                   ),
                 ],
@@ -99,9 +116,9 @@ class _VendorNameCardState extends State<VendorNameCard> {
         borderRadius: BorderRadius.circular(8),
         child: isLoading
             ? _buildPlaceholderIcon()
-            : (base64ImageEncoded.isNotEmpty
+            : (base64Image != null
                 ? Image.memory(
-                    base64Decode(base64ImageEncoded),
+                    base64Decode(base64Image!),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return _buildDefaultAssetImage();
@@ -127,36 +144,51 @@ class _VendorNameCardState extends State<VendorNameCard> {
   }
 
   Future<void> _loadVendorData() async {
-    await getFirstProductImageForVendor(widget.vendor);
-    await fetchAllVendorProducts(widget.vendor.uId);
-    setState(() {
-      isLoading = false;
-    });
+    try {
+      final results = await Future.wait([
+        _getFirstProductImageForVendor(),
+        _fetchVendorProductCount(),
+      ]);
+
+      setState(() {
+        base64Image = results[0] as String?;
+        productCount = results[1] as int;
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error loading vendor data: $e');
+      setState(() => isLoading = false);
+    }
   }
 
-  Future<void> getFirstProductImageForVendor(UserEntity vendor) async {
+  Future<String?> _getFirstProductImageForVendor() async {
     try {
-      final querySnapshot = await FirebaseFirestore.instance.collection('products').where('vendorId', isEqualTo: vendor.uId).limit(1).get();
+      final querySnapshot =
+          await FirebaseFirestore.instance.collection('products').where('vendorId', isEqualTo: widget.vendor.uId).limit(1).get();
 
       if (querySnapshot.docs.isNotEmpty) {
         final productData = querySnapshot.docs.first.data();
-        final base64Image = productData['imageBase64'] as String?;
-        if (base64Image != null && base64Image.isNotEmpty) {
-          base64ImageEncoded = base64Image;
-        }
+        return productData['imageBase64'] as String?;
       }
+      return null;
     } catch (e) {
       print('Error fetching product image: $e');
+      return null;
     }
   }
 
-  Future<void> fetchAllVendorProducts(String vendorId) async {
-    try {
-      final querySnapshot = await FirebaseFirestore.instance.collection('products').where('vendorId', isEqualTo: vendorId).get();
+  Future<int> _fetchVendorProductCount() async {
+    int count = 0;
 
-      vendorProducts = querySnapshot.docs.map((doc) => doc.data()).toList();
+    try {
+      final aggregateQuery = FirebaseFirestore.instance.collection('products').where('vendorId', isEqualTo: widget.vendor.uId).count();
+
+      final aggregateSnapshot = await aggregateQuery.get();
+      count = aggregateSnapshot.count!;
     } catch (e) {
-      print('Error fetching all products: $e');
+      print('Error fetching product count: $e');
     }
+
+    return count;
   }
 }

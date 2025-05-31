@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:just_mart/constants.dart';
 import 'package:just_mart/core/utils/app_text_styles.dart';
 import 'package:just_mart/features/auth/data/domain/entities/user_entity.dart';
@@ -24,6 +23,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   List<UserEntity> users = [];
   List<UserEntity> filteredUsers = [];
   final TextEditingController searchController = TextEditingController();
+  bool isFetching = false;
 
   @override
   void initState() {
@@ -32,56 +32,68 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   }
 
   void filterVendors(String query) {
-    setState(() {
-      filteredUsers = users.where((vendor) => vendor.name.toLowerCase().contains(query.toLowerCase())).toList();
-    });
+    if (query.isEmpty) {
+      setState(() => filteredUsers = List.from(users));
+    } else {
+      setState(() {
+        filteredUsers = users.where((vendor) => vendor.name.toLowerCase().contains(query.toLowerCase())).toList();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizantalPadding),
-            child: Column(
-              children: [
-                const SizedBox(height: kTopPadding),
-                CustomHomeAppbar(signedUID: widget.signedUID),
-                const SizedBox(height: kTopPadding),
-                FeaturedList(),
-                const SizedBox(height: 12),
-                SearchTextfield(
-                  controller: searchController,
-                  onChanged: filterVendors,
-                ),
-                const SizedBox(height: 12),
-                const Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "قائمة البائعين",
-                    style: TextStyles.bold16,
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizantalPadding),
+              child: Column(
+                children: [
+                  const SizedBox(height: kTopPadding),
+                  CustomHomeAppbar(signedUID: widget.signedUID),
+                  const SizedBox(height: kTopPadding),
+                  FeaturedList(),
+                  const SizedBox(height: 12),
+                  SearchTextfield(
+                    controller: searchController,
+                    onChanged: filterVendors,
                   ),
-                ),
-                const SizedBox(height: 12),
-                Column(
-                  children: List.generate(
-                    searchController.text.isEmpty ? users.length : filteredUsers.length,
-                    (index) => VendorNameCard(
-                      signedUID: widget.signedUID,
-                      vendor: searchController.text.isEmpty ? users[index] : filteredUsers[index],
+                  const SizedBox(height: 12),
+                  const Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "قائمة البائعين",
+                      style: TextStyles.bold16,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 12),
+                  if (isFetching)
+                    const Center(child: CircularProgressIndicator())
+                  else
+                    Column(
+                      children: List.generate(
+                        filteredUsers.length,
+                        (index) => VendorNameCard(
+                          key: ValueKey(filteredUsers[index].uId), // Unique key
+                          signedUID: widget.signedUID,
+                          vendor: filteredUsers[index],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Future<void> getAllVendors() async {
+    setState(() => isFetching = true);
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     try {
@@ -89,14 +101,18 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
       setState(() {
         users = usersSnapshot.docs.map((doc) {
-          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-          return UserModel.fromJson(data);
+          return UserModel.fromJson(doc.data() as Map<String, dynamic>);
         }).toList();
-        filteredUsers = users;
+        filteredUsers = List.from(users);
+        isFetching = false;
       });
     } catch (e) {
       log('Error getting vendors: $e');
-      throw Exception('Failed to get vendors');
+      setState(() => isFetching = false);
     }
+  }
+
+  Future<void> _onRefresh() async {
+    await getAllVendors();
   }
 }

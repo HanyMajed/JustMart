@@ -32,7 +32,7 @@ class SearchTextfield extends StatelessWidget {
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
           prefixIcon: SizedBox(width: 20, child: Center(child: SvgPicture.asset(Assets.assetsImagesSearchNormal))),
-          suffixIcon: SizedBox(width: 20, child: Center(child: SvgPicture.asset(Assets.assetsImagesFiltter))),
+          //suffixIcon: SizedBox(width: 20, child: Center(child: SvgPicture.asset(Assets.assetsImagesFiltter))),
           hintText: 'ابحث عن.......',
           hintStyle: TextStyles.regular13.copyWith(
             color: const Color(0xFF949D9E),

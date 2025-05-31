@@ -30,85 +30,88 @@ class _BuyerTrackOrderViewState extends State<BuyerTrackOrderView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appbarForVendorViews(
-        title: "تتبع الطلب",
-      ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  OrderCard(order: widget.order, isVendor: false),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(18),
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: SingleChildScrollView(
-                          //padding: const EdgeInsets.all(0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 12),
-                              Center(
-                                child: Text(
-                                  "تتبع الطلب",
-                                  style: TextStyles.bold19.copyWith(color: Colors.grey.shade800),
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: Scaffold(
+        appBar: appbarForVendorViews(
+          title: "تتبع الطلب",
+        ),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    OrderCard(order: widget.order, isVendor: false),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: SingleChildScrollView(
+                            //padding: const EdgeInsets.all(0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 12),
+                                Center(
+                                  child: Text(
+                                    "تتبع الطلب",
+                                    style: TextStyles.bold19.copyWith(color: Colors.grey.shade800),
+                                  ),
                                 ),
-                              ),
-                              RowBuilder(
-                                isColored: updatedOrder!.orderStatus == "OrderPlaced" ? true : false,
-                                icon: Icons.check_box_outlined,
-                                text: "تم قبول الطلب",
-                              ),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                                indent: 60,
-                                endIndent: 60,
-                              ),
-                              RowBuilder(
-                                isColored: updatedOrder!.orderStatus == "OrderPrepared" ? true : false,
-                                icon: Icons.work_history_outlined,
-                                text: "تم تجهيز الطلب",
-                              ),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                                indent: 60,
-                                endIndent: 60,
-                              ),
-                              RowBuilder(
-                                isColored: updatedOrder!.orderStatus == "OrderOnDelivery" ? true : false,
-                                icon: Icons.local_shipping_outlined,
-                                text: "قيد للتوصيل",
-                              ),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                                indent: 60,
-                                endIndent: 60,
-                              ),
-                              RowBuilder(
-                                isColored: updatedOrder!.orderStatus == "OrderDelivered" ? true : false,
-                                icon: Icons.local_shipping_outlined,
-                                text: "تم التسليم",
-                              ),
-                            ],
+                                RowBuilder(
+                                  isColored: updatedOrder!.orderStatus == "OrderPlaced" ? true : false,
+                                  icon: Icons.check_box_outlined,
+                                  text: "تم قبول الطلب",
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                  color: Colors.grey,
+                                  indent: 60,
+                                  endIndent: 60,
+                                ),
+                                RowBuilder(
+                                  isColored: updatedOrder!.orderStatus == "OrderPrepared" ? true : false,
+                                  icon: Icons.work_history_outlined,
+                                  text: "تم تجهيز الطلب",
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                  color: Colors.grey,
+                                  indent: 60,
+                                  endIndent: 60,
+                                ),
+                                RowBuilder(
+                                  isColored: updatedOrder!.orderStatus == "OrderOnDelivery" ? true : false,
+                                  icon: Icons.local_shipping_outlined,
+                                  text: "قيد للتوصيل",
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                  color: Colors.grey,
+                                  indent: 60,
+                                  endIndent: 60,
+                                ),
+                                RowBuilder(
+                                  isColored: updatedOrder!.orderStatus == "OrderDelivered" ? true : false,
+                                  icon: Icons.local_shipping_outlined,
+                                  text: "تم التسليم",
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 
@@ -147,5 +150,11 @@ class _BuyerTrackOrderViewState extends State<BuyerTrackOrderView> {
       return null;
     }
     return null;
+  }
+
+  Future<void> onRefresh() async {
+    _getOrderById(widget.order.orderId, widget.order.buyerId);
+
+    setState(() {});
   }
 }

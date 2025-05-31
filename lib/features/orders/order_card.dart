@@ -24,7 +24,7 @@ class _OrderCardState extends State<OrderCard> {
   bool _loadingName = false;
   String location = 'جار التحميل...'; // Initialize with loading text
   bool _loadingLocation = false;
-
+  String? phoneNumber;
   @override
   void initState() {
     super.initState();
@@ -35,6 +35,7 @@ class _OrderCardState extends State<OrderCard> {
     if (!widget.isVendor) {
       _loadBuyerName();
     }
+    _loadPhoneNumber();
   }
 
   @override
@@ -42,7 +43,7 @@ class _OrderCardState extends State<OrderCard> {
     return Padding(
       padding: const EdgeInsets.only(top: 8, right: 16, left: 16),
       child: Container(
-        height: 170,
+        height: 200,
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(12),
@@ -92,6 +93,12 @@ class _OrderCardState extends State<OrderCard> {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
+                  Text(
+                    'رقم البائع: ${phoneNumber}',
+                    style: TextStyles.regular16.copyWith(color: Colors.grey.shade900),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                 ],
               ),
             ),
@@ -99,6 +106,34 @@ class _OrderCardState extends State<OrderCard> {
         ),
       ),
     );
+  }
+
+  Future<void> _loadPhoneNumber() async {
+    final fetchedPhone = await getUserPhoneNumber(widget.order.vendorId);
+    if (mounted) {
+      setState(() {
+        phoneNumber = fetchedPhone;
+      });
+    }
+  }
+
+  Future<String?> getUserPhoneNumber(String vendorId) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      DocumentSnapshot vendorDoc = await firestore.collection('users').doc(vendorId).get();
+
+      if (!vendorDoc.exists) {
+        print("Vendor not found");
+        return null;
+      }
+
+      String phoneNumber = vendorDoc.get('phoneNumber');
+      return phoneNumber;
+    } catch (e) {
+      print("Error: $e");
+      return "لا يوجد رقم";
+    }
   }
 
   Widget _buildNameText() {

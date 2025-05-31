@@ -81,7 +81,7 @@ class _ProfileSettingsListState extends State<ProfileSettingsList> {
       ),
       ProfileListItem(
         icon: Icons.wallet,
-        title: 'المدفوعات',
+        title: 'طرق الدفع',
         onTap: () {
           Navigator.pushNamed(context, MyPaymentCards.routeName);
         },

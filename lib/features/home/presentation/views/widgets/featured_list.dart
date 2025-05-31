@@ -5,6 +5,11 @@ import 'package:just_mart/features/home/presentation/views/widgets/featured_item
 class FeaturedList extends StatelessWidget {
   final List<Map<String, String>> banners = [
     {
+      'image': Assets.assetsImagesAll,
+      'title': 'إسحب الشاشة',
+      'discount': 'تصفح الاقسام',
+    },
+    {
       'image': Assets.assetsImagesStudying,
       'title': 'كل ما تحتاجه',
       'discount': 'لوازم الدراسة',

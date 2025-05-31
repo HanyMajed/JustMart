@@ -47,118 +47,123 @@ class _ItemProductState extends State<ItemProduct> {
       debugPrint('Error decoding image: $e');
     }
 
-    return Container(
-      decoration: ShapeDecoration(
-        color: const Color(0xFFF3F5F7),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        width: 180,
+        decoration: ShapeDecoration(
+          color: const Color(0xFFF3F5F7),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            right: 8,
-            top: 8,
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.favorite_outline, size: 20),
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
+        child: Stack(
+          children: [
+            Positioned(
+              right: 8,
+              top: 8,
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.favorite_outline, size: 20),
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: decodedImage != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Image.memory(
-                            decodedImage,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return _buildImageFallback();
-                            },
-                          ),
-                        )
-                      : _buildImageFallback(),
-                ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.productName,
-                        style: TextStyles.bold13, // Reduced font size
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: widget.productPrice,
-                                  style: TextStyles.bold13.copyWith(
-                                    color: AppColors.seconderyColor,
-                                  ),
-                                ),
-                                const TextSpan(text: ' '),
-                                TextSpan(
-                                  text: 'JOD',
-                                  style: TextStyles.bold13.copyWith(
-                                    color: AppColors.seconderyColor,
-                                  ),
-                                ),
-                              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: decodedImage != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: Image.memory(
+                              alignment: Alignment.center,
+                              decodedImage,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return _buildImageFallback();
+                              },
                             ),
-                          ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.primaryColor,
-                            ),
-                            child: const Icon(
-                              Icons.add,
-                              size: 14,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isFavorite = !isFavorite; // Toggle the state
-                            icon = isFavorite ? Icons.favorite : Icons.favorite_outline; // Set icon based on new state
-                            if (isFavorite) {
-                              addToFavorite(widget.signedUID, widget.productId);
-                            } else {
-                              delteFromFavorite(widget.signedUID, widget.productId);
-                            }
-                          });
-                        },
-                        child: Icon(
-                          icon,
-                          color: isFavorite ? Colors.red : Colors.grey,
-                        ),
-                      ),
-                    ],
+                          )
+                        : _buildImageFallback(),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.productName,
+                          style: TextStyles.bold13, // Reduced font size
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: widget.productPrice,
+                                    style: TextStyles.bold13.copyWith(
+                                      color: AppColors.seconderyColor,
+                                    ),
+                                  ),
+                                  const TextSpan(text: ' '),
+                                  TextSpan(
+                                    text: 'JOD',
+                                    style: TextStyles.bold13.copyWith(
+                                      color: AppColors.seconderyColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.primaryColor,
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                size: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isFavorite = !isFavorite; // Toggle the state
+                              icon = isFavorite ? Icons.favorite : Icons.favorite_outline; // Set icon based on new state
+                              if (isFavorite) {
+                                addToFavorite(widget.signedUID, widget.productId);
+                              } else {
+                                delteFromFavorite(widget.signedUID, widget.productId);
+                              }
+                            });
+                          },
+                          child: Icon(
+                            icon,
+                            color: isFavorite ? Colors.red : Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

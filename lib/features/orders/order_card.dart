@@ -28,14 +28,15 @@ class _OrderCardState extends State<OrderCard> {
   @override
   void initState() {
     super.initState();
-    // Use model's location first
+
     location = widget.order.deliveryLocation;
-    // Then try to update from Firestore
     _retrieveDeliveryLocation();
+
     if (!widget.isVendor) {
-      _loadBuyerName();
+      _loadBuyerPhoneNumber(); // <-- FIX: use new method
+    } else {
+      _loadPhoneNumber();
     }
-    _loadPhoneNumber();
   }
 
   @override
@@ -133,6 +134,29 @@ class _OrderCardState extends State<OrderCard> {
     } catch (e) {
       print("Error: $e");
       return "لا يوجد رقم";
+    }
+  }
+
+  Future<String?> getBuyerPhoneNumber() async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      DocumentSnapshot buyerid = await firestore.collection('users').doc(widget.order.buyerId).get();
+
+      String phoneNumber = buyerid.get('phoneNumber');
+      return phoneNumber;
+    } catch (e) {
+      print("Error: $e");
+      return "لا يوجد رقم";
+    }
+  }
+
+  Future<void> _loadBuyerPhoneNumber() async {
+    final fetchedPhone = await getBuyerPhoneNumber();
+    if (mounted) {
+      setState(() {
+        phoneNumber = fetchedPhone;
+      });
     }
   }
 

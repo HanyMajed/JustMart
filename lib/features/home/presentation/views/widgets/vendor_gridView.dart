@@ -34,27 +34,6 @@ class _VendorGridViewState extends State<VendorGridView> {
     super.initState();
   }
 
-  Future<void> _loadUserFavorites() async {
-    try {
-      final doc = await FirebaseFirestore.instance.collection('users').doc(widget.signedUID).get();
-
-      if (doc.exists) {
-        final data = doc.data();
-        if (data != null && data.containsKey('favoriteProducts')) {
-          setState(() {
-            favoriteProductIds = List<String>.from(data['favoriteProducts'] ?? []);
-          });
-        }
-      }
-      await _loadProducts(); // After loading favorites, load products
-    } catch (e) {
-      setState(() {
-        error = e.toString();
-        isLoading = false;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -147,6 +126,27 @@ class _VendorGridViewState extends State<VendorGridView> {
         vendorProducts = tempProducts;
         isLoading = false;
       });
+    } catch (e) {
+      setState(() {
+        error = e.toString();
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _loadUserFavorites() async {
+    try {
+      final doc = await FirebaseFirestore.instance.collection('users').doc(widget.signedUID).get();
+
+      if (doc.exists) {
+        final data = doc.data();
+        if (data != null && data.containsKey('favoriteProducts')) {
+          setState(() {
+            favoriteProductIds = List<String>.from(data['favoriteProducts'] ?? []);
+          });
+        }
+      }
+      await _loadProducts(); // After loading favorites, load products
     } catch (e) {
       setState(() {
         error = e.toString();

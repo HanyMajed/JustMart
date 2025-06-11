@@ -43,7 +43,6 @@ class _DeleteProductViewState extends State<DeleteProductView> {
                     final imageBytes = base64Decode(productItems[index].imageBase64);
                     return GestureDetector(
                       onTap: () async {
-                        log(productIds[index]);
                         await deleteProductById(productIds[index]);
                       },
                       child: ProductItemCard(

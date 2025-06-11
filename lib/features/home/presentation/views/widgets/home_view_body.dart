@@ -19,6 +19,12 @@ class HomeViewBody extends StatefulWidget {
   State<HomeViewBody> createState() => _HomeViewBodyState();
 }
 
+// This widget displays the main body of the Home View for the app.
+// It shows a custom app bar, featured product list, search field,
+// and a dynamically updated list of vendors (users with role 'vendor').
+// The vendor data is fetched from Firestore and can be refreshed using pull-to-refresh.
+// The list of vendors can be filtered live using the search bar.
+
 class _HomeViewBodyState extends State<HomeViewBody> {
   List<UserEntity> users = [];
   List<UserEntity> filteredUsers = [];
@@ -29,16 +35,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   void initState() {
     getAllVendors();
     super.initState();
-  }
-
-  void filterVendors(String query) {
-    if (query.isEmpty) {
-      setState(() => filteredUsers = List.from(users));
-    } else {
-      setState(() {
-        filteredUsers = users.where((vendor) => vendor.name.toLowerCase().contains(query.toLowerCase())).toList();
-      });
-    }
   }
 
   @override
@@ -114,5 +110,15 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
   Future<void> _onRefresh() async {
     await getAllVendors();
+  }
+
+  void filterVendors(String query) {
+    if (query.isEmpty) {
+      setState(() => filteredUsers = List.from(users));
+    } else {
+      setState(() {
+        filteredUsers = users.where((vendor) => vendor.name.toLowerCase().contains(query.toLowerCase())).toList();
+      });
+    }
   }
 }

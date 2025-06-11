@@ -58,17 +58,14 @@ class OrdersToBeDelivered extends StatelessWidget {
 
   Future<List<OrderModel>> getUserOrdersToDeliver(String userId) async {
     try {
-      // 1. Get the user document
       final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
-      // 2. Get the list of order IDs from ordersToDeliver
       final orderIds = (userDoc.data()?['orderToDeliver'] as List<dynamic>?)?.cast<String>() ?? [];
 
       if (orderIds.isEmpty) {
-        return []; // No orders to deliver
+        return [];
       }
 
-      // 3. Fetch all order documents at once
       final ordersSnapshot = await FirebaseFirestore.instance.collection('orders').where(FieldPath.documentId, whereIn: orderIds).get();
 
       // 4. Convert to OrderModel objects

@@ -13,7 +13,6 @@ class CartModel {
       double itemPrice = double.parse(item.price);
       totalPrice += itemPrice * item.quantity;
     }
-    log(totalPrice.toString());
     return totalPrice;
   }
 
